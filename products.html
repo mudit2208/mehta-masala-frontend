@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>All Products — Mehta Masala</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-inner">
+        <a href="index.html" class="logo"><img src="assets/images/logo.svg" alt="Mehta Masala Logo"></a>
+        <nav class="main-nav">
+            <a href="index.html" class="nav-link" data-page="index">Home</a>
+            <a href="products.html" class="nav-link active" data-page="products">Shop</a>
+            <a href="contact.html" class="nav-link" data-page="contact">Contact</a>
+            <a href="cart.html" class="nav-link" data-page="cart">Cart (<span id="cart-count">0</span>)</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <a href="index.html" class="back-link">← Back to Home</a>
+    <h1>All Products</h1>
+    <div id="all-products" class="product-grid"></div>
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        <p>Mehta Masala Udhyog — Ujjain. © <span id="year"></span></p>
+    </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+<script>
+    loadAllProducts();
+</script>
+
+<button id="scrollTopBtn" class="scroll-top">↑</button>
+</body>
+</html>

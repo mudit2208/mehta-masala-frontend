@@ -1,0 +1,34 @@
+[
+  {
+    "slug": "red-chilli",
+    "name": "Red Chilli Powder",
+    "description": "100% pure red chilli powder with strong colour, aroma, and freshness.",
+    "price": 180,
+    "weights": [100, 250, 500, 1000],
+    "image": "assets/images/red-chilli.png"
+  },
+  {
+    "slug": "turmeric",
+    "name": "Turmeric Powder",
+    "description": "Pure haldi powder, rich in aroma and natural colour.",
+    "price": 140,
+    "weights": [100, 250, 500, 1000],
+    "image": "assets/images/turmeric.png"
+  },
+  {
+    "slug": "coriander",
+    "name": "Coriander Powder",
+    "description": "Fresh and aromatic coriander powder made from premium seeds.",
+    "price": 160,
+    "weights": [100, 250, 500, 1000],
+    "image": "assets/images/coriander.png"
+  },
+  {
+    "slug": "jeeravan",
+    "name": "Jeeravan Masala",
+    "description": "Special Mehta Masala Jeeravan recipe used in Indori Poha and more.",
+    "price": 220,
+    "weights": [50, 100, 200],
+    "image": "assets/images/jeeravan.png"
+  }
+]

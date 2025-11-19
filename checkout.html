@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Checkout</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-inner">
+        <a href="index.html" class="logo"><img src="assets/images/logo.svg" alt="Mehta Masala Logo"></a>
+        <nav class="main-nav">
+            <a href="index.html" class="nav-link" data-page="index">Home</a>
+            <a href="products.html" class="nav-link" data-page="products">Shop</a>
+            <a href="cart.html" class="nav-link" data-page="cart">Cart</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container checkout-page">
+    <h1>Checkout</h1>
+
+    <div class="checkout-grid">
+        <div class="checkout-form">
+            <h2>Customer Details</h2>
+
+            <label>Name</label>
+            <input type="text" id="cust-name" required />
+
+            <label>Phone</label>
+            <input type="text" id="cust-phone" required />
+
+            <label>Address</label>
+            <textarea id="cust-address"></textarea>
+
+            <label>City</label>
+            <input type="text" id="cust-city" />
+
+            <label>Pincode</label>
+            <input type="text" id="cust-pin" />
+
+            <div style="margin-top:12px;">
+                <button id="place-order" class="btn-primary">Place Order (Test)</button>
+                <button id="pay-now" class="btn-outline" style="margin-left:10px;">Pay Online</button>
+            </div>
+        </div>
+
+        <div class="checkout-right">
+            <div class="checkout-summary" id="checkout-summary"></div>
+
+            <div class="summary-breakdown">
+                <div class="checkout-totals" id="checkout-totals">
+                    <div class="line"><span>Subtotal</span><span id="sub-total">₹0</span></div>
+                    <div class="line"><span>GST (5%)</span><span id="gst-amt">₹0</span></div>
+                    <div class="line"><span>Delivery</span><span id="delivery-amt">₹0</span></div>
+                    <div class="line total"><span>Total</span><span id="final-total">₹0</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="assets/js/main.js"></script>
+<script>
+    // ensure summary and payment wiring is initialized
+    loadCheckoutSummary();
+    initOnlinePayment();
+</script>
+</body>
+</html>

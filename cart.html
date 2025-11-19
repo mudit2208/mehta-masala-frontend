@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Your Cart — Mehta Masala</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-inner">
+        <a href="index.html" class="logo"><img src="assets/images/logo.svg" alt="Mehta Masala Logo"></a>
+        <nav class="main-nav">
+            <a href="index.html" class="nav-link" data-page="index">Home</a>
+            <a href="products.html" class="nav-link" data-page="products">Shop</a>
+            <a href="contact.html" class="nav-link" data-page="contact">Contact</a>
+            <a href="cart.html" class="nav-link active" data-page="cart">Cart (<span id="cart-count">0</span>)</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container cart-page">
+    <h1>Your Cart</h1>
+
+    <div id="cart-empty" class="cart-empty hidden">
+        <img src="assets/images/empty-cart.png" class="empty-cart-img" alt="Empty cart">
+        <h2>Your cart is empty</h2>
+        <a href="products.html" class="btn-primary">Shop Products</a>
+    </div>
+
+    <div id="cart-items"></div>
+
+    <div id="cart-summary" class="cart-summary hidden">
+        <h3>Order Summary</h3>
+        <p>Subtotal: ₹<span id="cart-total">0</span></p>
+        <a href="checkout.html" class="btn-primary checkout-btn">Proceed to Checkout</a>
+        <button id="clear-cart" class="btn-outline" style="margin-left:10px;">Clear Cart</button>
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container"><p>Mehta Masala Udhyog — Ujjain. © <span id="year"></span></p></div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+<script>
+    loadCartPage();
+</script>
+<button id="scrollTopBtn" class="scroll-top">↑</button>
+</body>
+</html>

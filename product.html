@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Product Details</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-inner">
+        <a href="index.html" class="logo"><img src="assets/images/logo.svg" alt="Mehta Masala Logo"></a>
+        <nav class="main-nav">
+            <a href="index.html" class="nav-link" data-page="index">Home</a>
+            <a href="products.html" class="nav-link" data-page="products">Shop</a>
+            <a href="contact.html" class="nav-link" data-page="contact">Contact</a>
+            <a href="cart.html" class="nav-link" data-page="cart">Cart (<span id="cart-count">0</span>)</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container" id="product-page">
+    <div class="product-detail">
+        <img id="prod-image" class="prod-img" alt="">
+        <div class="prod-info">
+            <h1 id="prod-name"></h1>
+            <p id="prod-desc"></p>
+            <p class="price">₹<span id="prod-price"></span></p>
+
+            <label for="prod-weight">Quantity (grams):</label>
+            <select id="prod-weight"></select>
+
+            <button id="add-to-cart" class="btn-primary">Add to Cart</button>
+        </div>
+    </div>
+
+    <section class="container product-extra">
+        <h2>About This Product</h2>
+        <p>• Pure & freshly ground<br>• No added colors<br>• Consistent aroma and taste<br>• Made in small batches</p>
+    </section>
+</main>
+
+<!-- Sticky Add to Cart Bar -->
+<div id="sticky-bar" class="sticky-bar">
+    <div class="sticky-info">
+        <span id="sticky-name"></span>
+        <span id="sticky-weight"></span>
+        <span id="sticky-price"></span>
+    </div>
+    <button id="sticky-add-btn" class="btn-primary">Add to Cart</button>
+</div>
+
+<footer class="site-footer">
+    <div class="container"><p>Mehta Masala Udhyog — Ujjain. © <span id="year"></span></p></div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+<script>
+    // ensure product detail loads when page is ready
+    loadProductDetail();
+</script>
+<button id="scrollTopBtn" class="scroll-top">↑</button>
+</body>
+</html>

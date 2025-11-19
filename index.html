@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Mehta Masala — Home</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+<div class="top-bar">
+    Free Shipping above ₹499 • Freshly packed in small batches • Since 1969
+</div>
+
+<header class="site-header">
+    <div class="container header-inner">
+        <a href="index.html" class="logo">
+            <img src="assets/images/logo.svg" alt="Mehta Masala Logo">
+        </a>
+
+        <nav class="main-nav">
+            <a href="index.html" class="nav-link" data-page="index">Home</a>
+            <a href="products.html" class="nav-link" data-page="products">Shop</a>
+            <a href="contact.html" class="nav-link" data-page="contact">Contact</a>
+            <a href="cart.html" class="nav-link" data-page="cart">Cart (<span id="cart-count">0</span>)</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section class="hero-section">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1>Pure, Authentic Indian Masalas</h1>
+                <p>Crafted with care in Ujjain since 1969. Experience the richness of Red Chilli, Turmeric, Coriander, Jeeravan, and more.</p>
+                <div class="hero-buttons">
+                    <a href="products.html" class="btn-primary hero-btn">Shop Now</a>
+                    <a href="products.html" class="btn-outline hero-btn">Explore Products</a>
+                </div>
+            </div>
+
+            <div class="hero-image-box">
+                <img src="assets/images/hero-masala.png" alt="Masala Products" class="hero-image">
+            </div>
+        </div>
+    </section>
+
+    <section class="category-section">
+        <div class="container category-grid">
+            <div class="cat-item">
+                <img src="assets/images/red-chilli.png" alt="Red Chilli" />
+                <p>Red Chilli</p>
+            </div>
+            <div class="cat-item">
+                <img src="assets/images/turmeric.png" alt="Turmeric" />
+                <p>Turmeric</p>
+            </div>
+            <div class="cat-item">
+                <img src="assets/images/coriander.png" alt="Coriander" />
+                <p>Coriander</p>
+            </div>
+            <div class="cat-item">
+                <img src="assets/images/jeeravan.png" alt="Jeeravan" />
+                <p>Jeeravan</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="featured container">
+        <h2>Featured Products</h2>
+        <div id="featured-products" class="product-grid"></div>
+    </section>
+</main>
+
+<section class="testimonials-section">
+    <div class="container">
+        <h2 class="section-title">What Our Customers Say</h2>
+        <div class="testimonials-slider">
+            <div class="testimonial-card">
+                <p class="t-text">“The Jeeravan is exactly like Indore! Superb quality and aroma.”</p>
+                <h4 class="t-name">Rahul Verma</h4>
+            </div>
+            <div class="testimonial-card">
+                <p class="t-text">“Red Chilli Powder is so pure — way better than store brands. Worth it!”</p>
+                <h4 class="t-name">Sneha Patidar</h4>
+            </div>
+            <div class="testimonial-card">
+                <p class="t-text">“Authentic taste. Reminds me of my hometown in Ujjain.”</p>
+                <h4 class="t-name">Amit Sharma</h4>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="why-section">
+    <div class="container">
+        <h2 class="section-title">Why Choose Mehta Masala?</h2>
+        <div class="why-grid">
+            <div class="why-item"><span class="why-icon">🌶</span><h4>100% Pure Spices</h4><p>No fillers. No colours. Only authentic spices.</p></div>
+            <div class="why-item"><span class="why-icon">🏭</span><h4>Small Batch Freshness</h4><p>Freshly packed in limited batches for maximum flavour.</p></div>
+            <div class="why-item"><span class="why-icon">📦</span><h4>Fast Shipping</h4><p>Delivered quickly and safely anywhere in India.</p></div>
+            <div class="why-item"><span class="why-icon">❤️</span><h4>Since 1969</h4><p>Trusted by families for generations.</p></div>
+        </div>
+    </div>
+</section>
+
+<footer class="site-footer">
+    <div class="container">
+        <p>Mehta Masala Udhyog — Ujjain. © <span id="year"></span></p>
+    </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+<script>
+    // Inline featured products (keeps data local and fast)
+    const productData = [
+      { slug: "red-chilli", name: "Red Chilli Powder", short: "100% pure red chilli powder", price: "₹180 / 500g", image: "assets/images/red-chilli.png" },
+      { slug: "turmeric",   name: "Turmeric Powder",    short: "Pure haldi powder",           price: "₹140 / 500g", image: "assets/images/turmeric.png" },
+      { slug: "dhaniya",    name: "Coriander Powder",   short: "Fresh & aromatic dhaniya",   price: "₹160 / 500g", image: "assets/images/dhaniya.png" },
+      { slug: "jeeravan",   name: "Jeeravan Masala",    short: "Special Mehta Masala recipe",price: "₹220 / 200g", image: "assets/images/jeeravan.png" }
+    ];
+
+    function loadFeaturedProducts() {
+      const container = document.getElementById("featured-products");
+      if (!container) return;
+      container.innerHTML = productData.map(p => `
+        <div class="product-card">
+          <img src="${p.image}" alt="${p.name}">
+          <h3>${p.name}</h3>
+          <p>${p.short}</p>
+          <p class="price">${p.price}</p>
+          <a href="product.html?slug=${p.slug}" class="btn-primary">View Details</a>
+        </div>
+      `).join('');
+    }
+
+    loadFeaturedProducts();
+</script>
+
+<button id="scrollTopBtn" class="scroll-top" title="Back to top">↑</button>
+</body>
+</html>

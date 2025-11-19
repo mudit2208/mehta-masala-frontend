@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Order Successful</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-inner">
+        <a href="index.html" class="logo"><img src="assets/images/logo.svg" alt="Mehta Masala Logo"></a>
+        <nav class="main-nav">
+            <a href="index.html">Home</a>
+            <a href="products.html">Shop</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container success-page">
+    <div class="success-box">
+        <img src="assets/images/tick.png" class="success-icon" alt="Success">
+        <h1>Order Placed Successfully!</h1>
+        <p>Thank you for shopping with Mehta Masala. Your order is being processed.</p>
+
+        <div style="margin-top:16px; text-align:left;">
+            <div><strong>Order ID:</strong> <span id="o-id">—</span></div>
+            <div><strong>Name:</strong> <span id="o-name">—</span></div>
+            <div><strong>Total:</strong> ₹<span id="o-total">0</span></div>
+            <div><strong>Payment:</strong> <span id="o-pay">—</span></div>
+            <div><strong>Time:</strong> <span id="o-time">—</span></div>
+        </div>
+
+        <a href="index.html" class="btn-primary" style="display:inline-block; margin-top:18px;">Back to Home</a>
+    </div>
+</main>
+
+<script>
+    const order = JSON.parse(localStorage.getItem("lastOrder") || "{}");
+    if (!order || !order.id) {
+      document.querySelector("main").innerHTML = "<h2>No recent order found.</h2>";
+    } else {
+      document.getElementById("o-id").textContent = order.id || order.orderId || order.local_order_id || "—";
+      document.getElementById("o-name").textContent = order.customer ? (order.customer.name || order.customer) : "—";
+      document.getElementById("o-total").textContent = order.total || "0";
+      document.getElementById("o-pay").textContent = order.payment || "Online";
+      document.getElementById("o-time").textContent = order.time || "";
+    }
+</script>
+</body>
+</html>
