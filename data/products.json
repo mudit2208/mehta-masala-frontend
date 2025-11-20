@@ -2,7 +2,7 @@
   {
     "slug": "red-chilli",
     "name": "Red Chilli Powder",
-    "description": "100% pure red chilli powder with strong colour, aroma, and freshness.",
+    "description": "100% pure red chilli powder made from carefully selected chillies, stone-ground to preserve natural heat, colour and aroma. No added colours, no fillers – just strong, vibrant lal mirch that brings authentic flavour to everyday sabzis, dals, curries and snacks.",
     "price": 180,
     "weights": [100, 250, 500, 1000],
     "image": "assets/images/red-chilli.png"
@@ -10,7 +10,7 @@
   {
     "slug": "turmeric",
     "name": "Turmeric Powder",
-    "description": "Pure haldi powder, rich in aroma and natural colour.",
+    "description": "Pure turmeric (haldi) powder with a warm golden colour and earthy aroma, ground from quality turmeric fingers. Ideal for daily Indian cooking, tadka and milk, this haldi adds depth of flavour while providing natural curcumin benefits without any artificial colours or additives.",
     "price": 140,
     "weights": [100, 250, 500, 1000],
     "image": "assets/images/turmeric.png"
@@ -18,7 +18,7 @@
   {
     "slug": "coriander",
     "name": "Coriander Powder",
-    "description": "Fresh and aromatic coriander powder made from premium seeds.",
+    "description": "Fresh and aromatic coriander (dhaniya) powder made from premium seeds, slow-ground to keep natural oils intact. Adds a gentle, balanced flavour to curries, gravies, sabzis and snacks, and works beautifully with jeera and chilli for classic Indian tadka.",
     "price": 160,
     "weights": [100, 250, 500, 1000],
     "image": "assets/images/coriander.png"
@@ -26,7 +26,7 @@
   {
     "slug": "jeeravan",
     "name": "Jeeravan Masala",
-    "description": "Special Mehta Masala Jeeravan recipe used in Indori Poha and more.",
+    "description": "Special Mehta Masala Jeeravan mix inspired by Indori street food, crafted for poha, fruits, khichdi, raita and chaats. A secret blend of spices that gives the signature tangy-spicy Indore taste – no artificial colours, just pure flavour in every sprinkle.",
     "price": 220,
     "weights": [50, 100, 200],
     "image": "assets/images/jeeravan.png"

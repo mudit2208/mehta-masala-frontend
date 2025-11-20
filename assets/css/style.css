@@ -223,12 +223,28 @@ body {
 }
 
 .product-card {
-    background: white;
+    background: #fff;
     padding: 15px;
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-    transition: 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s;
+
+    /* NEW: Makes all buttons align */
+    display: flex;
+    flex-direction: column;
+
 }
+
+.product-card .btn-primary,
+.product-card .btn-outline,
+.product-card button {
+    width: fit-content;         /* button shrinks to content */
+    align-self: center;     /* or center if you want */
+    margin-top: auto;; /* pushes the button to the bottom */
+}
+
+
+
 
 .product-card:hover {
     transform: translateY(-4px);

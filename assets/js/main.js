@@ -106,6 +106,47 @@ async function loadProductDetail() {
   document.getElementById("prod-desc").textContent = product.description || "";
   document.getElementById("prod-price").textContent = product.price;
 
+  // SEO: update page title and meta description dynamically
+  document.title = `${product.name} – Pure Indian Spice by Mehta Masala`;
+
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) {
+    metaDesc.setAttribute(
+      "content",
+      `${product.name} by Mehta Masala – pure, freshly packed ${product.description || ""} Delivered across India.`
+    );
+  }
+
+  // JSON-LD Product schema for SEO
+  const ld = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": product.name,
+    "image": [location.origin + "/" + product.image],
+    "description": product.description || "",
+    "brand": {
+      "@type": "Brand",
+      "name": "Mehta Masala Gruh Udhyog"
+    },
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "INR",
+      "price": product.price,
+      "availability": "https://schema.org/InStock",
+      "url": location.href
+    }
+  };
+
+  // insert / update JSON-LD script tag
+  let ldScript = document.getElementById("product-jsonld");
+  if (!ldScript) {
+    ldScript = document.createElement("script");
+    ldScript.type = "application/ld+json";
+    ldScript.id = "product-jsonld";
+    document.head.appendChild(ldScript);
+  }
+  ldScript.textContent = JSON.stringify(ld);
+
   const weightSelect = document.getElementById("prod-weight");
   weightSelect.innerHTML = "";
   (product.weights || [100]).forEach(w => {
