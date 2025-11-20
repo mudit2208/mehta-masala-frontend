@@ -1,5 +1,4 @@
 /* contact.js — handles contact form submission */
-const API_BASE = "https://mehta-masala-backend.onrender.com"; // same as main.js
 
 document.addEventListener("DOMContentLoaded", function(){
   const form = document.getElementById("contactForm");
