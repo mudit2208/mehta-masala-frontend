@@ -220,6 +220,16 @@ document.addEventListener("click", function(ev){
   }
 });
 
+// --- PREMIUM sticky bar updater (new) ---
+function updatePremiumStickyButton(product, weight) {
+  const stickyBtn = document.getElementById("sticky-add-btn");
+  if (!stickyBtn) return;
+
+  const finalPrice = product.price; // price is same across weights in your data
+
+  stickyBtn.textContent = `Add to Cart — ₹${finalPrice}`;
+}
+
 /* =========================================================
    STICKY ADD-TO-CART BAR
 ========================================================= */
@@ -234,15 +244,39 @@ function setupStickyBar(product) {
 
   stickyName.textContent = product.name;
   stickyPrice.textContent = "₹" + product.price;
+  updatePremiumStickyButton(product, weightSelect ? weightSelect.value : product.weights[0]);
   stickyWeight.textContent = (weightSelect ? weightSelect.value : (product.weights && product.weights[0] || "")) + " g";
 
-  if (weightSelect) weightSelect.addEventListener("change", ()=> stickyWeight.textContent = weightSelect.value + " g");
+  if (weightSelect) {
+    weightSelect.addEventListener("change", ()=> {
+      stickyWeight.textContent = weightSelect.value + " g";
+      updatePremiumStickyButton(product, weightSelect.value);
+    });
+  }
 
-  if (stickyBtn) stickyBtn.onclick = ()=> addToCart(product, Number(weightSelect.value || product.weights[0]));
+  if (stickyBtn) {
+    stickyBtn.onclick = ()=> {
+      addToCart(product, Number(weightSelect.value || product.weights[0]));
+      updatePremiumStickyButton(product, weightSelect.value);
+    };
+  }
+
+  // Animated sticky bar reveal
+  let lastScrollY = 0;
 
   window.addEventListener("scroll", ()=> {
-    if (window.scrollY > 300) bar.classList.add("show");
-    else bar.classList.remove("show");
+    const currentY = window.scrollY;
+
+    // show when scrolling down past product info
+    if (currentY > 250 && currentY > lastScrollY) {
+      bar.classList.add("show");
+    }
+    // hide when scrolling up
+    else if (currentY < lastScrollY) {
+      bar.classList.remove("show");
+    }
+
+    lastScrollY = currentY;
   });
 }
 
@@ -452,3 +486,51 @@ document.addEventListener("DOMContentLoaded", ()=> {
   const y = document.getElementById("year");
   if (y) y.textContent = new Date().getFullYear();
 });
+
+// --- Mobile nav toggle, sticky header, and scroll fade-ins ---
+document.addEventListener("DOMContentLoaded", function () {
+  const navToggle = document.querySelector(".nav-toggle");
+  const mainNav  = document.querySelector(".main-nav");
+  const header   = document.querySelector(".site-header");
+
+  // Hamburger toggle
+  if (navToggle && mainNav) {
+    navToggle.addEventListener("click", function () {
+      mainNav.classList.toggle("open");
+      navToggle.classList.toggle("open");
+    });
+  }
+
+  // Sticky header shadow on scroll
+  if (header) {
+    window.addEventListener("scroll", function () {
+      if (window.scrollY > 10) {
+        header.classList.add("scrolled");
+      } else {
+        header.classList.remove("scrolled");
+      }
+    });
+  }
+
+  // Fade-in sections on scroll
+  const fadeSections = document.querySelectorAll(".fade-section");
+  if ("IntersectionObserver" in window && fadeSections.length > 0) {
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    fadeSections.forEach((section) => observer.observe(section));
+  } else {
+    // Fallback: if no IntersectionObserver, just show all
+    fadeSections.forEach((section) => section.classList.add("in-view"));
+  }
+});
+

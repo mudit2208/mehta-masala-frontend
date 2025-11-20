@@ -9,7 +9,17 @@
 <body>
 <header class="site-header">
     <div class="container header-inner">
-        <a href="index.html" class="logo"><img src="assets/images/logo.svg" alt="Mehta Masala Logo"></a>
+        <a href="index.html" class="logo">
+            <img src="assets/images/logo.svg" alt="Mehta Masala Logo">
+        </a>
+
+        <!-- Hamburger button for mobile -->
+        <button class="nav-toggle" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
         <nav class="main-nav">
             <a href="index.html" class="nav-link" data-page="index">Home</a>
             <a href="products.html" class="nav-link" data-page="products">Shop</a>
@@ -20,7 +30,7 @@
 </header>
 
 <main class="container" id="product-page">
-    <div class="product-detail">
+    <div class="product-detail fade-section">
         <img id="prod-image" class="prod-img" alt="">
         <div class="prod-info">
             <h1 id="prod-name"></h1>
@@ -34,7 +44,7 @@
         </div>
     </div>
 
-    <section class="container product-extra">
+    <section class="container product-extra fade-section">
         <h2>About This Product</h2>
         <p>• Pure & freshly ground<br>• No added colors<br>• Consistent aroma and taste<br>• Made in small batches</p>
     </section>

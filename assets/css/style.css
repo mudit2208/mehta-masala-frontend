@@ -127,7 +127,7 @@ body {
 
 
 .main-nav a {
-    margin-left: 20px;
+    margin: 0;
     text-decoration: none;
     color: var(--text-dark);
     font-weight: 500;
@@ -272,8 +272,8 @@ body {
 
 .product-detail {
     display: flex;
-    gap: 40px;
-    margin: 50px 0 300px; /* Added big bottom margin */
+    gap: 30px;
+    margin: 20px 0 20px; /* FIXED: reduced from 300–500px */
 }
 
 
@@ -301,7 +301,9 @@ body {
 }
 
 .product-detail {
-    margin-bottom: 500px; /* creates scroll space */
+    display: flex;
+    gap: 30px;
+    margin: 20px 0 20px; /* FIXED: reduced from 300–500px */
 }
 
 
@@ -458,14 +460,14 @@ body {
    =============================================== */
 
 @media (max-width: 768px) {
+
     .product-detail {
-        flex-direction: column;
-        text-align: center;
+        margin: 10px 0 !important;   /* new: fix mobile gap */
     }
 
-    .prod-img {
-        width: 100%;
-        height: auto;
+    .product-extra {
+        margin-top: 8px !important;  /* new: reduce gap under details */
+        padding: 16px !important;    /* small visual polish */
     }
 }
 
@@ -634,8 +636,8 @@ body {
 }
 
 .product-extra {
-    margin-bottom: 200px;
-    margin-top: 40px;
+    margin-top: 10px;      /* reduced from 40px */
+    margin-bottom: 20px;   /* reduced from 200px */
     background: #ffffff;
     padding: 20px;
     border-radius: var(--radius);
@@ -993,3 +995,585 @@ html {
 
 /* small helper */
 .hidden { display:none; }
+
+/* ===============================================
+   RESPONSIVE FIXES FOR HOME PAGE (MOBILE)
+   =============================================== */
+
+@media (max-width: 768px) {
+
+    /* Hero layout fix */
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .hero-text h1 {
+        font-size: 30px;
+    }
+
+    .hero-text p {
+        font-size: 16px;
+    }
+
+    .hero-image {
+        width: 80%;
+        max-width: 300px;
+    }
+
+    /* Category grid fix */
+    .category-grid {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .cat-item img {
+        width: 70px;
+        height: 70px;
+    }
+
+    /* Fix nav spacing */
+    .main-nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    /* Featured product card fix */
+    .product-card img {
+        height: 180px;
+    }
+
+    /* Testimonials fix */
+    .testimonials-slider {
+        gap: 18px;
+    }
+
+    .testimonial-card {
+        min-width: 260px;
+        max-width: 260px;
+    }
+}
+
+/* ==============================================================
+   GLOBAL MOBILE FIX PACKAGE FOR MEHTA MASALA
+   =============================================================== */
+
+@media (max-width: 768px) {
+
+    /* ----------- GENERAL ----------- */
+    body {
+        font-size: 15px;
+    }
+
+    .container {
+        width: 92%;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* ----------- HEADER ----------- */
+    .header-inner {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+    }
+
+    .main-nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .main-nav a {
+        font-size: 15px;
+        margin: 0 !important;
+    }
+
+    /* ----------- HERO SECTION ----------- */
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .hero-text h1 {
+        font-size: 30px;
+    }
+
+    .hero-text p {
+        font-size: 16px;
+    }
+
+    .hero-image {
+        width: 80%;
+        max-width: 300px;
+    }
+
+    /* ----------- CATEGORY GRID ----------- */
+    .category-grid {
+        flex-direction: column;
+        gap: 25px;
+        align-items: center;
+    }
+
+    .cat-item img {
+        width: 70px;
+        height: 70px;
+    }
+
+    /* ----------- FEATURED PRODUCTS ----------- */
+    .product-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+    }
+
+    .product-card img {
+        height: 160px;
+    }
+
+    .product-card {
+        padding: 12px;
+    }
+
+    /* ----------- PRODUCT DETAILS PAGE ----------- */
+    .product-detail {
+        flex-direction: column;
+        text-align: center;
+        gap: 25px;
+    }
+
+    .prod-img {
+        width: 100%;
+        height: auto;
+        max-width: 340px;
+        margin: auto;
+    }
+
+    /* ----------- CART PAGE ----------- */
+    .cart-item {
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+        text-align: center;
+    }
+
+    .cart-img {
+        width: 100%;
+        height: 200px;
+        max-width: 320px;
+        object-fit: cover;
+    }
+
+    .cart-summary {
+        position: relative;
+        bottom: auto;
+        margin-top: 20px;
+    }
+
+    /* ----------- CHECKOUT PAGE ----------- */
+    .checkout-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .checkout-summary,
+    .checkout-form {
+        padding: 18px;
+    }
+
+    /* ----------- CONTACT PAGE ----------- */
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-form-card {
+        padding: 18px;
+    }
+
+    /* ----------- TESTIMONIALS ----------- */
+    .testimonial-card {
+        min-width: 260px;
+        max-width: 260px;
+    }
+
+    /* ----------- FOOTER ----------- */
+    .site-footer {
+        padding: 18px 0;
+        font-size: 14px;
+    }
+}
+/* --- Sticky header behaviour --- */
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.site-header.scrolled {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+/* --- Hamburger button --- */
+.nav-toggle {
+    display: none; /* hidden on desktop */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    margin-left: auto;
+}
+
+.nav-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    margin: 4px 0;
+    background: var(--text-dark);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* Hamburger animation when menu is open */
+.nav-toggle.open span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+}
+.nav-toggle.open span:nth-child(2) {
+    opacity: 0;
+}
+.nav-toggle.open span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+}
+
+/* --- Mobile nav behaviour --- */
+@media (max-width: 768px) {
+    .header-inner {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .nav-toggle {
+        display: block;
+    }
+
+    .main-nav {
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        margin-top: 8px;
+        display: none; /* hidden by default on mobile */
+    }
+
+    .main-nav.open {
+        display: flex; /* shown when JS adds .open */
+    }
+
+    .main-nav a {
+        margin: 0 !important;
+        padding: 6px 0;
+    }
+
+    /* =======================================================
+       PREMIUM MOBILE STICKY BAR (APP STYLE)
+       ======================================================= */
+
+    .sticky-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: transparent;
+        box-shadow: none;
+        display: flex;
+        justify-content: center;
+        padding: 12px 16px;
+        z-index: 999;
+    }
+
+    /* Hide the text block for mobile premium mode */
+    .sticky-info {
+        display: none !important;
+    }
+
+    #sticky-add-btn {
+        background: var(--primary);
+        color: #fff;
+        border: none;
+        padding: 14px 20px;
+        width: 92%;
+        max-width: 500px;
+        border-radius: 50px; /* pill shape */
+        font-size: 17px;
+        font-weight: 700;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        text-align: center;
+    }
+
+    /* button press effect */
+    #sticky-add-btn:active {
+        transform: scale(0.97);
+    }
+
+    /* Desktop version stays unchanged */
+    @media (min-width: 769px) {
+        .sticky-bar {
+            background: white;
+            padding: 15px 20px;
+            justify-content: space-between;
+        }
+        .sticky-info {
+            display: flex !important;
+        }
+        #sticky-add-btn {
+            width: auto;
+            borde
+
+}
+
+/* --- Scroll fade-in sections --- */
+.fade-section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.fade-section.in-view {
+    opacity: 1;
+    transform: translateY(0);
+}
+/* --- Product detail modern layout --- */
+.product-detail {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    margin: 40px 0 100px;
+}
+
+.prod-img {
+    width: 380px;
+    height: 380px;
+    object-fit: cover;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.prod-info {
+    flex: 1;
+}
+
+.prod-info h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: var(--primary-dark);
+}
+
+.prod-info .price {
+    font-size: 20px;
+    margin-bottom: 12px;
+}
+
+.prod-info p {
+    margin-bottom: 10px;
+    color: var(--text-light);
+    line-height: 1.5;
+}
+
+.prod-info .bullet-list {
+    margin: 12px 0 18px;
+    padding-left: 18px;
+}
+
+.prod-info .badge {
+    display: inline-block;
+    background: #e4f7ec;
+    color: var(--primary-dark);
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 13px;
+    margin-right: 8px;
+}
+
+/* Mobile product detail */
+@media (max-width: 768px) {
+    .product-detail {
+        flex-direction: column;
+        text-align: left;
+        gap: 20px;
+    }
+
+    .prod-img {
+        width: 100%;
+        height: auto;
+        max-width: 360px;
+        margin: 0 auto;
+    }
+
+    .prod-info h1 {
+        font-size: 24px;
+    }
+}
+
+/* ==========================================================
+   PRODUCT PAGE — FULL MODERN REDESIGN FOR MEHTA MASALA
+   ========================================================== */
+
+#product-page {
+    margin-top: 30px;
+}
+
+/* Product detail layout */
+.product-detail {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    margin-bottom: 80px;
+}
+
+/* Product image */
+.prod-img {
+    width: 420px;
+    height: 420px;
+    object-fit: cover;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+/* Info side */
+.prod-info {
+    flex: 1;
+    animation-delay: 0.2s;
+}
+
+.prod-info h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: var(--primary-dark);
+}
+
+.prod-info p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-light);
+}
+
+/* Price */
+.prod-info .price {
+    font-size: 22px;
+    margin: 15px 0 20px;
+    font-weight: 700;
+}
+
+/* Weight dropdown */
+#prod-weight {
+    width: 150px;
+    padding: 10px;
+    font-size: 16px;
+    margin: 10px 0 20px;
+    border-radius: var(--radius);
+    border: 1px solid #bbb;
+}
+
+/* Additional product info card */
+.product-extra {
+    margin-top: 40px;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.product-extra h2 {
+    margin-bottom: 15px;
+    color: var(--primary-dark);
+    font-size: 26px;
+}
+
+/* Sticky bar improvement */
+.sticky-bar {
+    padding: 15px 20px;
+}
+
+.sticky-info {
+    gap: 10px;
+    font-size: 15px;
+}
+
+/* ================================================
+   MOBILE RESPONSIVE PRODUCT PAGE
+   ================================================ */
+@media (max-width: 768px) {
+
+    .product-detail {
+        flex-direction: column;
+        text-align: center;
+        gap: 25px;
+    }
+
+    .prod-img {
+        width: 100%;
+        height: auto;
+        max-width: 340px;
+        margin: auto;
+    }
+
+    .prod-info h1 {
+        font-size: 26px;
+    }
+
+    .prod-info .price {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+
+    #prod-weight {
+        width: 100%;
+    }
+
+    .product-extra {
+        padding: 20px;
+        font-size: 15px;
+    }
+
+    .sticky-info {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #sticky-add-btn {
+        font-size: 15px;
+        padding: 8px 14px;
+    }
+}
+
+/* =======================================================
+   ANIMATED STICKY BAR (PREMIUM SLIDE-UP)
+   ======================================================= */
+
+.sticky-bar {
+    position: fixed;
+    bottom: -100px;       /* hidden by default */
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 12px 16px;
+    z-index: 999;
+    transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1),
+                opacity 0.35s ease;
+    transform: translateY(120%);
+    opacity: 0;
+}
+
+/* When visible */
+.sticky-bar.show {
+    transform: translateY(0%);
+    opacity: 1;
+}
+
+/* Premium pill CTA is already defined earlier */
+
+

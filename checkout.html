@@ -10,11 +10,22 @@
 <body>
 <header class="site-header">
     <div class="container header-inner">
-        <a href="index.html" class="logo"><img src="assets/images/logo.svg" alt="Mehta Masala Logo"></a>
+        <a href="index.html" class="logo">
+            <img src="assets/images/logo.svg" alt="Mehta Masala Logo">
+        </a>
+
+        <!-- Hamburger button for mobile -->
+        <button class="nav-toggle" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
         <nav class="main-nav">
             <a href="index.html" class="nav-link" data-page="index">Home</a>
             <a href="products.html" class="nav-link" data-page="products">Shop</a>
-            <a href="cart.html" class="nav-link" data-page="cart">Cart</a>
+            <a href="contact.html" class="nav-link" data-page="contact">Contact</a>
+            <a href="cart.html" class="nav-link" data-page="cart">Cart (<span id="cart-count">0</span>)</a>
         </nav>
     </div>
 </header>
