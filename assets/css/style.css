@@ -29,26 +29,6 @@ body {
 /* ===============================================
    HEADER
    =============================================== */
-
-.site-header {
-    background: white;
-    padding: 15px 0;
-    border-bottom: 1px solid #eee;
-}
-
-.header-inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* Logo fix */
-/* --- Logo Sizing & Header Fix --- */
-
-/* ===============================================
-   HEADER & LOGO FIXES
-   =============================================== */
-/* --- Header & Logo (replace earlier duplicates) --- */
 .site-header {
   background: white;
   border-bottom: 1px solid #eee;
@@ -1353,8 +1333,9 @@ html {
         }
         #sticky-add-btn {
             width: auto;
-            borde
-
+            border-radius: var(--radius);
+        }
+    }
 }
 
 /* --- Scroll fade-in sections --- */
