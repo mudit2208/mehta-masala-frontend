@@ -575,3 +575,34 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+function updateCartSummary() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const gst = subtotal * 0.05;
+    const shipping = subtotal >= 499 ? 0 : 40;
+    const grandTotal = subtotal + gst + shipping;
+
+    // Update all elements
+    document.getElementById('item-count').textContent = itemCount;
+    document.getElementById('cart-subtotal').textContent = subtotal.toFixed(2);
+    document.getElementById('gst-amount').textContent = gst.toFixed(2);
+    document.getElementById('cart-grand-total').textContent = grandTotal.toFixed(2);
+
+    // Update shipping
+    const shippingEl = document.getElementById('shipping-cost');
+    const noticeEl = document.getElementById('shipping-notice');
+
+    if (shipping === 0) {
+        shippingEl.textContent = 'FREE';
+        shippingEl.className = 'free-shipping';
+        noticeEl.textContent = '🎉 You qualify for free shipping!';
+        noticeEl.style.background = '#e4f7ec';
+    } else {
+        shippingEl.textContent = `₹${shipping}`;
+        shippingEl.className = '';
+        noticeEl.textContent = `Add ₹${(499 - subtotal).toFixed(2)} more for free shipping!`;
+        noticeEl.style.background = '#fff3cd';
+    }
+}
+

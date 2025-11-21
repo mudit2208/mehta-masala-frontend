@@ -42,10 +42,41 @@
     <div id="cart-items"></div>
 
     <div id="cart-summary" class="cart-summary hidden">
-        <h3>Order Summary</h3>
-        <p>Subtotal: ₹<span id="cart-total">0</span></p>
-        <a href="checkout.html" class="btn-primary checkout-btn">Proceed to Checkout</a>
-        <button id="clear-cart" class="btn-outline" style="margin-left:10px;">Clear Cart</button>
+        <div class="summary-header">
+            <h3>Order Summary</h3>
+        </div>
+
+        <div class="summary-body">
+            <div class="summary-line">
+                <span>Subtotal (<span id="item-count">0</span> items)</span>
+                <span>₹<span id="cart-subtotal">0</span></span>
+            </div>
+
+            <div class="summary-line">
+                <span>Shipping</span>
+                <span id="shipping-cost" class="free-shipping">FREE</span>
+            </div>
+
+            <div class="summary-line">
+                <span>GST (5%)</span>
+                <span>₹<span id="gst-amount">0</span></span>
+            </div>
+
+            <div class="summary-line total-line">
+                <span><strong>Total Amount</strong></span>
+                <span><strong>₹<span id="cart-grand-total">0</span></strong></span>
+            </div>
+        </div>
+
+        <div class="shipping-notice" id="shipping-notice">
+            🚚 Free shipping on orders above ₹499
+        </div>
+
+        <div class="summary-actions">
+            <a href="checkout.html" class="btn-primary checkout-btn">Proceed to Checkout</a>
+            <a href="products.html" class="btn-continue-shopping">← Continue Shopping</a>
+            <button id="clear-cart" class="btn-clear-cart">Clear Cart</button>
+        </div>
     </div>
 </main>
 
