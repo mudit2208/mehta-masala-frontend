@@ -425,70 +425,75 @@ async function initOnlinePayment() {
     }
 
     const cart = getCart();
-    if (!cart || cart.length === 0) { alert("Cart is empty."); return; }
+    if (!cart || cart.length === 0) { alert("Cart empty."); return; }
 
-    const total = cart.reduce((s,i) => s + i.price * i.quantity, 0);
+    const totals = recalcCheckoutTotals();
+    const total = totals.finalTotal;
 
-    // create order on backend
-    try {
-      const resp = await fetch(API_BASE + "/create-order", {
-        method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({ customer: {name, phone, address, city, pincode: pin}, cart, total })
-      });
-      const data = await resp.json();
-      // test-mode backend may return only order object; if no Razorpay keys present, fallback
-      if (!data || !data.razorpay_order_id) {
-        alert("Online payment not configured on backend. Using test flow. Order will be placed as Test.");
-        // store order and redirect to success
-        localStorage.setItem("lastOrder", JSON.stringify({
-          id: data && data.order && data.order.id ? data.order.id : ("ORD" + Math.floor(Math.random()*100000)),
-          total, payment: "Test-Backend", time: new Date().toLocaleString(),
-          customer: { name, phone }
-        }));
+    // 1) Create Razorpay order on backend
+    const orderResp = await fetch(API_BASE + "/create-razorpay-order", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ amount: total })
+    });
+    const orderData = await orderResp.json();
+    if (!orderData.success) {
+      alert("Payment server error");
+      return;
+    }
+
+    // 2) Open Razorpay popup
+    var options = {
+      key: orderData.key,
+      amount: orderData.amount,
+      currency: "INR",
+      name: "Mehta Masala",
+      description: "Order Payment",
+      order_id: orderData.razorpay_order_id,
+
+      handler: async function (response) {
+        // 3) Verify payment
+        const verifyResp = await fetch(API_BASE + "/verify-payment", {
+          method: "POST",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify(response)
+        });
+        const verifyData = await verifyResp.json();
+
+        if (!verifyData.success) {
+          alert("Payment verification failed");
+          return;
+        }
+
+        // 4) Save Order via existing backend
+        const saveResp = await fetch(API_BASE + "/create-order", {
+          method: "POST",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify({
+            customer: {name, phone, address, city, pincode: pin},
+            cart,
+            total
+          })
+        });
+
+        const saveData = await saveResp.json();
+        if (!saveData.success) {
+          alert("Order save failed!");
+          return;
+        }
+
+        // 5) Clear cart + redirect
         localStorage.removeItem("cart");
         updateCartCount();
         window.location.href = "order-success.html";
-        return;
-      }
+      },
 
-      // If razorpay fields exist, launch checkout
-      const options = {
-        key: data.razorpay_key,
-        amount: data.amount,
-        currency: "INR",
-        name: "Mehta Masala",
-        description: "Order: " + (data.local_order_id || ""),
-        order_id: data.razorpay_order_id,
-        handler: async function(response) {
-          // verify on server
-          const verify = await fetch(API_BASE + "/verify-payment", {
-            method: "POST",
-            headers: {"Content-Type":"application/json"},
-            body: JSON.stringify(response)
-          });
-          const v = await verify.json();
-          if (v && v.success) {
-            localStorage.setItem("lastOrder", JSON.stringify({
-              id: data.local_order_id,
-              total, payment: "Online", time: new Date().toLocaleString(), customer: {name, phone}
-            }));
-            localStorage.removeItem("cart");
-            updateCartCount();
-            window.location.href = "order-success.html";
-          } else {
-            alert("Payment verification failed.");
-          }
-        },
-        prefill: { name, contact: phone },
-        theme: { color: "#2C7A52" }
-      };
-      const rzp = new Razorpay(options);
-      rzp.open();
-    } catch (err) {
-      console.error(err);
-      alert("Could not create payment. Try again later.");
-    }
+      prefill: { name, contact: phone },
+      theme: { color: "#2C7A52" }
+    };
+
+    var rzp = new Razorpay(options);
+    rzp.open();
   };
 }
 
