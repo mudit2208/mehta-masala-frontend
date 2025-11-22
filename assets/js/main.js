@@ -408,93 +408,162 @@ function placeOrder(finalTotal) {
      POST /create-order  (accepts { customer, cart, total })
      POST /verify-payment (for verification) — optional
 ========================================================= */
-async function initOnlinePayment() {
+function initOnlinePayment() {
   const payBtn = document.getElementById("pay-now");
-  if (!payBtn) return;
+  const testBtn = document.getElementById("place-order");
 
-  payBtn.onclick = async () => {
-    const name = document.getElementById("cust-name").value;
-    const phone = document.getElementById("cust-phone").value;
-    const address = document.getElementById("cust-address").value;
-    const city = document.getElementById("cust-city").value;
-    const pin = document.getElementById("cust-pin").value;
+  if (!payBtn && !testBtn) return;
 
-    if (!name || !phone || !address || !city || !pin) {
-      alert("Please fill all fields before payment.");
-      return;
+  // Helper to read customer + cart + totals
+  function getCheckoutData() {
+    const name = document.getElementById("cust-name").value.trim();
+    const phone = document.getElementById("cust-phone").value.trim();
+    const email = document.getElementById("cust-email").value.trim();
+    const address = document.getElementById("cust-address").value.trim();
+    const city = document.getElementById("cust-city").value.trim();
+    const pin = document.getElementById("cust-pin").value.trim();
+
+    if (!name || !phone || !email || !address || !city || !pin) {
+      alert("Please fill all customer details (including email).");
+      return null;
     }
 
-    const cart = getCart();
-    if (!cart || cart.length === 0) { alert("Cart empty."); return; }
-
-    const totals = recalcCheckoutTotals();
-    const total = totals.finalTotal;
-
-    // 1) Create Razorpay order on backend
-    const orderResp = await fetch(API_BASE + "/create-razorpay-order", {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({ amount: total })
-    });
-    const orderData = await orderResp.json();
-    if (!orderData.success) {
-      alert("Payment server error");
-      return;
+    const cart = getCart(); // your existing cart helper
+    if (!cart || cart.length === 0) {
+      alert("Your cart is empty.");
+      return null;
     }
 
-    // 2) Open Razorpay popup
-    var options = {
-      key: orderData.key,
-      amount: orderData.amount,
-      currency: "INR",
-      name: "Mehta Masala",
-      description: "Order Payment",
-      order_id: orderData.razorpay_order_id,
+    const totals = recalcCheckoutTotals(); // your existing totals helper
 
-      handler: async function (response) {
-        // 3) Verify payment
-        const verifyResp = await fetch(API_BASE + "/verify-payment", {
+    return {
+      customer: { name, phone, email, address, city, pincode: pin },
+      cart,
+      total: totals.finalTotal
+    };
+  }
+
+  // ============= TEST ORDER BUTTON (no Razorpay, for manual testing) ============
+  if (testBtn) {
+    testBtn.onclick = async () => {
+      const data = getCheckoutData();
+      if (!data) return;
+
+      try {
+        const resp = await fetch(API_BASE + "/create-order", {
           method: "POST",
-          headers: {"Content-Type":"application/json"},
-          body: JSON.stringify(response)
-        });
-        const verifyData = await verifyResp.json();
-
-        if (!verifyData.success) {
-          alert("Payment verification failed");
-          return;
-        }
-
-        // 4) Save Order via existing backend
-        const saveResp = await fetch(API_BASE + "/create-order", {
-          method: "POST",
-          headers: {"Content-Type":"application/json"},
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            customer: {name, phone, address, city, pincode: pin},
-            cart,
-            total
+            ...data,
+            payment: { method: "test", status: "unpaid" }
           })
         });
 
-        const saveData = await saveResp.json();
-        if (!saveData.success) {
-          alert("Order save failed!");
-          return;
+        const resJson = await resp.json();
+        if (resJson.success) {
+          alert("Test order placed. Check email & CSV.");
+          localStorage.removeItem("cart");
+          updateCartCount();
+          window.location.href = "order-success.html";
+        } else {
+          alert(resJson.error || "Test order failed");
         }
-
-        // 5) Clear cart + redirect
-        localStorage.removeItem("cart");
-        updateCartCount();
-        window.location.href = "order-success.html";
-      },
-
-      prefill: { name, contact: phone },
-      theme: { color: "#2C7A52" }
+      } catch (e) {
+        alert("Error placing test order.");
+      }
     };
+  }
 
-    var rzp = new Razorpay(options);
-    rzp.open();
-  };
+  // ==================== REAL RAZORPAY PAYMENT ====================
+  if (payBtn) {
+    payBtn.onclick = async () => {
+      const data = getCheckoutData();
+      if (!data) return;
+
+      // 1) Create Razorpay order
+      const orderResp = await fetch(API_BASE + "/create-razorpay-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: data.total })
+      });
+
+      const orderData = await orderResp.json();
+
+      if (!orderData.success) {
+        alert("Payment server error");
+        return;
+      }
+
+      // 2) Open Razorpay popup
+      const options = {
+        key: orderData.key,
+        amount: orderData.amount,
+        currency: "INR",
+        name: "Mehta Masala",
+        description: "Order Payment",
+        order_id: orderData.razorpay_order_id,
+
+        handler: async function (response) {
+          // 3) Verify payment
+          const verifyResp = await fetch(API_BASE + "/verify-payment", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature
+            })
+          });
+
+          const verifyData = await verifyResp.json();
+          if (!verifyData.success) {
+            alert("Payment verification failed");
+            return;
+          }
+
+          // 4) Save order + send emails
+          try {
+            const saveResp = await fetch(API_BASE + "/create-order", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                ...data,
+                payment: {
+                  method: "razorpay",
+                  status: "paid",
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id
+                }
+              })
+            });
+
+            const saveData = await saveResp.json();
+            if (!saveData.success) {
+              alert(saveData.error || "Order save failed!");
+              return;
+            }
+
+            localStorage.removeItem("cart");
+            updateCartCount();
+            window.location.href = "order-success.html?order_id=" + saveData.order_id;
+          } catch (e) {
+            alert("Error saving order after payment.");
+          }
+        },
+
+        prefill: {
+          name: data.customer.name,
+          email: data.customer.email,
+          contact: data.customer.phone
+        },
+
+        theme: { color: "#2C7A52" }
+      };
+
+      const rzp = new Razorpay(options);
+      rzp.open();
+    };
+  }
 }
 
 /* =========================================================
