@@ -60,5 +60,46 @@
       document.getElementById("o-time").textContent = order.time || "";
     }
 </script>
+<footer style="background:#f7fdf8; padding: 40px 0; margin-top: 40px; border-top: 1px solid #e5e5e5;">
+    <div style="text-align:center; max-width:900px; margin:auto; padding:0 20px;">
+
+        <!-- Logo -->
+        <img src="assets/images/logo.svg" alt="Mehta Masala Logo" style="height:70px; margin-bottom: 20px;">
+
+        <!-- About Text -->
+        <p style="color:#444; max-width:600px; margin:10px auto 30px; line-height:1.6;">
+            Mehta Masala Grah Udhyog — serving 100% pure, freshly made spices from Ujjain since 1969.<br>
+            GSTIN: <strong>23AIJPM8143K1Z0</strong>
+        </p>
+
+        <!-- Footer Links -->
+        <div style="margin-bottom:25px; font-size:15px;">
+            <a href="privacy.html" style="margin:0 12px; color:#2C7A52; text-decoration:none;">Privacy Policy</a>
+            |
+            <a href="terms.html" style="margin:0 12px; color:#2C7A52; text-decoration:none;">Terms & Conditions</a>
+            |
+            <a href="refund.html" style="margin:0 12px; color:#2C7A52; text-decoration:none;">Refund & Cancellation Policy</a>
+        </div>
+
+        <!-- Contact -->
+        <div style="color:#444; font-size:14px; margin-bottom:20px; line-height:1.6;">
+            <strong>Contact:</strong>
+            <br> Shree Builder Complex, Dabari Pitha, Kharakuan Colony, Ujjain, M.P. – 456006
+            <br> Email: <a href="mailto:masalamehta@gmail.com" style="color:#2C7A52;">masalamehta@gmail.com</a>
+            <br> Phone: <a href="tel:+918770706131" style="color:#2C7A52;">+91 87707 06131</a>
+        </div>
+
+        <!-- Copyright -->
+        <p style="color:#555; font-size:14px; margin-top: 15px;">
+            © <span id="year"></span> Mehta Masala Udhyog. All Rights Reserved.
+        </p>
+    </div>
+
+    <!-- Auto Year Script -->
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+</footer>
+
 </body>
 </html>
