@@ -62,6 +62,24 @@
           padding:20px;
           color:#777;
         }
+        .badge-status-pending { background:#fff5d9; color:#a66a00; }
+        .badge-status-shipped { background:#e6f0ff; color:#2847b8; }
+        .badge-status-delivered { background:#e0f7ea; color:#137a3f; }
+
+        .status-actions button {
+          margin:2px 0;
+          padding:3px 8px;
+          font-size:11px;
+          border-radius:999px;
+          border:1px solid #ccc;
+          background:#fff;
+          cursor:pointer;
+        }
+.status-actions button:hover {
+  background:#f2f2f2;
+}
+
+
     </style>
 </head>
 <body>
@@ -70,7 +88,7 @@
     <div class="container nav-container">
         <div class="logo">
             <a href="index.html">
-                <img src="assets/logo.png" alt="Mehta Masala Logo">
+                <img src="assets/images/logo.svg" alt="Mehta Masala Logo">
             </a>
         </div>
         <nav class="main-nav">
@@ -102,6 +120,7 @@
                 <th>Phone</th>
                 <th>Total (₹)</th>
                 <th>Payment</th>
+                <th>Shipping</th>
             </tr>
             </thead>
             <tbody id="orders-body">
@@ -113,7 +132,7 @@
 
 <footer style="background:#f7fdf8; padding: 40px 0; margin-top: 40px; border-top: 1px solid #e5e5e5;">
     <div style="text-align:center; max-width:900px; margin:auto; padding:0 20px;">
-        <img src="assets/logo.png" alt="Mehta Masala Logo" style="height:70px; margin-bottom: 20px;">
+        <img src="assets/images/logo.svg" alt="Mehta Masala Logo" style="height:70px; margin-bottom: 20px;">
         <p style="color:#444; max-width:600px; margin:10px auto 30px; line-height:1.6;">
             Mehta Masala Grah Udhyog — serving 100% pure, freshly made spices from Ujjain since 1969.<br>
             GSTIN: <strong>23AIJPM8143K1Z0</strong>
@@ -127,7 +146,6 @@
             <strong>Contact:</strong><br>
             Shree Builder Complex, Dabari Pitha, Kharakuan Colony, Ujjain, M.P. – 456006<br>
             Email: <a href="mailto:masalamehta@gmail.com" style="color:#2C7A52;">masalamehta@gmail.com</a><br>
-            Phone: <a href="tel:+918770706131" style="color:#2C7A52;">+91 87707 06131</a>
         </div>
         <p style="color:#555; font-size:14px; margin-top: 15px;">
             © <span id="year"></span> Mehta Masala Udhyog. All Rights Reserved.
@@ -140,18 +158,18 @@
 
 <script src="assets/js/main.js"></script>
 <script>
-    // Use same API_BASE as rest of site (defined in main.js).
     document.addEventListener("DOMContentLoaded", function () {
       const statusEl = document.getElementById("admin-status");
       const tbody = document.getElementById("orders-body");
 
-      // Ask for admin password (must match ADMIN_DASHBOARD_KEY on backend)
+      // Ask for admin password and store globally
       const key = prompt("Enter admin password to view orders:");
       if (!key) {
         statusEl.textContent = "No password entered.";
-        tbody.innerHTML = '<tr><td colspan="7" class="empty-row">Access denied.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="8" class="empty-row">Access denied.</td></tr>';
         return;
       }
+      window.__ADMIN_KEY = key; // store for later use
 
       statusEl.textContent = "Loading orders…";
 
@@ -160,14 +178,14 @@
         .then(data => {
           if (!data.success) {
             statusEl.textContent = data.error || "Unauthorized";
-            tbody.innerHTML = '<tr><td colspan="7" class="empty-row">Access denied.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="8" class="empty-row">Access denied.</td></tr>';
             return;
           }
 
           const orders = data.orders || [];
           if (!orders.length) {
             statusEl.textContent = "No orders yet.";
-            tbody.innerHTML = '<tr><td colspan="7" class="empty-row">No orders found.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="8" class="empty-row">No orders found.</td></tr>';
             return;
           }
 
@@ -177,10 +195,17 @@
           orders.forEach(o => {
             const tr = document.createElement("tr");
 
-            const badgeClass =
+            // Payment badge class (already existed)
+            const payBadgeClass =
               o.payment_status === "paid" ? "badge badge-paid" :
               o.payment_status === "unpaid" ? "badge badge-unpaid" :
               "badge badge-test";
+
+            // Shipping status + badge
+            const ship = (o.shipping_status || "Pending");
+            let shipBadgeClass = "badge badge-status-pending";
+            if (ship === "Shipped") shipBadgeClass = "badge badge-status-shipped";
+            if (ship === "Delivered") shipBadgeClass = "badge badge-status-delivered";
 
             tr.innerHTML = `
               <td>${o.created_at}</td>
@@ -190,9 +215,18 @@
               <td>${o.phone}</td>
               <td>${o.total}</td>
               <td>
-                <span class="${badgeClass}">
+                <span class="${payBadgeClass}">
                   ${o.payment_method || "-"} / ${o.payment_status || "-"}
                 </span>
+              </td>
+              <td>
+                <div>
+                  <span class="${shipBadgeClass}">${ship}</span>
+                </div>
+                <div class="status-actions">
+                  <button onclick="updateStatus('${o.order_id}', 'Shipped')">Mark Shipped</button><br>
+                  <button onclick="updateStatus('${o.order_id}', 'Delivered')">Mark Delivered</button>
+                </div>
               </td>
             `;
             tbody.appendChild(tr);
@@ -201,9 +235,44 @@
         .catch(err => {
           console.error(err);
           statusEl.textContent = "Error loading orders.";
-          tbody.innerHTML = '<tr><td colspan="7" class="empty-row">Error loading orders.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="8" class="empty-row">Error loading orders.</td></tr>';
         });
     });
+
+    function updateStatus(orderId, status) {
+      const key = window.__ADMIN_KEY;
+      if (!key) {
+        alert("Admin key missing.");
+        return;
+      }
+
+      if (!confirm("Change status of " + orderId + " to " + status + "?")) {
+        return;
+      }
+
+      fetch(API_BASE + "/admin/update-status", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({
+          key: key,
+          order_id: orderId,
+          status: status
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (!data.success) {
+          alert(data.error || "Failed to update status.");
+          return;
+        }
+        // Simple solution: reload page to see updated status
+        location.reload();
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Network error while updating status.");
+      });
+    }
 </script>
 
 </body>
