@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Dashboard – Mehta Masala</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        body { background:#f7fdf8; }
+        .admin-container {
+          max-width: 1100px;
+          margin: 80px auto 40px;
+          background:#fff;
+          border-radius:16px;
+          padding:24px;
+          box-shadow:0 12px 30px rgba(0,0,0,0.05);
+        }
+        .admin-header {
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          margin-bottom:20px;
+        }
+        .admin-header h1 {
+          font-size:24px;
+          color:#2C7A52;
+          margin:0;
+        }
+        .admin-header small {
+          color:#666;
+        }
+        table {
+          width:100%;
+          border-collapse:collapse;
+          margin-top:10px;
+        }
+        th, td {
+          padding:10px 8px;
+          font-size:14px;
+          border-bottom:1px solid #eee;
+          text-align:left;
+        }
+        th {
+          background:#f5faf7;
+          color:#2C7A52;
+          font-weight:600;
+        }
+        tr:hover {
+          background:#f9fdfb;
+        }
+        .badge {
+          display:inline-block;
+          padding:2px 8px;
+          border-radius:999px;
+          font-size:12px;
+        }
+        .badge-paid { background:#e0f7ea; color:#137a3f; }
+        .badge-unpaid { background:#ffeceb; color:#b23121; }
+        .badge-test { background:#e6f0ff; color:#2847b8; }
+        .empty-row {
+          text-align:center;
+          padding:20px;
+          color:#777;
+        }
+    </style>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="container nav-container">
+        <div class="logo">
+            <a href="index.html">
+                <img src="assets/logo.png" alt="Mehta Masala Logo">
+            </a>
+        </div>
+        <nav class="main-nav">
+            <a href="index.html">Home</a>
+            <a href="shop.html">Shop</a>
+            <a href="contact.html">Contact</a>
+            <a href="admin.html" class="active">Admin</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section class="admin-container">
+        <div class="admin-header">
+            <div>
+                <h1>Orders Dashboard</h1>
+                <small>View latest orders from website</small>
+            </div>
+            <div id="admin-status" style="font-size:13px; color:#666;"></div>
+        </div>
+
+        <table id="orders-table">
+            <thead>
+            <tr>
+                <th>Date &amp; Time</th>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>City</th>
+                <th>Phone</th>
+                <th>Total (₹)</th>
+                <th>Payment</th>
+            </tr>
+            </thead>
+            <tbody id="orders-body">
+            <tr><td colspan="7" class="empty-row">Loading orders…</td></tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+
+<footer style="background:#f7fdf8; padding: 40px 0; margin-top: 40px; border-top: 1px solid #e5e5e5;">
+    <div style="text-align:center; max-width:900px; margin:auto; padding:0 20px;">
+        <img src="assets/logo.png" alt="Mehta Masala Logo" style="height:70px; margin-bottom: 20px;">
+        <p style="color:#444; max-width:600px; margin:10px auto 30px; line-height:1.6;">
+            Mehta Masala Grah Udhyog — serving 100% pure, freshly made spices from Ujjain since 1969.<br>
+            GSTIN: <strong>23AIJPM8143K1Z0</strong>
+        </p>
+        <div style="margin-bottom:25px; font-size:15px;">
+            <a href="privacy.html" style="margin:0 12px; color:#2C7A52; text-decoration:none;">Privacy Policy</a> |
+            <a href="terms.html" style="margin:0 12px; color:#2C7A52; text-decoration:none;">Terms &amp; Conditions</a> |
+            <a href="refund.html" style="margin:0 12px; color:#2C7A52; text-decoration:none;">Refund &amp; Cancellation Policy</a>
+        </div>
+        <div style="color:#444; font-size:14px; margin-bottom:20px; line-height:1.6;">
+            <strong>Contact:</strong><br>
+            Shree Builder Complex, Dabari Pitha, Kharakuan Colony, Ujjain, M.P. – 456006<br>
+            Email: <a href="mailto:masalamehta@gmail.com" style="color:#2C7A52;">masalamehta@gmail.com</a><br>
+            Phone: <a href="tel:+918770706131" style="color:#2C7A52;">+91 87707 06131</a>
+        </div>
+        <p style="color:#555; font-size:14px; margin-top: 15px;">
+            © <span id="year"></span> Mehta Masala Udhyog. All Rights Reserved.
+        </p>
+    </div>
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+</footer>
+
+<script src="assets/js/main.js"></script>
+<script>
+    // Use same API_BASE as rest of site (defined in main.js).
+    document.addEventListener("DOMContentLoaded", function () {
+      const statusEl = document.getElementById("admin-status");
+      const tbody = document.getElementById("orders-body");
+
+      // Ask for admin password (must match ADMIN_DASHBOARD_KEY on backend)
+      const key = prompt("Enter admin password to view orders:");
+      if (!key) {
+        statusEl.textContent = "No password entered.";
+        tbody.innerHTML = '<tr><td colspan="7" class="empty-row">Access denied.</td></tr>';
+        return;
+      }
+
+      statusEl.textContent = "Loading orders…";
+
+      fetch(API_BASE + "/admin/orders?key=" + encodeURIComponent(key))
+        .then(res => res.json())
+        .then(data => {
+          if (!data.success) {
+            statusEl.textContent = data.error || "Unauthorized";
+            tbody.innerHTML = '<tr><td colspan="7" class="empty-row">Access denied.</td></tr>';
+            return;
+          }
+
+          const orders = data.orders || [];
+          if (!orders.length) {
+            statusEl.textContent = "No orders yet.";
+            tbody.innerHTML = '<tr><td colspan="7" class="empty-row">No orders found.</td></tr>';
+            return;
+          }
+
+          statusEl.textContent = "Showing " + orders.length + " orders.";
+
+          tbody.innerHTML = "";
+          orders.forEach(o => {
+            const tr = document.createElement("tr");
+
+            const badgeClass =
+              o.payment_status === "paid" ? "badge badge-paid" :
+              o.payment_status === "unpaid" ? "badge badge-unpaid" :
+              "badge badge-test";
+
+            tr.innerHTML = `
+              <td>${o.created_at}</td>
+              <td>${o.order_id}</td>
+              <td>${o.name}</td>
+              <td>${o.city}</td>
+              <td>${o.phone}</td>
+              <td>${o.total}</td>
+              <td>
+                <span class="${badgeClass}">
+                  ${o.payment_method || "-"} / ${o.payment_status || "-"}
+                </span>
+              </td>
+            `;
+            tbody.appendChild(tr);
+          });
+        })
+        .catch(err => {
+          console.error(err);
+          statusEl.textContent = "Error loading orders.";
+          tbody.innerHTML = '<tr><td colspan="7" class="empty-row">Error loading orders.</td></tr>';
+        });
+    });
+</script>
+
+</body>
+</html>
