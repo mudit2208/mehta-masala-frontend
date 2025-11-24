@@ -680,4 +680,57 @@ function updateCartSummary() {
     }
 }
 
+// -------------------------
+// SEARCH BAR FUNCTIONALITY
+// -------------------------
+const products = [
+  { name: "Red Chilli Powder", slug: "red-chilli" },
+  { name: "Turmeric Powder", slug: "turmeric" },
+  { name: "Coriander Powder", slug: "dhaniya" },
+  { name: "Jeeravan Masala", slug: "jeeravan" }
+];
+
+const searchInput = document.getElementById("nav-search-input");
+const searchResults = document.getElementById("nav-search-results");
+
+if (searchInput) {
+    searchInput.addEventListener("input", () => {
+        const query = searchInput.value.toLowerCase().trim();
+        searchResults.innerHTML = "";
+
+        if (query.length === 0) {
+            searchResults.style.display = "none";
+            return;
+        }
+
+        const matches = products.filter(p =>
+            p.name.toLowerCase().includes(query)
+        );
+
+        if (matches.length === 0) {
+            searchResults.innerHTML = "<div>No results found</div>";
+        } else {
+            matches.forEach(p => {
+                const div = document.createElement("div");
+                div.textContent = p.name;
+                div.onclick = () => {
+                    window.location.href = `product.html?slug=${p.slug}`;
+                };
+                searchResults.appendChild(div);
+            });
+        }
+
+        searchResults.style.display = "block";
+    });
+
+    // Hide dropdown when clicking outside
+    document.addEventListener("click", function (e) {
+        if (!searchResults.contains(e.target) &&
+            !searchInput.contains(e.target)) {
+            searchResults.style.display = "none";
+        }
+    });
+}
+
+
 

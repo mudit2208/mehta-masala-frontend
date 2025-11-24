@@ -29,6 +29,26 @@ body {
 /* ===============================================
    HEADER
    =============================================== */
+
+.site-header {
+    background: white;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Logo fix */
+/* --- Logo Sizing & Header Fix --- */
+
+/* ===============================================
+   HEADER & LOGO FIXES
+   =============================================== */
+/* --- Header & Logo (replace earlier duplicates) --- */
 .site-header {
   background: white;
   border-bottom: 1px solid #eee;
@@ -1333,9 +1353,8 @@ html {
         }
         #sticky-add-btn {
             width: auto;
-            border-radius: var(--radius);
-        }
-    }
+            borde
+
 }
 
 /* --- Scroll fade-in sections --- */
@@ -1578,225 +1597,103 @@ html {
     opacity: 1;
 }
 
-/* Enhanced Cart Summary Styles */
-.cart-summary {
-    background: white;
-    padding: 25px;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    margin-top: 30px;
-}
-
-.summary-line {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-.summary-line.total {
-    border-top: 2px solid var(--primary);
-    border-bottom: none;
-    margin-top: 10px;
-    padding-top: 15px;
-    font-size: 18px;
-}
-
-.free-shipping {
-    color: var(--primary);
-    font-weight: 600;
-}
-
-.shipping-notice {
-    background: #f0f7f3;
-    padding: 10px;
-    border-radius: 8px;
-    margin: 15px 0;
-    text-align: center;
-    font-size: 14px;
-    color: var(--primary-dark);
-}
-
-.continue-shopping {
-    display: block;
-    text-align: center;
-    margin: 15px 0;
-    color: var(--primary);
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.continue-shopping:hover {
-    text-decoration: underline;
-}
-
-/* Button spacing */
-.cart-summary .btn-primary,
-.cart-summary .btn-outline {
-    width: 100%;
-    margin: 8px 0;
-    text-align: center;
-}
-
-/* Fix currency symbol issues */
-body, .cart-summary, .price {
-    font-family: 'Inter', 'Arial', sans-serif !important;
-}
-
-/* Force rupee symbol */
-.cart-summary * {
-    font-family: inherit;
-}
-
-/* ===============================================
-   ENHANCED CART SUMMARY STYLES
-   =============================================== */
-
-.cart-summary {
-    background: white;
-    padding: 0;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    margin-top: 30px;
-    overflow: hidden;
-}
-
-.summary-header {
-    background: var(--primary);
-    color: white;
-    padding: 20px;
-    margin: 0;
-}
-
-.summary-header h3 {
-    margin: 0;
-    font-size: 20px;
-    font-weight: 700;
-}
-
-.summary-body {
-    padding: 20px;
-}
-
-.summary-line {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 0;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-.summary-line:last-child {
-    border-bottom: none;
-}
-
-.total-line {
-    border-top: 2px solid var(--primary);
-    border-bottom: none;
-    margin-top: 8px;
-    padding-top: 16px;
-    padding-bottom: 8px;
-    font-size: 18px;
-    background: #f8fdfb;
-    margin: 10px -20px -10px -20px;
-    padding: 16px 20px;
-}
-
-.free-shipping {
-    color: var(--primary);
-    font-weight: 700;
-    background: #e4f7ec;
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 14px;
-}
-
-.shipping-notice {
-    background: #f0f7f3;
-    padding: 12px 16px;
-    margin: 0 20px 20px;
-    border-radius: 10px;
-    text-align: center;
-    font-size: 14px;
-    color: var(--primary-dark);
-    border: 1px solid #d4ede0;
-}
-
-.summary-actions {
-    padding: 0 20px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.checkout-btn {
-    background: var(--primary);
-    color: white;
-    padding: 14px;
-    border-radius: 10px;
-    text-decoration: none;
-    text-align: center;
-    font-weight: 600;
-    font-size: 16px;
-    transition: all 0.2s ease;
-}
-
-.checkout-btn:hover {
-    background: var(--primary-dark);
-    transform: translateY(-1px);
-}
-
-.btn-continue-shopping {
-    color: var(--primary);
-    text-decoration: none;
-    text-align: center;
-    padding: 10px;
-    font-weight: 500;
-    border: 1px solid var(--primary);
-    border-radius: 10px;
-    transition: all 0.2s ease;
-}
-
-.btn-continue-shopping:hover {
-    background: var(--primary);
-    color: white;
-}
-
-.btn-clear-cart {
-    background: transparent;
-    color: #dc3545;
-    border: 1px solid #dc3545;
-    padding: 10px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: all 0.2s ease;
-}
-
-.btn-clear-cart:hover {
-    background: #dc3545;
-    color: white;
-}
-
-/* Mobile responsive */
-@media (max-width: 768px) {
-    .cart-summary {
-        margin-top: 20px;
-        border-radius: 12px;
-    }
-
-    .summary-header {
-        padding: 16px;
-    }
-
-    .summary-body {
-        padding: 16px;
-    }
-
-    .summary-actions {
-        padding: 0 16px 16px;
-    }
-}
-
 /* Premium pill CTA is already defined earlier */
 
+/* ---------- Search Bar Styling ---------- */
+.nav-search {
+    position: relative;
+    margin: 0 10px;
+}
+
+.nav-search input {
+    padding: 6px 10px;
+    border: 1.5px solid #2C7A52;
+    border-radius: 20px;
+    width: 170px;
+    transition: 0.2s ease;
+    font-size: 14px;
+}
+
+.nav-search input:focus {
+    width: 220px;
+    outline: none;
+    background: #f7fff9;
+}
+
+/* Dropdown results */
+.search-results {
+    position: absolute;
+    top: 36px;
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    display: none;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 20;
+}
+
+.search-results div {
+    padding: 8px 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.search-results div:hover {
+    background: #f2f2f2;
+}
+
+/* Mobile support */
+@media (max-width: 768px) {
+    .nav-search {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .nav-search input {
+        width: 100%;
+    }
+}
+
+/* -----------------------
+   CART ICON IN HEADER
+------------------------ */
+.cart-icon-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.cart-icon {
+    width: 26px;
+    height: 26px;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -6px;
+    right: -10px;
+    background: #e63946;
+    color: white;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    min-width: 18px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.cart-icon-link:hover .cart-icon {
+    transform: scale(1.08);
+    transition: 0.15s;
+}
+img[src*="chrome-extension"],
+svg[data-extension-id],
+div[id*="extension"],
+.honeyContainer,
+.rakuten-savings-button {
+    display: none !important;
+}

@@ -81,8 +81,19 @@
             <a href="index.html" class="nav-link" data-page="index">Home</a>
             <a href="products.html" class="nav-link" data-page="products">Shop</a>
             <a href="contact.html" class="nav-link" data-page="contact">Contact</a>
-            <a href="cart.html" class="nav-link" data-page="cart">Cart (<span id="cart-count">0</span>)</a>
+
+            <!-- NEW: Search Bar -->
+            <div class="nav-search">
+                <input type="text" id="nav-search-input" placeholder="Search spices..." autocomplete="off" />
+                <div id="nav-search-results" class="search-results"></div>
+            </div>
+
+            <a href="cart.html" class="cart-icon-link">
+                <img src="assets/images/cart.svg" alt="Cart" class="cart-icon">
+                <span id="cart-count" class="cart-badge">0</span>
+            </a>
         </nav>
+
     </div>
 </header>
 
