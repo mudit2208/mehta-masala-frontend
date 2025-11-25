@@ -66,23 +66,21 @@
 
 <header class="site-header">
     <div class="container header-inner">
+
+        <!-- LEFT: LOGO -->
         <a href="index.html" class="logo">
             <img src="assets/images/logo.svg" alt="Mehta Masala Logo">
         </a>
 
-        <!-- Hamburger button for mobile -->
-        <button class="nav-toggle" aria-label="Toggle navigation">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-
+        <!-- CENTER: NAVIGATION -->
         <nav class="main-nav">
             <a href="index.html" class="nav-link" data-page="index">Home</a>
             <a href="products.html" class="nav-link" data-page="products">Shop</a>
             <a href="contact.html" class="nav-link" data-page="contact">Contact</a>
+        </nav>
 
-            <!-- NEW: Search Bar -->
+        <!-- RIGHT: SEARCH + CART -->
+        <div class="header-right">
             <div class="nav-search">
                 <input type="text" id="nav-search-input" placeholder="Search spices..." autocomplete="off" />
                 <div id="nav-search-results" class="search-results"></div>
@@ -92,7 +90,7 @@
                 <img src="assets/images/cart.svg" alt="Cart" class="cart-icon">
                 <span id="cart-count" class="cart-badge">0</span>
             </a>
-        </nav>
+        </div>
 
     </div>
 </header>

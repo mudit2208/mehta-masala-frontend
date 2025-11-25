@@ -1437,3 +1437,96 @@ html {
         font-size: 24px;
     }
 }
+.hamburger,
+.mobile-menu-toggle,
+.menu-toggle {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    pointer-events: none !important;
+}
+
+/* FIX MOBILE HEADER LAYOUT */
+.site-header,
+.header-inner,
+.main-nav {
+    flex-direction: row !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+/* Ensure nav items stay inline */
+.main-nav a {
+    display: inline-block !important;
+    margin: 0 12px !important;
+}
+
+/* Keep search and cart inline */
+.header-right {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+/* Disable hamburger completely */
+.hamburger,
+.menu-toggle,
+.mobile-menu-toggle {
+    display: none !important;
+}
+
+/* Prevent mobile CSS from stacking */
+@media (max-width: 768px) {
+    .header-inner {
+        flex-direction: row !important;
+    }
+    .main-nav {
+        flex-direction: row !important;
+    }
+    .header-right {
+        flex-direction: row !important;
+    }
+}
+
+.header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.main-nav {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-search input {
+    width: 130px;
+}
+
+.cart-icon-link {
+    position: relative;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -6px;
+    right: -10px;
+    background: #d9534f;
+    color: #fff;
+    padding: 3px 7px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+
