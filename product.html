@@ -39,55 +39,140 @@
 </header>
 
 <main class="container" id="product-page">
-    <div class="product-detail fade-section">
-        <img id="prod-image" class="prod-img" alt="">
-        <div class="prod-info">
-            <h1 id="prod-name"></h1>
-            <p id="prod-desc"></p>
-            <p class="price">₹<span id="prod-price"></span></p>
 
-            <label for="prod-weight">Quantity (grams):</label>
-            <select id="prod-weight"></select>
+    <!-- Zoff-style two-column layout -->
+    <div class="mm-product-layout">
 
-            <button id="add-to-cart" class="btn-primary">Add to Cart</button>
+        <!-- LEFT: big image + (future) thumbnails -->
+        <div class="mm-product-gallery">
+            <div class="mm-product-main-img">
+                <img id="prod-image" class="mm-prod-img" alt="">
+            </div>
+            <div class="mm-product-thumbs" id="prod-thumbs">
+                <!-- optional thumbnails later -->
+            </div>
+        </div>
+
+        <!-- RIGHT: details, size, quantity, buttons, badges -->
+        <div class="mm-product-info-panel">
+            <h1 id="prod-name" class="mm-prod-title"></h1>
+
+            <div class="mm-prod-price-row">
+                <div class="mm-prod-price">
+                    ₹<span id="prod-price"></span>
+                </div>
+                <div class="mm-prod-tax-note">
+                    Inclusive of all taxes.
+                </div>
+            </div>
+
+            <p id="prod-desc" class="mm-prod-short"></p>
+
+            <!-- Size / weight options -->
+            <div class="mm-prod-section">
+                <div class="mm-prod-label">Size</div>
+                <div id="weight-options" class="mm-weight-options">
+                    <!-- buttons injected via JS -->
+                </div>
+            </div>
+
+            <!-- Quantity stepper -->
+            <div class="mm-prod-section">
+                <div class="mm-prod-label">Quantity</div>
+                <div class="mm-qty-stepper">
+                    <button id="qty-minus" type="button">−</button>
+                    <span id="qty-value">1</span>
+                    <button id="qty-plus" type="button">+</button>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="mm-prod-actions">
+                <button id="btn-add-cart" class="btn-primary mm-btn-wide" type="button">
+                    Add to Cart
+                </button>
+                <button id="btn-buy-now" class="mm-btn-buy" type="button">
+                    Buy Now
+                </button>
+            </div>
+
+            <!-- Badges -->
+            <div class="mm-prod-badges">
+                <div class="mm-badge-pill">100% Pure Spices</div>
+                <div class="mm-badge-pill">No Added Colour</div>
+                <div class="mm-badge-pill">Freshly Packed</div>
+                <div class="mm-badge-pill">Since 1969</div>
+            </div>
         </div>
     </div>
 
-    <section class="container product-extra fade-section">
-        <h2>About This Product</h2>
-        <p>
-            • Pure & freshly ground<br>
-            • No added colours or fillers<br>
-            • Consistent aroma and taste in every batch<br>
-            • Packed in small lots at Mehta Masala Gruh Udhyog, Ujjain<br>
-            • Ideal for daily home cooking and traditional Indian recipes
-        </p>
+    <!-- Accordion sections like Zoff -->
+    <section class="mm-product-accordion">
+
+        <div class="mm-acc-item">
+            <button class="mm-acc-header" type="button">
+                Description
+                <span class="mm-acc-icon">+</span>
+            </button>
+            <div class="mm-acc-body" id="acc-desc">
+                <p id="prod-desc-long"></p>
+            </div>
+        </div>
+
+        <div class="mm-acc-item">
+            <button class="mm-acc-header" type="button">
+                Ingredients
+                <span class="mm-acc-icon">+</span>
+            </button>
+            <div class="mm-acc-body">
+                <p>
+                    Made from carefully selected, cleaned and stone-ground spices.
+                    No artificial colours, flavours or preservatives are added.
+                    Exact ingredient proportions are part of our proprietary Mehta Masala recipe.
+                </p>
+            </div>
+        </div>
+
+        <div class="mm-acc-item">
+            <button class="mm-acc-header" type="button">
+                Nutritional Benefits
+                <span class="mm-acc-icon">+</span>
+            </button>
+            <div class="mm-acc-body">
+                <p>
+                    Spices are naturally rich in antioxidants and help enhance digestion and flavour.
+                    Use in moderation as part of a balanced Indian diet.
+                </p>
+            </div>
+        </div>
+
+        <div class="mm-acc-item">
+            <button class="mm-acc-header" type="button">
+                Shipping & Returns
+                <span class="mm-acc-icon">+</span>
+            </button>
+            <div class="mm-acc-body">
+                <p>
+                    Orders are generally dispatched within 24–48 hours from Ujjain.
+                    Delivery time depends on your location and courier partner.
+                    Please refer to our Refund & Cancellation Policy for returns and refunds.
+                </p>
+            </div>
+        </div>
+
     </section>
 </main>
-
-<!-- Sticky Add to Cart Bar -->
-<div id="sticky-bar" class="sticky-bar">
-    <div class="sticky-info">
-        <span id="sticky-name"></span>
-        <span id="sticky-weight"></span>
-        <span id="sticky-price"></span>
-    </div>
-    <button id="sticky-add-btn" class="btn-primary">Add to Cart</button>
-</div>
 
 <footer style="background:#f7fdf8; padding: 40px 0; margin-top: 40px; border-top: 1px solid #e5e5e5;">
     <div style="text-align:center; max-width:900px; margin:auto; padding:0 20px;">
 
-        <!-- Logo -->
         <img src="assets/images/logo.svg" alt="Mehta Masala Logo" style="height:70px; margin-bottom: 20px;">
 
-        <!-- About Text -->
         <p style="color:#444; max-width:600px; margin:10px auto 30px; line-height:1.6;">
             Mehta Masala Grah Udhyog — serving 100% pure, freshly made spices from Ujjain since 1969.<br>
             GSTIN: <strong>23AIJPM8143K1Z0</strong>
         </p>
 
-        <!-- Footer Links -->
         <div style="margin-bottom:25px; font-size:15px;">
             <a href="privacy.html" style="margin:0 12px; color:#2C7A52; text-decoration:none;">Privacy Policy</a>
             |
@@ -96,31 +181,43 @@
             <a href="refund.html" style="margin:0 12px; color:#2C7A52; text-decoration:none;">Refund & Cancellation Policy</a>
         </div>
 
-        <!-- Contact -->
         <div style="color:#444; font-size:14px; margin-bottom:20px; line-height:1.6;">
             <strong>Contact:</strong>
             <br> Shree Builder Complex, Dabari Pitha, Kharakuan Colony, Ujjain, M.P. – 456006
             <br> Email: <a href="mailto:masalamehta@gmail.com" style="color:#2C7A52;">masalamehta@gmail.com</a>
         </div>
 
-        <!-- Copyright -->
         <p style="color:#555; font-size:14px; margin-top: 15px;">
             © <span id="year"></span> Mehta Masala Udhyog. All Rights Reserved.
         </p>
     </div>
 
-    <!-- Auto Year Script -->
     <script>
         document.getElementById("year").textContent = new Date().getFullYear();
     </script>
 </footer>
 
-
 <script src="assets/js/main.js"></script>
+
+<!-- Small script only for accordion toggling -->
 <script>
-    // ensure product detail loads when page is ready
-    loadProductDetail();
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".mm-acc-header").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                const body = btn.nextElementSibling;
+                const icon = btn.querySelector(".mm-acc-icon");
+                const isOpen = body.classList.toggle("open");
+                if (isOpen) {
+                    icon.textContent = "−";
+                    body.style.maxHeight = body.scrollHeight + "px";
+                } else {
+                    icon.textContent = "+";
+                    body.style.maxHeight = null;
+                }
+            });
+        });
+    });
 </script>
-<button id="scrollTopBtn" class="scroll-top">↑</button>
+
 </body>
 </html>

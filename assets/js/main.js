@@ -47,10 +47,35 @@ async function fetchProducts() {
     return [
       { slug:"red-chilli", name:"Red Chilli Powder", description:"100% pure red chilli powder", price:180, weights:[100,250,500,1000], image:"assets/images/red-chilli.png" },
       { slug:"turmeric", name:"Turmeric Powder", description:"Pure haldi powder", price:140, weights:[100,250,500,1000], image:"assets/images/turmeric.png" },
-      { slug:"dhaniya", name:"Coriander Powder", description:"Fresh & aromatic", price:160, weights:[100,250,500,1000], image:"assets/images/dhaniya.png" },
+      { slug:"dhaniya", name:"Coriander Powder", description:"Fresh & aromatic", price:160, weights:[100,250,500,1000], image:"assets/images/coriander.png" },
       { slug:"jeeravan", name:"Jeeravan Masala", description:"Special Mehta Masala recipe", price:220, weights:[50,100,200], image:"assets/images/jeeravan.png" }
     ];
   }
+}
+
+// =============================
+// HOME PAGE – FEATURED PRODUCTS
+// =============================
+async function loadHomeProducts() {
+  const grid = document.getElementById("featured-products");
+  if (!grid) return; // safely do nothing if not on home page
+
+  const products = await fetchProducts();
+  const featured = products.slice(0, 4); // first 4 as featured
+
+  grid.innerHTML = featured.map(p => `
+    <div class="product-card">
+      <img src="${escapeHTML(p.image)}" alt="${escapeHTML(p.name)}">
+      <h3>${escapeHTML(p.name)}</h3>
+      <p>${escapeHTML(p.description || "")}</p>
+      <p class="price">₹${p.price} <span class="small-text">(Multiple sizes)</span></p>
+
+      <div class="card-actions">
+        <a href="product.html?slug=${p.slug}" class="btn-outline">Details</a>
+        <button class="btn-primary" onclick="quickAdd('${p.slug}')">Add</button>
+      </div>
+    </div>
+  `).join('');
 }
 
 async function loadAllProducts() {
@@ -58,29 +83,17 @@ async function loadAllProducts() {
   if (!grid) return;
   const products = await fetchProducts();
   grid.innerHTML = products.map(p => `
-    <div class="product-card">
-      <img src="${escapeHTML(p.image)}" alt="${escapeHTML(p.name)}">
-      <h3>${escapeHTML(p.name)}</h3>
-      <p>${escapeHTML(p.description || p.short || "")}</p>
-      <p class="price">₹${p.price}</p>
-      <a href="product.html?slug=${p.slug}" class="btn-primary">View Details</a>
-    </div>
-  `).join('');
-}
+      <div class="product-card">
+        <img src="${escapeHTML(p.image)}" alt="${escapeHTML(p.name)}">
+        <h3>${escapeHTML(p.name)}</h3>
+        <p>${escapeHTML(p.description || p.short || "")}</p>
+        <p class="price">₹${p.price} <span class="small-text">(Multiple sizes)</span></p>
 
-async function loadHomeProducts() {
-  const grid = document.getElementById("featured-products");
-  if (!grid) return;
-  const products = await fetchProducts();
-  const featured = products.slice(0,4);
-  grid.innerHTML = featured.map(p => `
-    <div class="product-card">
-      <img src="${escapeHTML(p.image)}" alt="${escapeHTML(p.name)}">
-      <h3>${escapeHTML(p.name)}</h3>
-      <p>${escapeHTML(p.description || p.short || "")}</p>
-      <p class="price">₹${p.price}</p>
-      <a href="product.html?slug=${p.slug}" class="btn-primary">View Details</a>
-    </div>
+        <div class="card-actions">
+            <a href="product.html?slug=${p.slug}" class="btn-outline">Details</a>
+            <button class="btn-primary" onclick="quickAdd('${p.slug}')">Add</button>
+        </div>
+      </div>
   `).join('');
 }
 
@@ -89,6 +102,7 @@ async function loadHomeProducts() {
 ========================================================= */
 async function loadProductDetail() {
   if (!window.location.pathname.includes("product.html")) return;
+
   const params = new URLSearchParams(window.location.search);
   const slug = params.get("slug");
   if (!slug) return;
@@ -96,34 +110,55 @@ async function loadProductDetail() {
   const products = await fetchProducts();
   const product = products.find(p => p.slug === slug);
   if (!product) {
-    document.getElementById("product-page").innerHTML = "<p>Product not found.</p>";
+    const page = document.getElementById("product-page");
+    if (page) page.innerHTML = "<p>Product not found.</p>";
     return;
   }
 
-  document.getElementById("prod-image").src = product.image;
-  document.getElementById("prod-image").alt = product.name;
-  document.getElementById("prod-name").textContent = product.name;
-  document.getElementById("prod-desc").textContent = product.description || "";
-  document.getElementById("prod-price").textContent = product.price;
+  // Save globally if needed later
+  window.currentProduct = product;
 
-  // SEO: update page title and meta description dynamically
+  // Image + title + price
+  const imgEl = document.getElementById("prod-image");
+  if (imgEl) {
+    imgEl.src = product.image;
+    imgEl.alt = product.name;
+  }
+
+  const nameEl = document.getElementById("prod-name");
+  if (nameEl) nameEl.textContent = product.name;
+
+  const priceEl = document.getElementById("prod-price");
+  if (priceEl) priceEl.textContent = product.price;
+
+  // Short + long description
+  const fullDesc = product.description || "";
+  const short = fullDesc.length > 160 ? fullDesc.slice(0, 157) + "..." : fullDesc;
+
+  const shortEl = document.getElementById("prod-desc");
+  if (shortEl) shortEl.textContent = short;
+
+  const longEl = document.getElementById("prod-desc-long");
+  if (longEl) longEl.textContent = fullDesc;
+
+  // SEO: Update title + meta description
   document.title = `${product.name} – Pure Indian Spice by Mehta Masala`;
 
   const metaDesc = document.querySelector('meta[name="description"]');
   if (metaDesc) {
     metaDesc.setAttribute(
       "content",
-      `${product.name} by Mehta Masala – pure, freshly packed ${product.description || ""} Delivered across India.`
+      `${product.name} by Mehta Masala – pure, freshly packed spice. ${short}`
     );
   }
 
-  // JSON-LD Product schema for SEO
+  // JSON-LD Product schema (kept from earlier version)
   const ld = {
     "@context": "https://schema.org",
     "@type": "Product",
     "name": product.name,
     "image": [location.origin + "/" + product.image],
-    "description": product.description || "",
+    "description": fullDesc,
     "brand": {
       "@type": "Brand",
       "name": "Mehta Masala Gruh Udhyog"
@@ -137,7 +172,6 @@ async function loadProductDetail() {
     }
   };
 
-  // insert / update JSON-LD script tag
   let ldScript = document.getElementById("product-jsonld");
   if (!ldScript) {
     ldScript = document.createElement("script");
@@ -147,19 +181,76 @@ async function loadProductDetail() {
   }
   ldScript.textContent = JSON.stringify(ld);
 
-  const weightSelect = document.getElementById("prod-weight");
-  weightSelect.innerHTML = "";
-  (product.weights || [100]).forEach(w => {
-    const opt = document.createElement("option");
-    opt.value = w;
-    opt.textContent = w + " g";
-    weightSelect.appendChild(opt);
-  });
+  // ----- Size / weight pills -----
+  const weightWrap = document.getElementById("weight-options");
+  const weights = product.weights || [100];
+  let selectedWeight = weights[0];
 
-  document.getElementById("add-to-cart").onclick = () => addToCart(product, Number(weightSelect.value));
-  setupStickyBar(product);
+  if (weightWrap) {
+    weightWrap.innerHTML = weights
+      .map(
+        (w, idx) =>
+          `<button type="button" class="mm-weight-pill ${
+            idx === 0 ? "active" : ""
+          }" data-weight="${w}">${w} g</button>`
+      )
+      .join("");
+
+    weightWrap.querySelectorAll(".mm-weight-pill").forEach(btn => {
+      btn.addEventListener("click", () => {
+        weightWrap
+          .querySelectorAll(".mm-weight-pill")
+          .forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        selectedWeight = Number(btn.dataset.weight);
+      });
+    });
+  }
+
+  // ----- Quantity stepper -----
+  let qty = 1;
+  const qtyValueEl = document.getElementById("qty-value");
+  const minusBtn = document.getElementById("qty-minus");
+  const plusBtn = document.getElementById("qty-plus");
+
+  function renderQty() {
+    if (qtyValueEl) qtyValueEl.textContent = qty;
+  }
+  renderQty();
+
+  if (minusBtn) {
+    minusBtn.addEventListener("click", () => {
+      if (qty > 1) {
+        qty -= 1;
+        renderQty();
+      }
+    });
+  }
+
+  if (plusBtn) {
+    plusBtn.addEventListener("click", () => {
+      qty += 1;
+      renderQty();
+    });
+  }
+
+  // ----- Add to Cart -----
+  const addBtn = document.getElementById("btn-add-cart");
+  if (addBtn) {
+    addBtn.addEventListener("click", () => {
+      addToCart(product, selectedWeight, qty);
+    });
+  }
+
+  // ----- Buy Now (add to cart + go to checkout) -----
+  const buyBtn = document.getElementById("btn-buy-now");
+  if (buyBtn) {
+    buyBtn.addEventListener("click", () => {
+      addToCart(product, selectedWeight, qty);
+      window.location.href = "checkout.html";
+    });
+  }
 }
-
 /* =========================================================
    CART FUNCTIONS
 ========================================================= */
@@ -176,6 +267,43 @@ function addToCart(product, weight) {
   // If on cart page refresh
   if (window.location.pathname.includes("cart.html")) loadCartPage();
   if (window.location.pathname.includes("checkout.html")) loadCheckoutSummary();
+}
+
+function addToCart(product, weight, qty = 1) {
+  const cart = getCart();
+  const w = Number(weight);
+  const existing = cart.find(i => i.slug === product.slug && i.weight === w);
+
+  if (existing) {
+    existing.quantity += qty;
+  } else {
+    cart.push({
+      slug: product.slug,
+      name: product.name,
+      price: product.price,
+      weight: w,
+      quantity: qty,
+      image: product.image
+    });
+  }
+
+  saveCart(cart);
+  updateCartCount();
+  alert("Added to cart");
+
+  if (window.location.pathname.includes("cart.html")) loadCartPage();
+  if (window.location.pathname.includes("checkout.html")) loadCheckoutSummary();
+}
+
+function quickAdd(slug) {
+  fetchProducts().then(products => {
+    const p = products.find(x => x.slug === slug);
+    if (!p) return alert("Product not found");
+
+    // Add with default first weight
+    const defaultWeight = p.weights ? p.weights[0] : 100;
+    addToCart(p, defaultWeight);
+  });
 }
 
 function loadCartPage() {
