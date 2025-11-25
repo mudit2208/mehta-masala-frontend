@@ -736,14 +736,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const mainNav  = document.querySelector(".main-nav");
   const header   = document.querySelector(".site-header");
 
-  // Hamburger toggle
-  if (navToggle && mainNav) {
-    navToggle.addEventListener("click", function () {
-      mainNav.classList.toggle("open");
-      navToggle.classList.toggle("open");
-    });
-  }
-
   // Sticky header shadow on scroll
   if (header) {
     window.addEventListener("scroll", function () {
