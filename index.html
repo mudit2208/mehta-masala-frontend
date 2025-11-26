@@ -72,7 +72,7 @@
             <img src="assets/images/logo.svg" alt="Mehta Masala Logo">
         </a>
 
-        <!-- CENTER: NAVIGATION -->
+        <!-- CENTER NAV -->
         <nav class="main-nav">
             <a href="index.html" class="nav-link" data-page="index">Home</a>
             <a href="products.html" class="nav-link" data-page="products">Shop</a>
@@ -81,15 +81,33 @@
 
         <!-- RIGHT: SEARCH + CART -->
         <div class="header-right">
-            <div class="nav-search">
-                <input type="text" id="nav-search-input" placeholder="Search spices..." autocomplete="off" />
-                <div id="nav-search-results" class="search-results"></div>
+
+            <!-- SEARCH ICON + INPUT -->
+            <div class="header-right">
+
+                <!-- SEARCH ICON -->
+                <button id="openSearch" class="search-icon-btn">🔍</button>
+
+                <!-- CART ICON -->
+                <a href="cart.html" class="cart-icon-link">
+                    <img src="assets/images/cart.svg" class="cart-icon" alt="Cart">
+                    <span id="cart-count" class="cart-badge">0</span>
+                </a>
+
             </div>
 
-            <a href="cart.html" class="cart-icon-link">
-                <img src="assets/images/cart.svg" alt="Cart" class="cart-icon">
-                <span id="cart-count" class="cart-badge">0</span>
-            </a>
+            <!-- FULL WIDTH SEARCH BAR (HIDDEN BY DEFAULT) -->
+            <div id="fullSearchBar" class="full-search-container">
+                <input
+                        type="text"
+                        id="full-search-input"
+                        placeholder="Search spices..."
+                        autocomplete="off"
+                />
+                <button id="closeSearch" class="close-search-btn">✕</button>
+
+                <div id="full-search-results" class="search-results"></div>
+            </div>
         </div>
 
     </div>

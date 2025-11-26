@@ -718,17 +718,72 @@ setActiveNav();
 /* =========================================================
    Initialize page-specific loaders
 ========================================================= */
-document.addEventListener("DOMContentLoaded", ()=> {
-  loadHomeProducts(); // no-op if not on home
-  loadAllProducts(); // no-op if not on products
-  loadProductDetail(); // no-op if not on product page
-  loadCartPage(); // no-op if not on cart page
-  loadCheckoutSummary(); // no-op if not on checkout
-  initOnlinePayment(); // wire payment if button present
-  // year element
-  const y = document.getElementById("year");
-  if (y) y.textContent = new Date().getFullYear();
+document.addEventListener("DOMContentLoaded", () => {
+    loadHomeProducts();
+    loadAllProducts();
+    loadProductDetail();
+    loadCartPage();
+    loadCheckoutSummary();
+    initOnlinePayment();
+
+    // =======================
+    // FULL DROPDOWN SEARCH BAR
+    // =======================
+    const openSearch = document.getElementById("openSearch");
+    const closeSearch = document.getElementById("closeSearch");
+    const fullSearch = document.getElementById("fullSearchBar");
+    const fullSearchInput = document.getElementById("full-search-input");
+
+    if (openSearch && closeSearch && fullSearch && fullSearchInput) {
+
+        // OPEN SEARCH BAR
+        openSearch.addEventListener("click", (e) => {
+            e.stopPropagation();
+            fullSearch.classList.add("show");
+            fullSearchInput.focus();
+        });
+
+        // CLOSE SEARCH BAR
+        closeSearch.addEventListener("click", () => {
+            fullSearch.classList.remove("show");
+            fullSearchInput.value = "";
+        });
+
+        // CLOSE WHEN CLICKING OUTSIDE
+        document.addEventListener("click", (e) => {
+            if (!fullSearch.contains(e.target) && e.target !== openSearch) {
+                fullSearch.classList.remove("show");
+            }
+        });
+    }
 });
+
+
+// ============================
+// SEARCH TOGGLE EXPAND / CLOSE
+// ============================
+// SEARCH BAR TOGGLE
+document.addEventListener("DOMContentLoaded", () => {
+    const toggleBtn = document.getElementById("searchToggle");
+    const searchInput = document.getElementById("nav-search-input");
+
+    if (!toggleBtn || !searchInput) return;
+
+    toggleBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        searchInput.classList.add("search-expanded");
+        toggleBtn.classList.add("search-icon-hidden");
+        searchInput.focus();
+    });
+
+    document.addEventListener("click", (e) => {
+        if (!searchInput.contains(e.target)) {
+            searchInput.classList.remove("search-expanded");
+            toggleBtn.classList.remove("search-icon-hidden");
+        }
+    });
+});
+
 
 // --- Mobile nav toggle, sticky header, and scroll fade-ins ---
 document.addEventListener("DOMContentLoaded", function () {
