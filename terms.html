@@ -15,7 +15,57 @@
     </style>
 </head>
 <body>
+<div class="top-bar">
+    Free Shipping above ₹499 • Freshly packed in small batches • Since 1969
+</div>
+<header class="site-header">
+    <div class="container header-inner">
 
+        <!-- LEFT: LOGO -->
+        <a href="index.html" class="logo">
+            <img src="assets/images/logo.svg" alt="Mehta Masala Logo">
+        </a>
+
+        <!-- CENTER NAV -->
+        <nav class="main-nav">
+            <a href="index.html" class="nav-link" data-page="index">Home</a>
+            <a href="products.html" class="nav-link" data-page="products">Shop</a>
+            <a href="contact.html" class="nav-link" data-page="contact">Contact</a>
+        </nav>
+
+        <!-- RIGHT: SEARCH + CART -->
+        <div class="header-right">
+
+            <!-- SEARCH ICON + INPUT -->
+            <div class="header-right">
+
+                <!-- SEARCH ICON -->
+                <button id="openSearch" class="search-icon-btn">🔍</button>
+
+                <!-- CART ICON -->
+                <a href="cart.html" class="cart-icon-link">
+                    <img src="assets/images/cart.svg" class="cart-icon" alt="Cart">
+                    <span id="cart-count" class="cart-badge">0</span>
+                </a>
+
+            </div>
+
+            <!-- FULL WIDTH SEARCH BAR (HIDDEN BY DEFAULT) -->
+            <div id="fullSearchBar" class="full-search-container">
+                <input
+                        type="text"
+                        id="full-search-input"
+                        placeholder="Search spices..."
+                        autocomplete="off"
+                />
+                <button id="closeSearch" class="close-search-btn">✕</button>
+
+                <div id="full-search-results" class="search-results"></div>
+            </div>
+        </div>
+
+    </div>
+</header>
 <div class="container">
     <h1>Terms & Conditions</h1>
     <p><strong>Effective Date:</strong> [Date]</p>

@@ -1814,4 +1814,47 @@ html {
     gap: 14px;
 }
 
+/* Fix header height on simple pages */
+.simple-page {
+    margin-top: 40px; /* reduce header spacing */
+}
+
+.site-header {
+    margin-bottom: 0 !important;
+    padding-bottom: 5px !important;
+}
+/* FULL SCREEN SEARCH BAR (hidden by default) */
+.full-search-container {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: white;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    display: none;
+    z-index: 9999;
+}
+
+.full-search-container.show {
+    display: block;
+}
+
+.full-search-container input {
+    width: 90%;
+    padding: 12px 14px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.close-search-btn {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+
 

@@ -265,7 +265,10 @@ function addToCart(product, weight) {
   // quick UI feedback
   alert("Added to cart");
   // If on cart page refresh
-  if (window.location.pathname.includes("cart.html")) loadCartPage();
+  if (window.location.pathname.includes("cart.html")) {
+      loadCartPage();
+      updateCartSummary();   // <-- ADD THIS LINE
+  }
   if (window.location.pathname.includes("checkout.html")) loadCheckoutSummary();
 }
 
@@ -350,6 +353,7 @@ function loadCartPage() {
 
   updateCartTotal();
   updateCartCount();
+  updateCartSummary();
 }
 
 function changeQty(slug, weight, delta) {
@@ -362,6 +366,7 @@ function changeQty(slug, weight, delta) {
   loadCartPage();
   loadCheckoutSummary();
   updateCartCount();
+  updateCartSummary();
 }
 
 function removeFromCart(slug, weight) {
@@ -371,6 +376,7 @@ function removeFromCart(slug, weight) {
   loadCartPage();
   loadCheckoutSummary();
   updateCartCount();
+  updateCartSummary();
 }
 
 function updateCartTotal() {
