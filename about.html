@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us – Mehta Masala Gruh Udhyog</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" type="image/png" href="assets/images/favicon.svg">
+</head>
+
+<body>
+
+<div class="top-bar">
+    Free Shipping above ₹499 • Freshly packed in small batches • Since 1969
+</div>
+
+<!-- SAME HEADER AS INDEX -->
+<header class="site-header">
+    <div class="container header-inner">
+
+        <a href="index.html" class="logo">
+            <img src="assets/images/logo.svg" alt="Mehta Masala Logo">
+        </a>
+
+        <nav class="main-nav">
+            <a href="index.html" class="nav-link" data-page="index">Home</a>
+            <a href="about.html" class="nav-link active" data-page="about">About Us</a>
+            <a href="products.html" class="nav-link" data-page="products">Shop</a>
+            <a href="contact.html" class="nav-link" data-page="contact">Contact</a>
+        </nav>
+
+        <div class="header-right">
+            <button id="openSearch" class="search-icon-btn">🔍</button>
+            <a href="cart.html" class="cart-icon-link">
+                <img src="assets/images/cart.svg" class="cart-icon" alt="Cart">
+                <span id="cart-count" class="cart-badge">0</span>
+            </a>
+
+            <div id="fullSearchBar" class="full-search-container">
+                <input type="text" id="full-search-input" placeholder="Search spices...">
+                <button id="closeSearch" class="close-search-btn">✕</button>
+                <div id="full-search-results" class="search-results"></div>
+            </div>
+        </div>
+
+    </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<div class="container" style="padding:40px 0; max-width:900px;">
+    <h1>About Us</h1>
+    <p style="font-size:17px; line-height:1.7; color:#444;">
+        Mehta Masala Gruh Udhyog has been a trusted name in Ujjain since 1969.
+        What started as a small family-run business has now become a household
+        name loved for its purity, aroma, and traditional preparation methods.
+    </p>
+
+    <h2>Our Story</h2>
+    <p style="font-size:16px; color:#444;">
+        Founded over five decades ago, we have always believed in delivering
+        premium-quality spices made from the finest raw ingredients sourced from
+        across India. Every batch is freshly-ground, ensuring unmatched taste and aroma.
+    </p>
+
+    <h2>What Makes Us Special?</h2>
+    <ul style="font-size:16px; color:#444; line-height:1.7;">
+        <li>100% pure spices — no artificial colours or fillers</li>
+        <li>Freshly prepared in small batches</li>
+        <li>A legacy of trust since 1969</li>
+        <li>Special Ujjain-style Jeeravan loved by thousands</li>
+        <li>High customer retention with 70–80% repeat buyers</li>
+    </ul>
+
+    <h2>Our Mission</h2>
+    <p style="font-size:16px; color:#444;">
+        To bring authentic Indian flavours to every kitchen by offering pure,
+        chemical-free spices at honest prices.
+    </p>
+
+    <h2>Our Legacy</h2>
+    <p style="font-size:16px; color:#444;">
+        Mehta Masala is not just a brand; it is a family tradition passed across generations.
+        Our loyal customers have supported us for decades, and we continue to grow
+        while staying true to our original values.
+    </p>
+
+</div>
+
+<!-- FOOTER -->
+<footer style="background:#f7fdf8; padding:40px 0; margin-top:40px; border-top:1px solid #e5e5e5;">
+    <div style="text-align:center; max-width:900px; margin:auto; padding:0 20px;">
+
+        <img src="assets/images/logo.svg" alt="Mehta Masala Logo" style="height:70px; margin-bottom:20px;">
+
+        <p style="color:#444; max-width:600px; margin:10px auto 30px; line-height:1.6;">
+            Mehta Masala Grah Udhyog — serving 100% pure, freshly made spices from Ujjain since 1969.<br>
+            GSTIN: <strong>23AIJPM8143K1Z0</strong>
+        </p>
+
+        <div style="margin-bottom:25px; font-size:15px;">
+            <a href="privacy.html" style="margin:0 12px; color:#2C7A52; text-decoration:none;">Privacy Policy</a> |
+            <a href="terms.html" style="margin:0 12px; color:#2C7A52; text-decoration:none;">Terms & Conditions</a> |
+            <a href="refund.html" style="margin:0 12px; color:#2C7A52; text-decoration:none;">Refund & Cancellation Policy</a>
+        </div>
+
+        <p style="color:#555; font-size:14px; margin-top:15px;">
+            © <span id="year"></span> Mehta Masala Udhyog. All Rights Reserved.
+        </p>
+    </div>
+
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
