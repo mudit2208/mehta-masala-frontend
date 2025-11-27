@@ -312,48 +312,108 @@ function quickAdd(slug) {
 function loadCartPage() {
   const container = document.getElementById("cart-items");
   if (!container) return;
+
   const cart = getCart();
   const emptyBox = document.getElementById("cart-empty");
   const summaryBox = document.getElementById("cart-summary");
 
+  // If cart is empty
   if (!cart || cart.length === 0) {
+    container.innerHTML = "";
     if (emptyBox) emptyBox.classList.remove("hidden");
     if (summaryBox) summaryBox.classList.add("hidden");
-    container.innerHTML = "";
-    updateCartCount();
+    updateCartSummary();  // will set totals to 0
     return;
   }
 
+  // Cart has items
   if (emptyBox) emptyBox.classList.add("hidden");
   if (summaryBox) summaryBox.classList.remove("hidden");
 
-  container.innerHTML = cart.map(item => `
-    <div class="cart-item" id="cart-item-${item.slug}-${item.weight}">
-      <img src="${escapeHTML(item.image)}" class="cart-img" alt="${escapeHTML(item.name)}">
-      <div class="cart-meta">
-        <h3>${escapeHTML(item.name)}</h3>
-        <div>${item.weight} g • ₹${item.price} each</div>
-        <div class="qty-controls">
-          <button onclick="changeQty('${item.slug}', ${item.weight}, -1)">−</button>
-          <span class="qty">${item.quantity}</span>
-          <button onclick="changeQty('${item.slug}', ${item.weight}, 1)">+</button>
-        </div>
-        <div style="margin-top:8px;">
-          <button class="btn-remove" onclick="removeFromCart('${item.slug}', ${item.weight})">Remove</button>
-        </div>
-      </div>
-      <div style="min-width:110px; text-align:right;">
-        <div>₹${item.price * item.quantity}</div>
-      </div>
-    </div>
-  `).join('');
+  container.innerHTML = cart
+    .map((item) => {
+      // If quantity is 1 -> show bin icon instead of minus
+      const minusButtonHtml =
+        item.quantity === 1
+          ? `<button class="qty-btn qty-trash"
+                     onclick="removeFromCart('${item.slug}', ${item.weight})">
+                 <img src="assets/images/bin.svg" class="trash-icon">
+             </button>`
+          : `<button class="qty-btn"
+                      onclick="changeQty('${item.slug}', ${item.weight}, -1)">
+                 −
+             </button>`;
 
-  // animate items
-  document.querySelectorAll('.cart-item').forEach((el,i)=>{ el.style.opacity=0; setTimeout(()=>el.style.opacity=1, 30*i); });
+      return `
+      <div class="cart-item" id="cart-item-${item.slug}-${item.weight}">
+        <img src="${escapeHTML(item.image)}"
+             class="cart-img"
+             alt="${escapeHTML(item.name)}">
+
+        <div class="cart-meta">
+          <h3>${escapeHTML(item.name)}</h3>
+          <div class="cart-meta-line">${item.weight} g • ₹${item.price} each</div>
+
+          <div class="qty-controls">
+            ${minusButtonHtml}
+            <span class="qty">${item.quantity}</span>
+            <button class="qty-btn"
+                    onclick="changeQty('${item.slug}', ${item.weight}, 1)">
+              +
+            </button>
+          </div>
+        </div>
+
+        <div class="cart-item-price">
+          ₹${item.price * item.quantity}
+        </div>
+      </div>
+    `;
+    })
+    .join("");
+
+  // animate showing items (optional)
+  document.querySelectorAll(".cart-item").forEach((el, i) => {
+    el.style.opacity = 0;
+    setTimeout(() => (el.style.opacity = 1), 30 * i);
+  });
 
   updateCartTotal();
   updateCartCount();
   updateCartSummary();
+  loadCartSuggestions(); // fill right-side suggestions
+}
+
+// PRODUCTS SUGGESTIONS ON CART PAGE (right side)
+async function loadCartSuggestions() {
+  const grid = document.getElementById("cart-suggest-grid");
+  if (!grid) return;
+
+  const products = await fetchProducts();
+
+  // Show up to 3 products for now
+  const suggestions = products.slice(0, 3);
+
+  grid.innerHTML = suggestions
+    .map(
+      (p) => `
+      <div class="product-card cart-suggest-card">
+        <img src="${escapeHTML(p.image)}" alt="${escapeHTML(p.name)}">
+        <h4>${escapeHTML(p.name)}</h4>
+        <p class="price">₹${p.price}</p>
+
+        <div class="card-actions">
+          <button class="btn-primary" onclick="quickAdd('${p.slug}')">
+            Add to Cart
+          </button>
+          <a href="product.html?slug=${p.slug}" class="btn-outline">
+            View Details
+          </a>
+        </div>
+      </div>
+    `
+    )
+    .join("");
 }
 
 function changeQty(slug, weight, delta) {

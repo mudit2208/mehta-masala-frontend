@@ -65,50 +65,70 @@
 <main class="container cart-page">
     <h1>Your Cart</h1>
 
-    <div id="cart-empty" class="cart-empty hidden">
-        <img src="assets/images/empty-cart.png" class="empty-cart-img" alt="Empty cart">
-        <h2>Your cart is empty</h2>
-        <a href="products.html" class="btn-primary">Shop Products</a>
-    </div>
-
-    <div id="cart-items"></div>
-
-    <div id="cart-summary" class="cart-summary hidden">
-        <div class="summary-header">
-            <h3>Order Summary</h3>
-        </div>
-
-        <div class="summary-body">
-            <div class="summary-line">
-                <span>Subtotal (<span id="item-count">0</span> items)</span>
-                <span>₹<span id="cart-subtotal">0</span></span>
+    <div class="cart-layout">
+        <!-- LEFT SIDE: ITEMS LIST -->
+        <div class="cart-left">
+            <!-- Empty state -->
+            <div id="cart-empty" class="cart-empty hidden">
+                <img src="assets/images/empty-cart.png" class="empty-cart-img" alt="Empty cart">
+                <p>Your cart is empty. Start adding some spices!</p>
+                <a href="products.html" class="btn-primary">Browse Products</a>
             </div>
 
-            <div class="summary-line">
-                <span>Shipping</span>
-                <span id="shipping-cost" class="free-shipping">FREE</span>
-            </div>
-
-            <div class="summary-line">
-                <span>GST (5%)</span>
-                <span>₹<span id="gst-amount">0</span></span>
-            </div>
-
-            <div class="summary-line total-line">
-                <span><strong>Total Amount</strong></span>
-                <span><strong>₹<span id="cart-grand-total">0</span></strong></span>
-            </div>
+            <!-- Items go here via JS -->
+            <div id="cart-items"></div>
         </div>
 
-        <div class="shipping-notice" id="shipping-notice">
-            🚚 Free shipping on orders above ₹499
-        </div>
+        <!-- RIGHT SIDE: SUMMARY + SUGGESTIONS -->
+        <aside class="cart-right">
 
-        <div class="summary-actions">
-            <a href="checkout.html" class="btn-primary checkout-btn">Proceed to Checkout</a>
-            <a href="products.html" class="btn-continue-shopping">← Continue Shopping</a>
-            <button id="clear-cart" class="btn-clear-cart">Clear Cart</button>
-        </div>
+            <!-- ORDER SUMMARY BOX -->
+            <div id="cart-summary" class="cart-summary hidden">
+                <h2>Order Summary</h2>
+
+                <div class="summary-line">
+                    <span>Items</span>
+                    <span id="item-count">0</span>
+                </div>
+
+                <div class="summary-line">
+                    <span>Subtotal</span>
+                    <span>₹<span id="cart-subtotal">0.00</span></span>
+                </div>
+
+                <div class="summary-line">
+                    <span>GST (5%)</span>
+                    <span>₹<span id="gst-amount">0.00</span></span>
+                </div>
+
+                <div class="summary-line">
+                    <span>Shipping</span>
+                    <span id="shipping-cost">₹0.00</span>
+                </div>
+
+                <div class="summary-line summary-total">
+                    <span>Order Total</span>
+                    <span>₹<span id="cart-grand-total">0.00</span></span>
+                </div>
+
+                <div id="shipping-notice" class="shipping-notice">
+                    Add ₹499 more for free shipping!
+                </div>
+
+                <button
+                        class="btn-primary checkout-btn"
+                        onclick="window.location.href='checkout.html'">
+                    Proceed to Buy
+                </button>
+            </div>
+
+            <!-- YOU MAY ALSO LIKE -->
+            <div class="cart-suggestions">
+                <h3>You may also like</h3>
+                <div id="cart-suggest-grid" class="cart-suggest-grid"></div>
+            </div>
+
+        </aside>
     </div>
 </main>
 

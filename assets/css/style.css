@@ -490,6 +490,119 @@ body {
     cursor:pointer;
 }
 
+/* CART LAYOUT: LEFT ITEMS + RIGHT SUMMARY */
+.cart-layout {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+.cart-left {
+    flex: 2;
+}
+
+.cart-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: sticky;
+    top: 90px; /* so it stays visible while scrolling */
+}
+
+/* Price on the right side */
+.cart-item-price {
+    min-width: 110px;
+    text-align: right;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+/* one-line subtext under product name */
+.cart-meta-line {
+    font-size: 14px;
+    color: #666;
+    margin-top: 4px;
+}
+
+/* order summary lines */
+.summary-line {
+    display: flex;
+    justify-content: space-between;
+    margin: 6px 0;
+    font-size: 14px;
+}
+
+.summary-total {
+    font-weight: 700;
+    font-size: 16px;
+    border-top: 1px solid #eee;
+    padding-top: 8px;
+    margin-top: 8px;
+}
+
+.shipping-notice {
+    margin-top: 10px;
+    font-size: 13px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    background: #fff3cd;
+    color: #856404;
+}
+
+/* Suggestions on right side */
+.cart-suggestions h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: var(--primary-dark);
+}
+
+.cart-suggest-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.cart-suggest-card {
+    padding: 12px;
+    box-shadow: var(--shadow);
+}
+
+/* trash-style minus button when qty = 1 */
+.qty-trash {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* make sure qty-controls buttons look good */
+.qty-controls .qty-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: none;
+    background: var(--primary);
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+}
+
+.qty-controls .qty-btn:active {
+    transform: scale(0.97);
+}
+
+/* mobile stack */
+@media (max-width: 768px) {
+    .cart-layout {
+        flex-direction: column;
+    }
+
+    .cart-right {
+        position: static;
+    }
+}
+
 /* checkout totals styling */
 .checkout-totals {
     margin-top:12px;
