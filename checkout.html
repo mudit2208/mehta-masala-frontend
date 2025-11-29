@@ -65,46 +65,75 @@
 <main class="container checkout-page">
     <h1>Checkout</h1>
 
-    <div class="checkout-grid">
-        <div class="checkout-form">
-            <h2>Customer Details</h2>
+    <div class="checkout-layout">
 
-            <label>Name</label>
-            <input type="text" id="cust-name" required />
+        <!-- LEFT SIDE -->
+        <div class="checkout-left">
+            <div class="checkout-form">
 
-            <label>Phone</label>
-            <input type="text" id="cust-phone" required />
+                <h2>Customer Details</h2>
 
-            <label>Email</label>
-            <input type="email" id="cust-email" required />
+                <div class="form-group">
+                    <label for="cust-name">Name</label>
+                    <input type="text" id="cust-name" placeholder="Enter your full name">
+                </div>
 
-            <label>Address</label>
-            <textarea id="cust-address"></textarea>
+                <div class="form-group">
+                    <label for="cust-phone">Phone</label>
+                    <input type="text" id="cust-phone" placeholder="10-digit mobile number">
+                </div>
 
-            <label>City</label>
-            <input type="text" id="cust-city" />
+                <div class="form-group">
+                    <label for="cust-email">Email</label>
+                    <input type="email" id="cust-email" placeholder="email@example.com">
+                </div>
 
-            <label>Pincode</label>
-            <input type="text" id="cust-pin" />
+                <div class="form-group">
+                    <label for="cust-address">Address</label>
+                    <textarea id="cust-address" placeholder="House no, Street, Area"></textarea>
+                </div>
 
-            <div style="margin-top:12px;">
-                <button id="place-order" class="btn-primary">Place Order (Test)</button>
-                <button id="pay-now" class="btn-outline" style="margin-left:10px;">Pay Online</button>
+                <div class="form-group">
+                    <label for="cust-pin">Pincode</label>
+                    <input type="text" id="cust-pin" maxlength="6" placeholder="Enter 6-digit pincode">
+                </div>
+
+                <div class="form-group">
+                    <label for="cust-city">City</label>
+                    <input type="text" id="cust-city" placeholder="Auto-filled" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="cust-state">State</label>
+                    <input type="text" id="cust-state" placeholder="Auto-filled" readonly>
+                </div>
+
+                <div class="checkout-buttons">
+                    <button class="btn-primary" id="place-order">Place Order (Test)</button>
+                    <button class="btn-outline" id="pay-now">Pay Online</button>
+                </div>
+
             </div>
         </div>
 
+        <!-- RIGHT SIDE -->
         <div class="checkout-right">
-            <div class="checkout-summary" id="checkout-summary"></div>
 
-            <div class="summary-breakdown">
-                <div class="checkout-totals" id="checkout-totals">
-                    <div class="line"><span>Subtotal</span><span id="sub-total">₹0</span></div>
-                    <div class="line"><span>GST (5%)</span><span id="gst-amt">₹0</span></div>
-                    <div class="line"><span>Delivery</span><span id="delivery-amt">₹0</span></div>
-                    <div class="line total"><span>Total</span><span id="final-total">₹0</span></div>
+            <!-- ITEMS LIST -->
+            <div id="checkout-items"></div>
+
+            <!-- SUMMARY -->
+            <div class="checkout-summary-box">
+                <div class="line"><span>Subtotal</span><span id="sub-total">₹0</span></div>
+                <div class="line"><span>GST (5%)</span><span id="gst-amt">₹0</span></div>
+                <div class="line"><span>Delivery</span><span id="delivery-amt">₹0</span></div>
+
+                <div class="line total">
+                    <span>Total</span><span id="final-total">₹0</span>
                 </div>
             </div>
         </div>
+
     </div>
 </main>
 

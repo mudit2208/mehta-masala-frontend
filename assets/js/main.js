@@ -532,67 +532,97 @@ function recalcCheckoutTotals() {
 }
 
 function loadCheckoutSummary() {
-  const listContainer = document.getElementById("checkout-summary");
-  if (!listContainer) return;
-  const cart = getCart();
-  if (!cart || cart.length === 0) {
-    listContainer.innerHTML = "<p>Your cart is empty.</p>";
-    recalcCheckoutTotals();
-    return;
-  }
-  listContainer.innerHTML = cart.map(item => `
-    <div class="checkout-row">
-      <div class="left">
-        <img src="${escapeHTML(item.image)}" alt="${escapeHTML(item.name)}">
-        <div><strong>${escapeHTML(item.name)}</strong><div style="font-size:13px;color:#666;">${item.weight}g • ₹${item.price}</div></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px;">
-        <div class="qty-controls">
-          <button onclick="changeQty('${item.slug}', ${item.weight}, -1)">−</button>
-          <span class="qty">${item.quantity}</span>
-          <button onclick="changeQty('${item.slug}', ${item.weight}, 1)">+</button>
+    const container = document.getElementById("checkout-items");
+    if (!container) return;
+
+    const cart = getCart();
+    if (!cart || cart.length === 0) {
+        container.innerHTML = "<p>Your cart is empty.</p>";
+        recalcCheckoutTotals();
+        return;
+    }
+
+    container.innerHTML = cart.map(item => `
+        <div class="checkout-product-row">
+
+            <div class="cp-left">
+                <img src="${escapeHTML(item.image)}">
+                <div>
+                    <div class="cp-title">${escapeHTML(item.name)}</div>
+                    <div class="small-text">${item.weight}g • ₹${item.price}</div>
+                </div>
+            </div>
+
+            <div class="qty-controls">
+                <button onclick="changeQty('${item.slug}', ${item.weight}, -1)">−</button>
+                <span class="qty">${item.quantity}</span>
+                <button onclick="changeQty('${item.slug}', ${item.weight}, 1)">+</button>
+            </div>
+
+            <div style="width: 80px; text-align:right;">
+                ₹${item.price * item.quantity}
+            </div>
+
+            <button class="btn-remove" onclick="removeFromCart('${item.slug}', ${item.weight})">
+                Remove
+            </button>
+
         </div>
-        <div style="min-width:80px;text-align:right;">₹${item.price * item.quantity}</div>
-        <button class="btn-remove" onclick="removeFromCart('${item.slug}', ${item.weight})">Remove</button>
-      </div>
-    </div>
-  `).join('');
-  recalcCheckoutTotals();
-  // wire place-order to computed finalTotal
-  const placeBtn = document.getElementById("place-order");
-  if (placeBtn) {
-    placeBtn.onclick = ()=> {
-      const totals = recalcCheckoutTotals();
-      placeOrder(totals.finalTotal);
-    };
-  }
+    `).join('');
+
+    recalcCheckoutTotals();
 }
 
 /* placeOrder stores lastOrder locally (temporary) or calls backend later */
 function placeOrder(finalTotal) {
   // read form fields
-  const name = document.getElementById("cust-name") ? document.getElementById("cust-name").value : "";
-  const phone = document.getElementById("cust-phone") ? document.getElementById("cust-phone").value : "";
-  const address = document.getElementById("cust-address") ? document.getElementById("cust-address").value : "";
-  const city = document.getElementById("cust-city") ? document.getElementById("cust-city").value : "";
-  const pin = document.getElementById("cust-pin") ? document.getElementById("cust-pin").value : "";
+  const name    = document.getElementById("cust-name")?.value || "";
+  const phone   = document.getElementById("cust-phone")?.value || "";
+  const email   = document.getElementById("cust-email")?.value || "";
+  const address = document.getElementById("cust-address")?.value || "";
+  const city    = document.getElementById("cust-city")?.value || "";
+  const pin     = document.getElementById("cust-pin")?.value || "";
 
-  if (!name || !phone || !address || !city || !pin) {
-    alert("Please fill all fields before placing an order.");
+  // 1) full validation FIRST
+  const error = validateCheckoutForm();
+  if (error) {
+    alert(error);
     return;
   }
 
+  // 2) build and save order
   const cart = getCart();
   const order = {
     id: "ORD" + Math.floor(Math.random() * 90000 + 10000),
-    customer: { name, phone, address, city, pincode: pin },
-    cart, total: finalTotal, payment: "Offline (Test)", time: new Date().toLocaleString()
+    customer: { name, phone, email, address, city, pincode: pin },
+    cart,
+    total: finalTotal,
+    payment: "Offline (Test)",
+    time: new Date().toLocaleString()
   };
 
   localStorage.setItem("lastOrder", JSON.stringify(order));
   localStorage.removeItem("cart");
   updateCartCount();
   window.location.href = "order-success.html";
+}
+
+function validateCheckoutForm() {
+    const name = document.getElementById("cust-name").value.trim();
+    const phone = document.getElementById("cust-phone").value.trim();
+    const email = document.getElementById("cust-email").value.trim();
+    const address = document.getElementById("cust-address").value.trim();
+    const city = document.getElementById("cust-city").value.trim();
+    const pin = document.getElementById("cust-pin").value.trim();
+
+    if (!name) return "Enter your name";
+    if (!/^[0-9]{10}$/.test(phone)) return "Enter valid 10-digit phone number";
+    if (!email.includes("@")) return "Enter a valid email";
+    if (address.length < 5) return "Enter complete address";
+    if (!city) return "Enter city";
+    if (!/^[0-9]{6}$/.test(pin)) return "Enter valid 6-digit pincode";
+
+    return null; // success
 }
 
 /* =========================================================
@@ -829,27 +859,27 @@ document.addEventListener("DOMContentLoaded", () => {
 // SEARCH TOGGLE EXPAND / CLOSE
 // ============================
 // SEARCH BAR TOGGLE
+// SEARCH BAR TOGGLE
 document.addEventListener("DOMContentLoaded", () => {
-    const toggleBtn = document.getElementById("searchToggle");
-    const searchInput = document.getElementById("nav-search-input");
+  const toggleBtn   = document.getElementById("searchToggle");
+  const searchInput = document.getElementById("nav-search-input");
 
-    if (!toggleBtn || !searchInput) return;
+  if (!toggleBtn || !searchInput) return;
 
-    toggleBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        searchInput.classList.add("search-expanded");
-        toggleBtn.classList.add("search-icon-hidden");
-        searchInput.focus();
-    });
+  toggleBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    searchInput.classList.add("search-expanded");
+    toggleBtn.classList.add("search-icon-hidden");
+    searchInput.focus();
+  });
 
-    document.addEventListener("click", (e) => {
-        if (!searchInput.contains(e.target)) {
-            searchInput.classList.remove("search-expanded");
-            toggleBtn.classList.remove("search-icon-hidden");
-        }
-    });
+  document.addEventListener("click", (e) => {
+    if (!searchInput.contains(e.target)) {
+      searchInput.classList.remove("search-expanded");
+      toggleBtn.classList.remove("search-icon-hidden");
+    }
+  });
 });
-
 
 // --- Mobile nav toggle, sticky header, and scroll fade-ins ---
 document.addEventListener("DOMContentLoaded", function () {
@@ -973,5 +1003,49 @@ if (searchInput) {
     });
 }
 
+/* ---------------------------------------------------------
+   AUTO-DETECT CITY + STATE BASED ON PINCODE
+   Uses: https://api.postalpincode.in/pincode/<pin>
+----------------------------------------------------------- */
+document.addEventListener("DOMContentLoaded", () => {
+  const pinField   = document.getElementById("cust-pin");
+  const cityField  = document.getElementById("cust-city");
+  const stateField = document.getElementById("cust-state");
+
+  // If checkout fields don’t exist on this page, do nothing
+  if (!pinField || !cityField || !stateField) return;
+
+  pinField.addEventListener("input", async () => {
+    const pin = pinField.value.trim();
+
+    // Only search after exactly 6 digits
+    if (pin.length !== 6) {
+      cityField.value  = "";
+      stateField.value = "";
+      return;
+    }
+
+    try {
+      const res  = await fetch(`https://api.postalpincode.in/pincode/${pin}`);
+      const data = await res.json();
+
+      if (!data[0] || data[0].Status !== "Success") {
+        cityField.value  = "";
+        stateField.value = "";
+        return;
+      }
+
+      const post = data[0].PostOffice[0];
+
+      cityField.value  = post.District;
+      stateField.value = post.State;
+
+    } catch (err) {
+      console.error("Pincode lookup failed:", err);
+      cityField.value  = "";
+      stateField.value = "";
+    }
+  });
+});
 
 
