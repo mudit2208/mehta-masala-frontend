@@ -42,15 +42,90 @@ async function fetchProducts() {
     const res = await fetch("data/products.json");
     if (!res.ok) throw new Error("no json");
     return await res.json();
-  } catch (e) {
-    // fallback: keep small inline list (keeps site usable)
-    return [
-      { slug:"red-chilli", name:"Red Chilli Powder", description:"100% pure red chilli powder", price:180, weights:[100,250,500,1000], image:"assets/images/red-chilli.png" },
-      { slug:"turmeric", name:"Turmeric Powder", description:"Pure haldi powder", price:140, weights:[100,250,500,1000], image:"assets/images/turmeric.png" },
-      { slug:"dhaniya", name:"Coriander Powder", description:"Fresh & aromatic", price:160, weights:[100,250,500,1000], image:"assets/images/coriander.png" },
-      { slug:"jeeravan", name:"Jeeravan Masala", description:"Special Mehta Masala recipe", price:220, weights:[50,100,200], image:"assets/images/jeeravan.png" }
-    ];
+    } catch (e) {
+      // fallback: keep small inline list (keeps site usable)
+      return [
+        {
+          slug: "red-chilli",
+          name: "Red Chilli Powder",
+          description: "100% pure red chilli powder",
+          image: "assets/images/red-chilli.png",
+          variants: [
+            { weight: 100,  price: 40 },
+            { weight: 250,  price: 100 },
+            { weight: 500,  price: 200 },
+            { weight: 1000, price: 400 }
+          ]
+        },
+        {
+          slug: "turmeric",
+          name: "Turmeric Powder",
+          description: "Pure haldi powder",
+          image: "assets/images/turmeric.png",
+          variants: [
+            { weight: 100,  price: 38 },
+            { weight: 250,  price: 95 },
+            { weight: 500,  price: 190 },
+            { weight: 1000, price: 380 }
+          ]
+        },
+        {
+          slug: "dhaniya",
+          name: "Coriander Powder",
+          description: "Fresh & aromatic coriander powder",
+          image: "assets/images/coriander.png",
+          variants: [
+            { weight: 100,  price: 12 },
+            { weight: 250,  price: 30 },
+            { weight: 500,  price: 60 },
+            { weight: 1000, price: 120 }
+          ]
+        },
+        {
+          slug: "jeeravan",
+          name: "Jeeravan Masala",
+          description: "Special Mehta Masala recipe",
+          image: "assets/images/jeeravan.png",
+          variants: [
+            { weight: 100,  price: 42 },
+            { weight: 250,  price: 105 },
+            { weight: 500,  price: 210 },
+            { weight: 1000, price: 420 }
+          ]
+        }
+      ];
+    }
+}
+
+// Get price for a given weight from a product's variants
+function getVariantPrice(product, weight) {
+  const w = Number(weight);
+  if (product.variants && product.variants.length) {
+    const found = product.variants.find(v => Number(v.weight) === w);
+    if (found) return found.price;
   }
+  // fallback if variants missing
+  if (typeof product.price === "number") return product.price;
+  return 0;
+}
+
+// Get minimum (starting) price of a product
+function getStartingPrice(product) {
+  if (product.variants && product.variants.length) {
+    return product.variants.reduce(
+      (min, v) => v.price < min ? v.price : min,
+      product.variants[0].price
+    );
+  }
+  return product.price || 0;
+}
+
+// Get weights array for pills/list
+function getWeights(product) {
+  if (product.variants && product.variants.length) {
+    return product.variants.map(v => v.weight);
+  }
+  return product.weights || [100];
 }
 
 // =============================
@@ -68,7 +143,11 @@ async function loadHomeProducts() {
       <img src="${escapeHTML(p.image)}" alt="${escapeHTML(p.name)}">
       <h3>${escapeHTML(p.name)}</h3>
       <p>${escapeHTML(p.description || "")}</p>
-      <p class="price">₹${p.price} <span class="small-text">(Multiple sizes)</span></p>
+      <p class="price">
+      From ₹${getStartingPrice(p)}
+      <span class="small-text">(Multiple sizes)</span>
+      </p>
+
 
       <div class="card-actions">
         <a href="product.html?slug=${p.slug}" class="btn-outline">Details</a>
@@ -87,7 +166,11 @@ async function loadAllProducts() {
         <img src="${escapeHTML(p.image)}" alt="${escapeHTML(p.name)}">
         <h3>${escapeHTML(p.name)}</h3>
         <p>${escapeHTML(p.description || p.short || "")}</p>
-        <p class="price">₹${p.price} <span class="small-text">(Multiple sizes)</span></p>
+        <p class="price">
+        From ₹${getStartingPrice(p)}
+        <span class="small-text">(Multiple sizes)</span>
+        </p>
+
 
         <div class="card-actions">
             <a href="product.html?slug=${p.slug}" class="btn-outline">Details</a>
@@ -129,6 +212,13 @@ async function loadProductDetail() {
   if (nameEl) nameEl.textContent = product.name;
 
   const priceEl = document.getElementById("prod-price");
+  function updateDisplayedPrice() {
+  if (priceEl) {
+    const unitPrice = getVariantPrice(product, selectedWeight);
+    priceEl.textContent = unitPrice;
+    }
+  }
+
   if (priceEl) priceEl.textContent = product.price;
 
   // Short + long description
@@ -181,10 +271,11 @@ async function loadProductDetail() {
   }
   ldScript.textContent = JSON.stringify(ld);
 
-  // ----- Size / weight pills -----
-  const weightWrap = document.getElementById("weight-options");
-  const weights = product.weights || [100];
-  let selectedWeight = weights[0];
+    // ----- Size / weight pills -----
+    const weightWrap = document.getElementById("weight-options");
+    const weights = getWeights(product);
+    let selectedWeight = weights[0];
+    updateDisplayedPrice();
 
   if (weightWrap) {
     weightWrap.innerHTML = weights
@@ -203,6 +294,7 @@ async function loadProductDetail() {
           .forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         selectedWeight = Number(btn.dataset.weight);
+        updateDisplayedPrice();
       });
     });
   }
@@ -254,36 +346,24 @@ async function loadProductDetail() {
 /* =========================================================
    CART FUNCTIONS
 ========================================================= */
-function addToCart(product, weight) {
-  const cart = getCart();
-  const existing = cart.find(i => i.slug === product.slug && i.weight === Number(weight));
-  if (existing) existing.quantity += 1;
-  else cart.push({ slug: product.slug, name: product.name, price: product.price, weight: Number(weight), quantity: 1, image: product.image });
 
-  saveCart(cart);
-  updateCartCount();
-  // quick UI feedback
-  alert("Added to cart");
-  // If on cart page refresh
-  if (window.location.pathname.includes("cart.html")) {
-      loadCartPage();
-      updateCartSummary();   // <-- ADD THIS LINE
-  }
-  if (window.location.pathname.includes("checkout.html")) loadCheckoutSummary();
-}
 
 function addToCart(product, weight, qty = 1) {
   const cart = getCart();
   const w = Number(weight);
+  const unitPrice = getVariantPrice(product, w);
+
   const existing = cart.find(i => i.slug === product.slug && i.weight === w);
 
   if (existing) {
     existing.quantity += qty;
+    // keep price in sync in case it ever changes
+    existing.price = unitPrice;
   } else {
     cart.push({
       slug: product.slug,
       name: product.name,
-      price: product.price,
+      price: unitPrice,      // store per-variant price
       weight: w,
       quantity: qty,
       image: product.image
@@ -294,8 +374,13 @@ function addToCart(product, weight, qty = 1) {
   updateCartCount();
   alert("Added to cart");
 
-  if (window.location.pathname.includes("cart.html")) loadCartPage();
-  if (window.location.pathname.includes("checkout.html")) loadCheckoutSummary();
+  if (window.location.pathname.includes("cart.html")) {
+    loadCartPage();
+    updateCartSummary();
+  }
+  if (window.location.pathname.includes("checkout.html")) {
+    loadCheckoutSummary();
+  }
 }
 
 function quickAdd(slug) {

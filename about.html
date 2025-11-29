@@ -86,31 +86,39 @@
 
 </div>
 
-<!-- FOOTER -->
-<footer style="background:#f7fdf8; padding:40px 0; margin-top:40px; border-top:1px solid #e5e5e5;">
-    <div style="text-align:center; max-width:900px; margin:auto; padding:0 20px;">
+<footer class="mm-footer">
+    <div class="mm-footer-container">
 
-        <img src="assets/images/logo.svg" alt="Mehta Masala Logo" style="height:70px; margin-bottom:20px;">
+        <!-- Logo + Tagline -->
+        <div class="mm-footer-top">
+            <img src="assets/images/logo.svg" alt="Mehta Masala Logo" class="mm-footer-logo">
 
-        <p style="color:#444; max-width:600px; margin:10px auto 30px; line-height:1.6;">
-            Mehta Masala Grah Udhyog — serving 100% pure, freshly made spices from Ujjain since 1969.<br>
-            GSTIN: <strong>23AIJPM8143K1Z0</strong>
-        </p>
-
-        <div style="margin-bottom:25px; font-size:15px;">
-            <a href="privacy.html" style="margin:0 12px; color:#2C7A52; text-decoration:none;">Privacy Policy</a> |
-            <a href="terms.html" style="margin:0 12px; color:#2C7A52; text-decoration:none;">Terms & Conditions</a> |
-            <a href="refund.html" style="margin:0 12px; color:#2C7A52; text-decoration:none;">Refund & Cancellation Policy</a>
+            <p class="mm-footer-tagline">
+                Serving pure, freshly made Indian spices from Ujjain since 1969.
+            </p>
         </div>
 
-        <p style="color:#555; font-size:14px; margin-top:15px;">
-            © <span id="year"></span> Mehta Masala Udhyog. All Rights Reserved.
-        </p>
-    </div>
+        <!-- Links Row -->
+        <div class="mm-footer-links">
+            <a href="privacy.html">Privacy Policy</a>
+            <span>•</span>
+            <a href="terms.html">Terms & Conditions</a>
+            <span>•</span>
+            <a href="refund.html">Refund & Cancellation Policy</a>
+        </div>
 
-    <script>
-        document.getElementById("year").textContent = new Date().getFullYear();
-    </script>
+        <!-- Address -->
+        <div class="mm-footer-address">
+            Shree Builder Complex, Dabari Pitha, Kharakuan Colony, Ujjain, M.P. – 456006
+            <br>
+            Email: <a href="mailto:masalamehta@gmail.com">masalamehta@gmail.com</a>
+        </div>
+
+        <!-- Copyright -->
+        <div class="mm-footer-copy">
+            © <span id="year"></span> Mehta Masala Udhyog. All Rights Reserved.
+        </div>
+    </div>
 </footer>
 
 <script src="main.js"></script>

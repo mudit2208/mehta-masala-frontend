@@ -263,11 +263,21 @@ body {
     font-size: 18px;
 }
 
-.price {
-    font-weight: 600;
-    color: var(--primary);
-    margin-bottom: 10px;
+.product-card .price {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 4px;
+
+    /* Ensure the whole line stays together */
+    white-space: nowrap;
 }
+
+.product-card .price .small-text {
+    font-size: 12px;
+    opacity: 0.7;
+}
+
 
 .btn-primary {
     display: inline-block;
