@@ -42,59 +42,140 @@ async function fetchProducts() {
     const res = await fetch("data/products.json");
     if (!res.ok) throw new Error("no json");
     return await res.json();
-    } catch (e) {
-      // fallback: keep small inline list (keeps site usable)
-      return [
-        {
-          slug: "red-chilli",
-          name: "Red Chilli Powder",
-          description: "100% pure red chilli powder",
-          image: "assets/images/red-chilli.webp",
-          variants: [
-            { weight: 100,  price: 40 },
-            { weight: 250,  price: 100 },
-            { weight: 500,  price: 200 },
-            { weight: 1000, price: 400 }
-          ]
-        },
-        {
-          slug: "turmeric",
-          name: "Turmeric Powder",
-          description: "Pure haldi powder",
-          image: "assets/images/turmeric.webp",
-          variants: [
-            { weight: 100,  price: 38 },
-            { weight: 250,  price: 95 },
-            { weight: 500,  price: 190 },
-            { weight: 1000, price: 380 }
-          ]
-        },
-        {
-          slug: "dhaniya",
-          name: "Coriander Powder",
-          description: "Fresh & aromatic coriander powder",
-          image: "assets/images/coriander.webp",
-          variants: [
-            { weight: 100,  price: 12 },
-            { weight: 250,  price: 30 },
-            { weight: 500,  price: 60 },
-            { weight: 1000, price: 120 }
-          ]
-        },
-        {
-          slug: "jeeravan",
-          name: "Jeeravan Masala",
-          description: "Special Mehta Masala recipe",
-          image: "assets/images/jeeravan.webp",
-          variants: [
-            { weight: 100,  price: 42 },
-            { weight: 250,  price: 105 },
-            { weight: 500,  price: 210 },
-            { weight: 1000, price: 420 }
-          ]
-        }
-      ];
-    }
+    } catch(e) {
+        return [
+          {
+            slug: "kuti-lal-mirchi",
+            name: "Kuti Lal Mirchi",
+            description: "Coarsely ground red chilli with strong flavour and aroma.",
+            image: "assets/images/red-chilli.webp",
+            variants: [
+              { weight: 100, price: 40 },
+              { weight: 250, price: 100 },
+              { weight: 500, price: 200 },
+              { weight: 1000, price: 400 }
+            ]
+          },
+          {
+            slug: "pisi-lal-mirchi",
+            name: "Pisi Lal Mirchi",
+            description: "Finely ground red chilli powder, pure and vibrant.",
+            image: "assets/images/red-chilli.webp",
+            variants: [
+              { weight: 100, price: 42 },
+              { weight: 250, price: 105 },
+              { weight: 500, price: 210 },
+              { weight: 1000, price: 420 }
+            ]
+          },
+          {
+            slug: "turmeric",
+            name: "Turmeric Powder",
+            description: "Pure haldi powder",
+            image: "assets/images/turmeric.webp",
+            variants: [
+              { weight: 100, price: 38 },
+              { weight: 250, price: 95 },
+              { weight: 500, price: 190 },
+              { weight: 1000, price: 380 }
+            ]
+          },
+          {
+            slug: "dhaniya",
+            name: "Coriander Powder",
+            description: "Fresh & aromatic coriander powder",
+            image: "assets/images/coriander.webp",
+            variants: [
+              { weight: 100, price: 24 },
+              { weight: 250, price: 60 },
+              { weight: 500, price: 120 },
+              { weight: 1000, price: 240 }
+            ]
+          },
+          {
+            slug: "jeeravan",
+            name: "Jeeravan Masala",
+            description: "Special Mehta Masala Jeeravan recipe",
+            image: "assets/images/jeeravan.webp",
+            variants: [
+              { weight: 100, price: 42 },
+              { weight: 250, price: 105 },
+              { weight: 500, price: 210 },
+              { weight: 1000, price: 420 }
+            ]
+          },
+          {
+            slug: "jeera",
+            name: "Jeera",
+            description: "Pure cumin seeds with rich aroma.",
+            image: "assets/images/jeera.png",
+            variants: [
+              { weight: 100, price: 35 },
+              { weight: 250, price: 85 },
+              { weight: 500, price: 170 },
+              { weight: 1000, price: 340 }
+            ]
+          },
+          {
+            slug: "saunf",
+            name: "Saunf",
+            description: "Premium fennel seeds for cooking & digestion.",
+            image: "assets/images/sauf.png",
+            variants: [
+              { weight: 100, price: 30 },
+              { weight: 250, price: 75 },
+              { weight: 500, price: 150 },
+              { weight: 1000, price: 300 }
+            ]
+          },
+          {
+            slug: "ajwain",
+            name: "Ajwain",
+            description: "Fresh ajwain seeds with strong aroma and flavor.",
+            image: "assets/images/ajwain.png",
+            variants: [
+              { weight: 100, price: 25 },
+              { weight: 250, price: 60 },
+              { weight: 500, price: 120 },
+              { weight: 1000, price: 240 }
+            ]
+          },
+          {
+            slug: "kala-namak",
+            name: "Kala Namak",
+            description: "High-quality black salt with natural minerals.",
+            image: "assets/images/kalanamak.png",
+            variants: [
+              { weight: 100, price: 20 },
+              { weight: 250, price: 45 },
+              { weight: 500, price: 90 },
+              { weight: 1000, price: 180 }
+            ]
+          },
+          {
+            slug: "sendha-namak",
+            name: "Sendha Namak",
+            description: "Pure rock salt suitable for fasting.",
+            image: "assets/images/sendhanamak.png",
+            variants: [
+              { weight: 100, price: 22 },
+              { weight: 250, price: 50 },
+              { weight: 500, price: 100 },
+              { weight: 1000, price: 200 }
+            ]
+          },
+          {
+            slug: "garam-masala",
+            name: "Garam Masala",
+            description: "A balanced blend of rich spices.",
+            image: "assets/images/garammasala.png",
+            variants: [
+              { weight: 100, price: 55 },
+              { weight: 250, price: 130 }
+            ]
+          }
+        ];
+      }
 }
 
 // Get price for a given weight from a product's variants
@@ -180,6 +261,25 @@ async function loadAllProducts() {
   `).join('');
 }
 
+async function loadHomeSlider() {
+  const slider = document.getElementById("all-products-slider");
+  if (!slider) return;
+
+  const products = await fetchProducts();
+
+  slider.innerHTML = products.map(p => `
+    <div class="product-card">
+      <img src="${p.image}" alt="${p.name}">
+      <h3>${p.name}</h3>
+      <p class="price">From ₹${getStartingPrice(p)}</p>
+
+      <div class="card-actions">
+        <a href="product.html?slug=${p.slug}" class="btn-outline">Details</a>
+        <button class="btn-primary" onclick="quickAdd('${p.slug}')">Add</button>
+      </div>
+    </div>
+  `).join('');
+}
 
 function updateBreadcrumbSchema(product) {
   const scriptTag = document.querySelector('script[type="application/ld+json"][data-breadcrumb="1"]');
@@ -930,6 +1030,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadCartPage();
     loadCheckoutSummary();
     initOnlinePayment();
+    loadHomeSlider();
 
     // =======================
     // FULL DROPDOWN SEARCH BAR
@@ -1064,10 +1165,18 @@ function updateCartSummary() {
 // SEARCH BAR FUNCTIONALITY
 // -------------------------
 const products = [
-  { name: "Red Chilli Powder", slug: "red-chilli" },
+  { name: "Kuti Lal Mirchi", slug: "kuti-lal-mirchi" },
+  { name: "Pisi Lal Mirchi", slug: "pisi-lal-mirchi" },
   { name: "Turmeric Powder", slug: "turmeric" },
   { name: "Coriander Powder", slug: "dhaniya" },
-  { name: "Jeeravan Masala", slug: "jeeravan" }
+
+  { name: "Jeeravan Masala", slug: "jeeravan" },
+  { name: "Jeera", slug: "jeera" },
+  { name: "Saunf", slug: "saunf" },
+  { name: "Ajwain", slug: "ajwain" },
+  { name: "Kala Namak", slug: "kala-namak" },
+  { name: "Sendha Namak", slug: "sendha-namak" },
+  { name: "Garam Masala", slug: "garam-masala" }
 ];
 
 const searchInput = document.getElementById("nav-search-input");
@@ -1175,4 +1284,12 @@ function showCartPopup(product, weight, qty) {
     popup.classList.remove("show");
 }
 
+const slider = document.getElementById("all-products-slider");
+const btnLeft = document.getElementById("slide-left");
+const btnRight = document.getElementById("slide-right");
+
+if (slider && btnLeft && btnRight) {
+  btnLeft.onclick = () => slider.scrollBy({ left: -300, behavior: "smooth" });
+  btnRight.onclick = () => slider.scrollBy({ left: 300, behavior: "smooth" });
+}
 

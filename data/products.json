@@ -1,14 +1,26 @@
 [
   {
-    "slug": "red-chilli",
-    "name": "Red Chilli Powder",
-    "description": "100% pure red chilli powder",
+    "slug": "kuti-lal-mirchi",
+    "name": "Kuti Lal Mirchi",
+    "description": "Coarsely ground red chilli with strong flavour and aroma.",
     "image": "assets/images/red-chilli.webp",
     "variants": [
       { "weight": 100, "price": 40 },
       { "weight": 250, "price": 100 },
       { "weight": 500, "price": 200 },
       { "weight": 1000, "price": 400 }
+    ]
+  },
+  {
+    "slug": "pisi-lal-mirchi",
+    "name": "Pisi Lal Mirchi",
+    "description": "Finely ground red chilli powder, pure and vibrant.",
+    "image": "assets/images/red-chilli.webp",
+    "variants": [
+      { "weight": 100, "price": 42 },
+      { "weight": 250, "price": 105 },
+      { "weight": 500, "price": 210 },
+      { "weight": 1000, "price": 420 }
     ]
   },
   {
@@ -46,7 +58,75 @@
       { "weight": 500, "price": 210 },
       { "weight": 1000, "price": 420 }
     ]
+  },
+  {
+    "slug": "jeera",
+    "name": "Jeera",
+    "description": "Pure cumin seeds with rich aroma.",
+    "image": "assets/images/jeera.png",
+    "variants": [
+      { "weight": 100, "price": 35 },
+      { "weight": 250, "price": 85 },
+      { "weight": 500, "price": 170 },
+      { "weight": 1000, "price": 340 }
+    ]
+  },
+  {
+    "slug": "saunf",
+    "name": "Saunf",
+    "description": "Premium fennel seeds for cooking & digestion.",
+    "image": "assets/images/sauf.png",
+    "variants": [
+      { "weight": 100, "price": 30 },
+      { "weight": 250, "price": 75 },
+      { "weight": 500, "price": 150 },
+      { "weight": 1000, "price": 300 }
+    ]
+  },
+  {
+    "slug": "ajwain",
+    "name": "Ajwain",
+    "description": "Fresh ajwain seeds with strong aroma and flavor.",
+    "image": "assets/images/ajwain.png",
+    "variants": [
+      { "weight": 100, "price": 25 },
+      { "weight": 250, "price": 60 },
+      { "weight": 500, "price": 120 },
+      { "weight": 1000, "price": 240 }
+    ]
+  },
+  {
+    "slug": "kala-namak",
+    "name": "Kala Namak",
+    "description": "High-quality black salt with natural minerals.",
+    "image": "assets/images/kalanamak.png",
+    "variants": [
+      { "weight": 100, "price": 20 },
+      { "weight": 250, "price": 45 },
+      { "weight": 500, "price": 90 },
+      { "weight": 1000, "price": 180 }
+    ]
+  },
+  {
+    "slug": "sendha-namak",
+    "name": "Sendha Namak",
+    "description": "Pure rock salt suitable for fasting.",
+    "image": "assets/images/sendanamak.png",
+    "variants": [
+      { "weight": 100, "price": 22 },
+      { "weight": 250, "price": 50 },
+      { "weight": 500, "price": 100 },
+      { "weight": 1000, "price": 200 }
+    ]
+  },
+  {
+    "slug": "garam-masala",
+    "name": "Garam Masala",
+    "description": "A balanced blend of rich spices.",
+    "image": "assets/images/garammasala.png",
+    "variants": [
+      { "weight": 100, "price": 55 },
+      { "weight": 250, "price": 130 }
+    ]
   }
 ]
-
-
