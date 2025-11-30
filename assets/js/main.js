@@ -49,7 +49,7 @@ async function fetchProducts() {
           slug: "red-chilli",
           name: "Red Chilli Powder",
           description: "100% pure red chilli powder",
-          image: "assets/images/red-chilli.png",
+          image: "assets/images/red-chilli.webp",
           variants: [
             { weight: 100,  price: 40 },
             { weight: 250,  price: 100 },
@@ -61,7 +61,7 @@ async function fetchProducts() {
           slug: "turmeric",
           name: "Turmeric Powder",
           description: "Pure haldi powder",
-          image: "assets/images/turmeric.png",
+          image: "assets/images/turmeric.webp",
           variants: [
             { weight: 100,  price: 38 },
             { weight: 250,  price: 95 },
@@ -73,7 +73,7 @@ async function fetchProducts() {
           slug: "dhaniya",
           name: "Coriander Powder",
           description: "Fresh & aromatic coriander powder",
-          image: "assets/images/coriander.png",
+          image: "assets/images/coriander.webp",
           variants: [
             { weight: 100,  price: 12 },
             { weight: 250,  price: 30 },
@@ -85,7 +85,7 @@ async function fetchProducts() {
           slug: "jeeravan",
           name: "Jeeravan Masala",
           description: "Special Mehta Masala recipe",
-          image: "assets/images/jeeravan.png",
+          image: "assets/images/jeeravan.webp",
           variants: [
             { weight: 100,  price: 42 },
             { weight: 250,  price: 105 },
@@ -180,6 +180,17 @@ async function loadAllProducts() {
   `).join('');
 }
 
+
+function updateBreadcrumbSchema(product) {
+  const scriptTag = document.querySelector('script[type="application/ld+json"][data-breadcrumb="1"]');
+  if (!scriptTag) return;
+
+  let data = JSON.parse(scriptTag.textContent);
+  data.itemListElement[2].name = product.name;
+  data.itemListElement[2].item = window.location.href;
+  scriptTag.textContent = JSON.stringify(data);
+}
+
 /* =========================================================
    PRODUCT DETAIL
 ========================================================= */
@@ -200,6 +211,7 @@ async function loadProductDetail() {
 
   // Save globally if needed later
   window.currentProduct = product;
+  updateBreadcrumbSchema(product);
 
   // Image + title + price
   const imgEl = document.getElementById("prod-image");
@@ -212,14 +224,17 @@ async function loadProductDetail() {
   if (nameEl) nameEl.textContent = product.name;
 
   const priceEl = document.getElementById("prod-price");
+  const weights = getWeights(product);
+  let selectedWeight = weights[0];
+
   function updateDisplayedPrice() {
-  if (priceEl) {
-    const unitPrice = getVariantPrice(product, selectedWeight);
-    priceEl.textContent = unitPrice;
+    if (priceEl) {
+      priceEl.textContent = getVariantPrice(product, selectedWeight);
     }
   }
 
-  if (priceEl) priceEl.textContent = product.price;
+  // initial correct price
+  updateDisplayedPrice();  // initial correct price
 
   // Short + long description
   const fullDesc = product.description || "";
@@ -243,6 +258,10 @@ async function loadProductDetail() {
   }
 
   // JSON-LD Product schema (kept from earlier version)
+  // JSON-LD Product schema
+  const prices = product.variants.map(v => v.price);
+  const variantWeights = product.variants.map(v => v.weight);
+
   const ld = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -254,28 +273,29 @@ async function loadProductDetail() {
       "name": "Mehta Masala Gruh Udhyog"
     },
     "offers": {
-      "@type": "Offer",
+      "@type": "AggregateOffer",
       "priceCurrency": "INR",
-      "price": product.price,
-      "availability": "https://schema.org/InStock",
-      "url": location.href
+      "lowPrice": Math.min(...prices),
+      "highPrice": Math.max(...prices),
+      "offerCount": product.variants.length,
+      "offers": product.variants.map(v => ({
+        "@type": "Offer",
+        "price": v.price,
+        "priceCurrency": "INR",
+        "sku": product.slug + "-" + v.weight + "g",
+        "availability": "https://schema.org/InStock",
+        "url": location.href
+      }))
     }
   };
 
-  let ldScript = document.getElementById("product-jsonld");
-  if (!ldScript) {
-    ldScript = document.createElement("script");
-    ldScript.type = "application/ld+json";
-    ldScript.id = "product-jsonld";
-    document.head.appendChild(ldScript);
-  }
-  ldScript.textContent = JSON.stringify(ld);
+  const script = document.createElement("script");
+  script.type = "application/ld+json";
+  script.textContent = JSON.stringify(ld);
+  document.head.appendChild(script);
 
-    // ----- Size / weight pills -----
-    const weightWrap = document.getElementById("weight-options");
-    const weights = getWeights(product);
-    let selectedWeight = weights[0];
-    updateDisplayedPrice();
+  // ----- Size / Weight Pills -----
+  const weightWrap = document.getElementById("weight-options");
 
   if (weightWrap) {
     weightWrap.innerHTML = weights
@@ -388,11 +408,11 @@ function quickAdd(slug) {
     const p = products.find(x => x.slug === slug);
     if (!p) return alert("Product not found");
 
-    // Add with default first weight
-    const defaultWeight = p.weights ? p.weights[0] : 100;
+    const defaultWeight = p.variants[0].weight;
     addToCart(p, defaultWeight);
   });
 }
+
 
 function loadCartPage() {
   const container = document.getElementById("cart-items");
@@ -482,21 +502,21 @@ async function loadCartSuggestions() {
   grid.innerHTML = suggestions
     .map(
       (p) => `
-      <div class="product-card cart-suggest-card">
-        <img src="${escapeHTML(p.image)}" alt="${escapeHTML(p.name)}">
-        <h4>${escapeHTML(p.name)}</h4>
-        <p class="price">₹${p.price}</p>
+        <div class="product-card cart-suggest-card">
+          <img src="${escapeHTML(p.image)}" alt="${escapeHTML(p.name)}">
+          <h4>${escapeHTML(p.name)}</h4>
+          <p class="price">From ₹${getStartingPrice(p)}</p>
 
-        <div class="card-actions">
-          <button class="btn-primary" onclick="quickAdd('${p.slug}')">
-            Add to Cart
-          </button>
-          <a href="product.html?slug=${p.slug}" class="btn-outline">
-            View Details
-          </a>
+          <div class="card-actions">
+            <button class="btn-primary" onclick="quickAdd('${p.slug}')">
+              Add to Cart
+            </button>
+            <a href="product.html?slug=${p.slug}" class="btn-outline">
+              View Details
+            </a>
+          </div>
         </div>
-      </div>
-    `
+      `
     )
     .join("");
 }
@@ -545,8 +565,7 @@ function updatePremiumStickyButton(product, weight) {
   const stickyBtn = document.getElementById("sticky-add-btn");
   if (!stickyBtn) return;
 
-  const finalPrice = product.price; // price is same across weights in your data
-
+  const finalPrice = getVariantPrice(product, weight);
   stickyBtn.textContent = `Add to Cart — ₹${finalPrice}`;
 }
 
@@ -562,22 +581,27 @@ function setupStickyBar(product) {
   const stickyBtn = document.getElementById("sticky-add-btn");
   const weightSelect = document.getElementById("prod-weight");
 
+  let defaultWeight = product.variants[0].weight;
+
   stickyName.textContent = product.name;
-  stickyPrice.textContent = "₹" + product.price;
-  updatePremiumStickyButton(product, weightSelect ? weightSelect.value : product.weights[0]);
-  stickyWeight.textContent = (weightSelect ? weightSelect.value : (product.weights && product.weights[0] || "")) + " g";
+  stickyPrice.textContent = "₹" + getVariantPrice(product, defaultWeight);
+  stickyWeight.textContent = defaultWeight + " g";
+  updatePremiumStickyButton(product, defaultWeight);
 
   if (weightSelect) {
-    weightSelect.addEventListener("change", ()=> {
-      stickyWeight.textContent = weightSelect.value + " g";
-      updatePremiumStickyButton(product, weightSelect.value);
+    weightSelect.addEventListener("change", () => {
+      const w = Number(weightSelect.value);
+      stickyWeight.textContent = w + " g";
+      stickyPrice.textContent = "₹" + getVariantPrice(product, w);
+      updatePremiumStickyButton(product, w);
     });
   }
 
   if (stickyBtn) {
     stickyBtn.onclick = ()=> {
-      addToCart(product, Number(weightSelect.value || product.weights[0]));
-      updatePremiumStickyButton(product, weightSelect.value);
+      const chosenWeight = Number(weightSelect ? weightSelect.value : product.variants[0].weight);
+      addToCart(product, chosenWeight);
+      updatePremiumStickyButton(product, chosenWeight);
     };
   }
 

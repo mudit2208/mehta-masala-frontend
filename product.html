@@ -10,10 +10,76 @@
     <meta property="og:type" content="product">
     <meta property="og:title" content="Mehta Masala – Spice Details">
     <meta property="og:description" content="Pure spices from Ujjain – know more about our red chilli, turmeric, coriander and Jeeravan masala.">
-    <meta property="og:image" content="https://mehta-masala.com/assets/images/hero-masala.png">
+    <meta property="og:image" content="https://mehta-masala.com/assets/images/hero-masala.webp">
 
     <link rel="stylesheet" href="assets/css/style.css" />
     <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    <script type="application/ld+json" data-breadcrumb="1">
+        {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://mehta-masala.com/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Shop",
+                    "item": "https://mehta-masala.com/products.html"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "PRODUCT_NAME_WILL_BE_ADDED_USING_JS",
+                    "item": "PRODUCT_URL_WILL_BE_ADDED_USING_JS"
+                }
+            ]
+        }
+    </script>
+    <script type="application/ld+json" data-faq="1">
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "Is this spice 100% pure?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes. All Mehta Masala spices are 100% pure with no added colours or preservatives."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "What is the shelf life?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Our spices have a shelf life of 9–12 months when stored in a cool, dry place."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "How should I store the masala?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Store in an airtight container away from direct sunlight to maintain freshness."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Where do you ship from?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "All orders are shipped from Ujjain, Madhya Pradesh within 24–48 hours."
+                    }
+                }
+            ]
+        }
+    </script>
 </head>
 <body>
 <div class="top-bar">
@@ -192,6 +258,48 @@
         </div>
 
     </section>
+
+    <!-- ============================
+     FAQ SECTION (Visible FAQ)
+=============================== -->
+    <section class="mm-faq-section">
+        <h2 class="faq-title">Frequently Asked Questions</h2>
+
+        <div class="faq-item">
+            <button class="faq-question">Is this spice 100% pure?</button>
+            <div class="faq-answer">
+                <p>Yes. All Mehta Masala spices are 100% pure with no added colours or preservatives.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">What is the shelf life?</button>
+            <div class="faq-answer">
+                <p>Our spices have a shelf life of 9–12 months when stored in a cool, dry place.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">How should I store the masala?</button>
+            <div class="faq-answer">
+                <p>Store in an airtight container away from direct sunlight to maintain freshness.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question">Where do you ship from?</button>
+            <div class="faq-answer">
+                <p>All orders are shipped from Ujjain, Madhya Pradesh within 24–48 hours.</p>
+            </div>
+        </div>
+    </section>
+    <!-- Hidden SEO data for Google (product variants) -->
+    <div style="display:none;">
+    <span id="seo-variant-list">
+        Available in: 100g, 250g, 500g and 1kg packs.
+        Freshly packed spices with different size options for convenient usage.
+    </span>
+    </div>
 </main>
 
 <footer class="mm-footer">
@@ -230,6 +338,16 @@
 </footer>
 
 <script src="assets/js/main.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".faq-question").forEach(q => {
+            q.addEventListener("click", function () {
+                const answer = this.nextElementSibling;
+                answer.classList.toggle("show");
+            });
+        });
+    });
+</script>
 
 <!-- Small script only for accordion toggling -->
 <script>

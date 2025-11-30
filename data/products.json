@@ -3,7 +3,7 @@
     "slug": "red-chilli",
     "name": "Red Chilli Powder",
     "description": "100% pure red chilli powder",
-    "image": "assets/images/red-chilli.png",
+    "image": "assets/images/red-chilli.webp",
     "variants": [
       { "weight": 100, "price": 40 },
       { "weight": 250, "price": 100 },
@@ -15,7 +15,7 @@
     "slug": "turmeric",
     "name": "Turmeric Powder",
     "description": "Pure haldi powder",
-    "image": "assets/images/turmeric.png",
+    "image": "assets/images/turmeric.webp",
     "variants": [
       { "weight": 100, "price": 38 },
       { "weight": 250, "price": 95 },
@@ -27,7 +27,7 @@
     "slug": "dhaniya",
     "name": "Coriander Powder",
     "description": "Fresh & aromatic coriander powder",
-    "image": "assets/images/coriander.png",
+    "image": "assets/images/coriander.webp",
     "variants": [
       { "weight": 100, "price": 24 },
       { "weight": 250, "price": 60 },
@@ -39,7 +39,7 @@
     "slug": "jeeravan",
     "name": "Jeeravan Masala",
     "description": "Special Mehta Masala Jeeravan recipe",
-    "image": "assets/images/jeeravan.png",
+    "image": "assets/images/jeeravan.webp",
     "variants": [
       { "weight": 100, "price": 42 },
       { "weight": 250, "price": 105 },

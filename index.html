@@ -12,13 +12,13 @@
     <meta property="og:title" content="Mehta Masala – Pure Indian Spices from Ujjain Since 1969">
     <meta property="og:description" content="Shop pure red chilli, turmeric, coriander, Jeeravan masala and other kitchen spices, freshly packed in small batches at Mehta Masala, Ujjain.">
     <meta property="og:url" content="https://mehta-masala.com/">
-    <meta property="og:image" content="https://mehta-masala.com/assets/images/hero-masala.png">
+    <meta property="og:image" content="https://mehta-masala.com/assets/images/hero-masala.webp">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Mehta Masala – Pure Indian Spices from Ujjain">
     <meta name="twitter:description" content="Authentic Indian spices – no colours, no fillers, trusted by Ujjain families since 1969.">
-    <meta name="twitter:image" content="https://mehta-masala.com/assets/images/hero-masala.png">
+    <meta name="twitter:image" content="https://mehta-masala.com/assets/images/hero-masala.webp">
 
     <!-- JSON-LD: Website + LocalBusiness -->
     <script type="application/ld+json">
@@ -57,7 +57,31 @@
         }
     </script>
     <link rel="stylesheet" href="assets/css/style.css" />
-    <link rel="icon" type="image/png" href="assets/images/favicon.svg">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Mehta Masala Gruh Udhyog",
+            "url": "https://mehta-masala.com",
+            "logo": "https://mehta-masala.com/assets/images/logo.svg",
+            "founder": "Mehta Family",
+            "foundingDate": "1969",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Ujjain",
+                "addressRegion": "Madhya Pradesh",
+                "addressCountry": "IN"
+            },
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "contactType": "customer support",
+                "availableLanguage": "en"
+            }
+        }
+    </script>
+
 </head>
 <body>
 <div class="top-bar">
@@ -132,7 +156,7 @@
             </div>
 
             <div class="hero-image-box">
-                <img src="assets/images/hero-masala.png" alt="Masala Products" class="hero-image">
+                <img src="assets/images/hero-masala.webp" alt="Masala Products" class="hero-image">
             </div>
         </div>
     </section>
@@ -140,19 +164,19 @@
     <section class="category-section fade-section">
         <div class="container category-grid">
             <div class="cat-item">
-                <img src="assets/images/red-chilli.png" alt="Red Chilli" />
+                <img src="assets/images/red-chilli.webp" alt="Red Chilli" />
                 <p>Red Chilli</p>
             </div>
             <div class="cat-item">
-                <img src="assets/images/turmeric.png" alt="Turmeric" />
+                <img src="assets/images/turmeric.webp" alt="Turmeric" />
                 <p>Turmeric</p>
             </div>
             <div class="cat-item">
-                <img src="assets/images/coriander.png" alt="Coriander" />
+                <img src="assets/images/coriander.webp" alt="Coriander" />
                 <p>Coriander</p>
             </div>
             <div class="cat-item">
-                <img src="assets/images/jeeravan.png" alt="Jeeravan" />
+                <img src="assets/images/jeeravan.webp" alt="Jeeravan" />
                 <p>Jeeravan</p>
             </div>
         </div>
@@ -236,10 +260,10 @@
 <script>
     // Inline featured products (keeps data local and fast)
     const productData = [
-      { slug: "red-chilli", name: "Red Chilli Powder", short: "100% pure red chilli powder", price: "₹160 / 500g", image: "assets/images/red-chilli.png" },
-      { slug: "turmeric",   name: "Turmeric Powder",    short: "Pure haldi powder",           price: "₹200 / 500g", image: "assets/images/turmeric.png" },
-      { slug: "dhaniya",    name: "Coriander Powder",   short: "Fresh & aromatic dhaniya",   price: "₹150 / 500g", image: "assets/images/dhaniya.png" },
-      { slug: "jeeravan",   name: "Jeeravan Masala",    short: "Special Mehta Masala recipe",price: "₹80 / 200g", image: "assets/images/jeeravan.png" }
+      { slug: "red-chilli", name: "Red Chilli Powder", short: "100% pure red chilli powder", price: "₹160 / 500g", image: "assets/images/red-chilli.webp" },
+      { slug: "turmeric",   name: "Turmeric Powder",    short: "Pure haldi powder",           price: "₹200 / 500g", image: "assets/images/turmeric.webp" },
+      { slug: "dhaniya",    name: "Coriander Powder",   short: "Fresh & aromatic dhaniya",   price: "₹150 / 500g", image: "assets/images/coriander.webp" },
+      { slug: "jeeravan",   name: "Jeeravan Masala",    short: "Special Mehta Masala recipe",price: "₹80 / 200g", image: "assets/images/jeeravan.webp" }
     ];
 
     function loadFeaturedProducts() {

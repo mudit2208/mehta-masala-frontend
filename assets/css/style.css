@@ -237,6 +237,8 @@ body {
 
     display: flex;
     flex-direction: column;
+
+    min-height: 380px;  /* NEW */
 }
 
 .product-card .btn-primary,
@@ -253,9 +255,12 @@ body {
 
 .product-card img {
     width: 100%;
-    height: 200px;
+    height: 220px;          /* slightly taller for proper cropping */
     object-fit: cover;
+    object-position: center;
     border-radius: var(--radius);
+    display: block;         /* prevents layout collapse */
+    background: #f2f2f2;    /* placeholder if image fails */
 }
 
 .product-card h3 {
@@ -2331,4 +2336,45 @@ main.container {
     color: #666;
 }
 
+/* ===== FAQ Section ===== */
+.mm-faq-section {
+    margin-top: 40px;
+    padding: 20px;
+    border-radius: 8px;
+    background: #fafafa;
+}
+
+.faq-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.faq-item {
+    margin-bottom: 15px;
+}
+
+.faq-question {
+    width: 100%;
+    text-align: left;
+    padding: 12px;
+    font-size: 16px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.faq-answer {
+    display: none;
+    padding: 12px;
+    background: #f7f7f7;
+    border-left: 3px solid #2C7A52;
+    margin-top: 5px;
+    border-radius: 6px;
+}
+
+.faq-answer.show {
+    display: block;
+}
 
