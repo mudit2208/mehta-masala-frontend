@@ -2378,3 +2378,76 @@ main.container {
     display: block;
 }
 
+/* Cart Popup */
+.cart-popup {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    z-index: 9999;
+    width: 300px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.15);
+    padding: 15px;
+    opacity: 0;
+    transform: translateY(-15px);
+    pointer-events: none;
+    transition: all .35s ease;
+}
+
+.cart-popup.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.cart-popup-inner {
+    display: flex;
+    gap: 12px;
+}
+
+.cart-popup-left img {
+    width: 65px;
+    height: 65px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.cp-title {
+    margin: 0;
+    font-size: 14px;
+    color: #2C7A52;
+    font-weight: 600;
+}
+
+.cp-name {
+    margin: 4px 0 0;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.cp-weight {
+    font-size: 14px;
+    color: #555;
+}
+
+.cp-view-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 6px 10px;
+    background: #2C7A52;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.cp-close {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}

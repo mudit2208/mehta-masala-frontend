@@ -80,6 +80,70 @@
             ]
         }
     </script>
+    <script type="application/ld+json" data-productlist="1">
+        {
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "itemListElement": [
+                {
+                    "@type": "Product",
+                    "position": 1,
+                    "name": "Red Chilli Powder",
+                    "image": "https://mehta-masala.com/assets/images/red-chilli.webp",
+                    "description": "100% pure red chilli powder",
+                    "url": "https://mehta-masala.com/product.html?slug=red-chilli",
+                    "offers": {
+                        "@type": "Offer",
+                        "priceCurrency": "INR",
+                        "price": "40",
+                        "availability": "https://schema.org/InStock"
+                    }
+                },
+                {
+                    "@type": "Product",
+                    "position": 2,
+                    "name": "Turmeric Powder",
+                    "image": "https://mehta-masala.com/assets/images/turmeric.webp",
+                    "description": "Pure haldi powder",
+                    "url": "https://mehta-masala.com/product.html?slug=turmeric",
+                    "offers": {
+                        "@type": "Offer",
+                        "priceCurrency": "INR",
+                        "price": "38",
+                        "availability": "https://schema.org/InStock"
+                    }
+                },
+                {
+                    "@type": "Product",
+                    "position": 3,
+                    "name": "Coriander Powder",
+                    "image": "https://mehta-masala.com/assets/images/coriander.webp",
+                    "description": "Fresh & aromatic coriander powder",
+                    "url": "https://mehta-masala.com/product.html?slug=dhaniya",
+                    "offers": {
+                        "@type": "Offer",
+                        "priceCurrency": "INR",
+                        "price": "12",
+                        "availability": "https://schema.org/InStock"
+                    }
+                },
+                {
+                    "@type": "Product",
+                    "position": 4,
+                    "name": "Jeeravan Masala",
+                    "image": "https://mehta-masala.com/assets/images/jeeravan.webp",
+                    "description": "Special Mehta Masala recipe",
+                    "url": "https://mehta-masala.com/product.html?slug=jeeravan",
+                    "offers": {
+                        "@type": "Offer",
+                        "priceCurrency": "INR",
+                        "price": "42",
+                        "availability": "https://schema.org/InStock"
+                    }
+                }
+            ]
+        }
+    </script>
 </head>
 <body>
 <div class="top-bar">
@@ -368,6 +432,23 @@
         });
     });
 </script>
+<!-- Add-to-Cart Popup -->
+<div id="cart-popup" class="cart-popup">
+    <div class="cart-popup-inner">
+        <div class="cart-popup-left">
+            <img id="cp-img" src="" alt="">
+        </div>
+        <div class="cart-popup-right">
+            <p class="cp-title">Item added to your cart</p>
+            <p id="cp-name" class="cp-name"></p>
+            <p id="cp-weight" class="cp-weight"></p>
+
+            <a href="cart.html" class="cp-view-btn">View cart</a>
+        </div>
+        <button id="cp-close" class="cp-close">×</button>
+    </div>
+</div>
+
 
 </body>
 </html>

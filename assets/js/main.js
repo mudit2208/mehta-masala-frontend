@@ -392,7 +392,7 @@ function addToCart(product, weight, qty = 1) {
 
   saveCart(cart);
   updateCartCount();
-  alert("Added to cart");
+  showCartPopup(product, weight, qty);
 
   if (window.location.pathname.includes("cart.html")) {
     loadCartPage();
@@ -1156,5 +1156,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+function showCartPopup(product, weight, qty) {
+  const popup = document.getElementById("cart-popup");
+  if (!popup) return;
+
+  document.getElementById("cp-img").src = product.image;
+  document.getElementById("cp-name").textContent = product.name;
+  document.getElementById("cp-weight").textContent = `${weight} g × ${qty}`;
+
+  popup.classList.add("show");
+
+  setTimeout(() => {
+    popup.classList.remove("show");
+  }, 3000);
+
+  document.getElementById("cp-close").onclick = () =>
+    popup.classList.remove("show");
+}
 
 
