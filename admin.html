@@ -19,33 +19,83 @@
     </style>
 </head>
 <body>
+<div class="admin-header">
+    <div class="left-menu">
+        <h2>Mehta Masala Admin</h2>
+        <a href="admin.html">Orders</a>
+        <a href="#">Products (coming soon)</a>
+        <a href="#">Settings (coming soon)</a>
+    </div>
 
+    <button class="logout-btn" onclick="logoutAdmin()">Logout</button>
+</div>
+<script>
+    // Redirect if not logged in
+    document.addEventListener("DOMContentLoaded", () => {
+        const token = localStorage.getItem("adminToken");
+        if (!token) {
+            window.location.href = "admin-login.html";
+        }
+    });
+
+    function logoutAdmin() {
+        localStorage.removeItem("adminToken");
+        window.location.href = "admin-login.html";
+    }
+</script>
 <script>
     const API = "https://mehta-masala-backend.onrender.com";
 
-    const token = localStorage.getItem("adminToken");
-    if (!token) {
+    // Runs after the page is loaded
+    document.addEventListener("DOMContentLoaded", () => {
+        const token = localStorage.getItem("adminToken");
+
+        // If no token → send to login
+        if (!token) {
+            window.location.href = "admin-login.html";
+            return;
+        }
+
+        // Load orders with the token
+        loadOrders(token);
+    });
+
+    // Logout button click
+    function logoutAdmin() {
+        localStorage.removeItem("adminToken");
         window.location.href = "admin-login.html";
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
-        fetch(API + "/admin/orders", {
-            headers: { "Authorization": token }
-        })
-        .then(res => res.json())
-        .then(data => {
+    // Step 5: this is the loadOrders function
+    async function loadOrders(token) {
+        const tbody = document.getElementById("orders-body");
+
+        try {
+            const res = await fetch(API + "/admin/orders", {
+                headers: { "Authorization": token }
+            });
+
+            const data = await res.json();
+
             if (!data.success) {
-                window.location.href = "admin-login.html";
+                // Token invalid or server error → force login again
+                tbody.innerHTML = `<tr><td colspan="8" class="empty-row">Auth error – please login again.</td></tr>`;
+                setTimeout(() => window.location.href = "admin-login.html", 1500);
                 return;
             }
-            renderOrders(data.orders);
-        });
-    });
 
+            renderOrders(data.orders);
+        } catch (err) {
+            console.error("Error loading orders:", err);
+            tbody.innerHTML = `<tr><td colspan="8" class="empty-row">Error loading orders. Please refresh.</td></tr>`;
+        }
+    }
+
+    // Render table rows
     function renderOrders(rows) {
         const tbody = document.getElementById("orders-body");
 
-        if (!rows.length) {
+        if (!rows || !rows.length) {
             tbody.innerHTML = `<tr><td colspan="8" class="empty-row">No orders found.</td></tr>`;
             return;
         }

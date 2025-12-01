@@ -2497,3 +2497,43 @@ main.container {
 .slider-btn.right {
   margin-left: 8px;
 }
+
+.admin-header {
+    width: 100%;
+    padding: 15px 25px;
+    background: #2C7A52;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.left-menu {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.left-menu a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.left-menu a:hover {
+    text-decoration: underline;
+}
+
+.logout-btn {
+    background: #e63946;
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.logout-btn:hover {
+    background: #d62828;
+}

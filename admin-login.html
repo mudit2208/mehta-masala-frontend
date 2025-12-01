@@ -24,30 +24,37 @@
 </div>
 
 <script>
-    const API = "https://mehta-masala-backend.onrender.com";
+    document.addEventListener("DOMContentLoaded", () => {
+        // If already logged in → go to dashboard
+        const token = localStorage.getItem("adminToken");
+        if (token) {
+            window.location.href = "admin.html";
+        }
+    });
 
-    document.getElementById("adminLoginForm").addEventListener("submit", async(e)=>{
-        e.preventDefault();
+    async function adminLogin() {
+        const email = document.getElementById("adminEmail").value.trim();
+        const password = document.getElementById("adminPassword").value.trim();
 
-        let email = document.getElementById("email").value.trim();
-        let password = document.getElementById("password").value.trim();
-
-        const res = await fetch(API + "/admin/login", {
-            method:"POST",
-            headers:{ "Content-Type":"application/json" },
+        const res = await fetch("https://your-backend-url/admin/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password })
         });
 
         const data = await res.json();
 
-        if(!data.success){
-            document.getElementById("msg").textContent = "Invalid email or password";
+        if (!data.success) {
+            document.getElementById("errorBox").innerText = "Invalid email or password";
             return;
         }
 
+        // Save token
         localStorage.setItem("adminToken", data.token);
+
+        // Redirect to dashboard
         window.location.href = "admin.html";
-    });
+    }
 </script>
 
 </body>
