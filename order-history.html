@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Orders – Mehta Masala</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        body { background:#f7fdf8; }
+        .history-box {
+            max-width:800px;
+            margin:60px auto;
+            background:#fff;
+            padding:20px;
+            border-radius:14px;
+            box-shadow:0 8px 20px rgba(0,0,0,0.05);
+        }
+        input, button { padding:10px 14px; font-size:16px; margin-top:8px; width:100%; }
+        button { background:#2C7A52; color:#fff; border:none; cursor:pointer; border-radius:8px; }
+        table { width:100%; margin-top:20px; border-collapse:collapse; }
+        th, td { padding:10px; text-align:left; border-bottom:1px solid #eee; }
+        th { background:#f2f2f2; }
+        .empty { text-align:center; padding:20px; color:#777; }
+
+        .view-btn {
+            background:#2C7A52;
+            color:white;
+            padding:6px 12px;
+            border:none;
+            border-radius:6px;
+            cursor:pointer;
+        }
+        .view-btn:hover { opacity:0.8; }
+    </style>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="container header-inner">
+        <a href="index.html" class="logo">
+            <img src="assets/images/logo.svg" alt="Mehta Masala Logo">
+        </a>
+        <nav class="main-nav">
+            <a href="index.html">Home</a>
+            <a href="products.html">Shop</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </div>
+</header>
+
+<div class="history-box">
+    <h2>Check Your Order History</h2>
+
+    <p>Enter your phone number or email:</p>
+
+    <input type="text" id="identifier" placeholder="Phone or Email">
+
+    <button onclick="fetchOrders()">Show My Orders</button>
+
+    <div id="results"></div>
+</div>
+
+<script>
+    const API = "https://mehta-masala-backend.onrender.com";
+
+    /* -----------------------------
+       FETCH ORDER LIST
+    ----------------------------- */
+    function fetchOrders() {
+        const id = document.getElementById("identifier").value.trim();
+        if (!id) return alert("Please enter phone or email");
+
+        const payload = id.includes("@") ? { email: id } : { phone: id };
+
+        fetch(API + "/customer/orders", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(data => {
+            const box = document.getElementById("results");
+
+            if (!data.success || !data.orders.length) {
+                box.innerHTML = `<p class="empty">No past orders found.</p>`;
+                return;
+            }
+
+            let html = `
+                <table>
+                    <tr>
+                        <th>Date</th>
+                        <th>Order ID</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+            `;
+
+            data.orders.forEach(o => {
+                html += `
+                    <tr>
+                        <td>${o.date}</td>
+                        <td>${o.order_id}</td>
+                        <td>₹${o.total}</td>
+                        <td>${o.status}</td>
+                        <td>
+                            <button class="view-btn" onclick="viewDetails('${o.order_id}')">View</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+
+            html += "</table>";
+            box.innerHTML = html;
+        });
+    }
+
+    /* -----------------------------
+       VIEW DETAILS POPUP
+    ----------------------------- */
+    function viewDetails(orderId) {
+        const modal = document.getElementById("details-modal");
+        const box = document.getElementById("details-content");
+
+        modal.style.display = "flex";
+        document.getElementById("invoice-btn").onclick = () => downloadInvoice(orderId);
+        box.innerHTML = "Loading...";
+
+        fetch(`${API}/customer/order-details/${orderId}`)
+            .then(res => res.json())
+            .then(data => {
+                if (!data.success) {
+                    box.innerHTML = "Order not found";
+                    return;
+                }
+
+                const order = data.order;
+                const items = data.items;
+
+                let html = `
+                    <p><strong>Order ID:</strong> ${order.order_id}</p>
+                    <p><strong>Date:</strong> ${order.date}</p>
+                    <p><strong>Name:</strong> ${order.name}</p>
+                    <p><strong>Phone:</strong> ${order.phone}</p>
+                    <p><strong>Address:</strong> ${order.address}, ${order.city} - ${order.pincode}</p>
+                    <p><strong>Total:</strong> ₹${order.total}</p>
+                    <p><strong>Status:</strong> ${order.payment_status}</p>
+                    <p><strong>Payment Method:</strong> ${order.payment_method}</p>
+
+
+
+                    <h3>Items</h3>
+
+                    <table style="width:100%; border-collapse:collapse;">
+                        <tr>
+                            <th>Item</th>
+                            <th>Qty</th>
+                            <th>Weight</th>
+                            <th>Price</th>
+                            <th>Line Total</th>
+                        </tr>
+                `;
+
+                items.forEach(i => {
+                    const line = i.price * i.quantity;
+                    html += `
+                        <tr>
+                            <td>${i.name}</td>
+                            <td>${i.quantity}</td>
+                            <td>${i.weight} g</td>
+                            <td>₹${i.price}</td>
+                            <td>₹${line}</td>
+                        </tr>
+                    `;
+                });
+
+                html += "</table>";
+                box.innerHTML = html;
+            });
+    }
+
+    function closeModal() {
+        document.getElementById("details-modal").style.display = "none";
+    }
+
+    function downloadInvoice(orderId) {
+    const btn = document.getElementById("invoice-btn");
+    btn.innerText = "Preparing invoice...";
+    btn.disabled = true;
+
+    fetch(`${API}/customer/invoice/${orderId}`)
+        .then(res => res.blob())
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `${orderId}.pdf`;
+            a.click();
+            btn.innerText = "Download Invoice";
+            btn.disabled = false;
+        })
+        .catch(() => {
+            alert("Could not generate invoice. Try again.");
+            btn.innerText = "Download Invoice";
+            btn.disabled = false;
+        });
+    }
+</script>
+
+<!-- MODAL -->
+<div id="details-modal" class="modal" style="
+    position: fixed; top:0; left:0; width:100%; height:100%;
+    background: rgba(0,0,0,0.4); display:none;
+    justify-content:center; align-items:center;
+">
+    <div style="
+        width:90%; max-width:600px; background:#fff;
+        padding:20px; border-radius:12px;
+        max-height:80vh; overflow-y:auto;
+    ">
+        <h2>Order Details</h2>
+
+        <div id="details-content">Loading…</div>
+
+        <button id="invoice-btn" style="
+            margin-top:20px; background:#1a73e8; color:#fff;
+            border:none; padding:10px 16px; border-radius:8px;
+        ">Download Invoice</button>
+
+                <button onclick="closeModal()" style="
+            margin-top:10px; background:#2C7A52; color:#fff;
+            border:none; padding:10px 16px; border-radius:8px;
+        ">Close</button>
+
+    </div>
+</div>
+
+</body>
+</html>
