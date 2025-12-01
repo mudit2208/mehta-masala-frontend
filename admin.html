@@ -5,334 +5,105 @@
     <title>Order Dashboard – Mehta Masala</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/css/style.css">
+
     <style>
         body { background:#f7fdf8; }
-        .admin-container {
-          max-width: 1100px;
-          margin: 80px auto 40px;
-          background:#fff;
-          border-radius:16px;
-          padding:24px;
-          box-shadow:0 12px 30px rgba(0,0,0,0.05);
-        }
-        .admin-header {
-          display:flex;
-          justify-content:space-between;
-          align-items:center;
-          margin-bottom:20px;
-        }
-        .admin-header h1 {
-          font-size:24px;
-          color:#2C7A52;
-          margin:0;
-        }
-        .admin-header small {
-          color:#666;
-        }
-        table {
-          width:100%;
-          border-collapse:collapse;
-          margin-top:10px;
-        }
-        th, td {
-          padding:10px 8px;
-          font-size:14px;
-          border-bottom:1px solid #eee;
-          text-align:left;
-        }
-        th {
-          background:#f5faf7;
-          color:#2C7A52;
-          font-weight:600;
-        }
-        tr:hover {
-          background:#f9fdfb;
-        }
-        .badge {
-          display:inline-block;
-          padding:2px 8px;
-          border-radius:999px;
-          font-size:12px;
-        }
-        .badge-paid { background:#e0f7ea; color:#137a3f; }
-        .badge-unpaid { background:#ffeceb; color:#b23121; }
-        .badge-test { background:#e6f0ff; color:#2847b8; }
-        .empty-row {
-          text-align:center;
-          padding:20px;
-          color:#777;
-        }
-        .badge-status-pending { background:#fff5d9; color:#a66a00; }
-        .badge-status-shipped { background:#e6f0ff; color:#2847b8; }
-        .badge-status-delivered { background:#e0f7ea; color:#137a3f; }
-
-        .status-actions button {
-          margin:2px 0;
-          padding:3px 8px;
-          font-size:11px;
-          border-radius:999px;
-          border:1px solid #ccc;
-          background:#fff;
-          cursor:pointer;
-        }
-.status-actions button:hover {
-  background:#f2f2f2;
-}
-
-
+        .admin-container { max-width:1100px; margin:80px auto 40px; background:#fff; border-radius:16px; padding:24px; box-shadow:0 12px 30px rgba(0,0,0,0.05);}
+        .admin-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+        .admin-header h1 { font-size:24px; color:#2C7A52; margin:0; }
+        table { width:100%; border-collapse:collapse; margin-top:10px;}
+        th, td { padding:10px 8px; font-size:14px; border-bottom:1px solid #eee; text-align:left;}
+        th { background:#f5faf7; color:#2C7A52; font-weight:600;}
+        tr:hover { background:#f9fdfb; }
+        .empty-row { text-align:center; padding:20px; color:#777;}
     </style>
 </head>
 <body>
 
+<script>
+    const API = "https://mehta-masala-backend.onrender.com";
+
+    const token = localStorage.getItem("adminToken");
+    if (!token) {
+        window.location.href = "admin-login.html";
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        fetch(API + "/admin/orders", {
+            headers: { "Authorization": token }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (!data.success) {
+                window.location.href = "admin-login.html";
+                return;
+            }
+            renderOrders(data.orders);
+        });
+    });
+
+    function renderOrders(rows) {
+        const tbody = document.getElementById("orders-body");
+
+        if (!rows.length) {
+            tbody.innerHTML = `<tr><td colspan="8" class="empty-row">No orders found.</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = rows.map(o => `
+            <tr>
+                <td>${o.created_at}</td>
+                <td>${o.order_id}</td>
+                <td>${o.customer_name}</td>
+                <td>${o.customer_city}</td>
+                <td>${o.customer_phone}</td>
+                <td>${o.total_amount}</td>
+                <td>${o.payment_status}</td>
+                <td>${o.payment_method}</td>
+            </tr>
+        `).join('');
+    }
+</script>
+
 <header class="site-header">
     <div class="container header-inner">
-
-        <!-- LEFT: LOGO -->
         <a href="index.html" class="logo">
             <img src="assets/images/logo.svg" alt="Mehta Masala Logo">
         </a>
-
-        <!-- CENTER NAV -->
         <nav class="main-nav">
-            <a href="index.html" class="nav-link" data-page="index">Home</a>
-            <a href="about.html" class="nav-link" data-page="about">About Us</a>
-            <a href="products.html" class="nav-link" data-page="products">Shop</a>
-            <a href="contact.html" class="nav-link" data-page="contact">Contact</a>
+            <a href="index.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="products.html">Shop</a>
+            <a href="contact.html">Contact</a>
         </nav>
-
-        <!-- RIGHT: SEARCH + CART -->
-        <div class="header-right">
-
-            <!-- SEARCH ICON + INPUT -->
-            <div class="header-right">
-
-                <!-- SEARCH ICON -->
-                <button id="openSearch" class="search-icon-btn">🔍</button>
-
-                <!-- CART ICON -->
-                <a href="cart.html" class="cart-icon-link">
-                    <img src="assets/images/cart.svg" class="cart-icon" alt="Cart">
-                    <span id="cart-count" class="cart-badge">0</span>
-                </a>
-
-            </div>
-
-            <!-- FULL WIDTH SEARCH BAR (HIDDEN BY DEFAULT) -->
-            <div id="fullSearchBar" class="full-search-container">
-                <input
-                        type="text"
-                        id="full-search-input"
-                        placeholder="Search spices..."
-                        autocomplete="off"
-                />
-                <button id="closeSearch" class="close-search-btn">✕</button>
-
-                <div id="full-search-results" class="search-results"></div>
-            </div>
-        </div>
-
     </div>
 </header>
 
 <main>
     <section class="admin-container">
         <div class="admin-header">
-            <div>
-                <h1>Orders Dashboard</h1>
-                <small>View latest orders from website</small>
-            </div>
-            <div id="admin-status" style="font-size:13px; color:#666;"></div>
+            <h1>Orders Dashboard</h1>
         </div>
 
-        <table id="orders-table">
+        <table>
             <thead>
             <tr>
-                <th>Date &amp; Time</th>
+                <th>Date</th>
                 <th>Order ID</th>
-                <th>Customer</th>
+                <th>Name</th>
                 <th>City</th>
                 <th>Phone</th>
-                <th>Total (₹)</th>
-                <th>Payment</th>
-                <th>Shipping</th>
+                <th>Total</th>
+                <th>Payment Status</th>
+                <th>Payment Method</th>
             </tr>
             </thead>
             <tbody id="orders-body">
-            <tr><td colspan="7" class="empty-row">Loading orders…</td></tr>
+            <tr><td colspan="8" class="empty-row">Loading orders…</td></tr>
             </tbody>
         </table>
     </section>
 </main>
-
-<footer class="mm-footer">
-    <div class="mm-footer-container">
-
-        <!-- Logo + Tagline -->
-        <div class="mm-footer-top">
-            <img src="assets/images/logo.svg" alt="Mehta Masala Logo" class="mm-footer-logo">
-
-            <p class="mm-footer-tagline">
-                Serving pure, freshly made Indian spices from Ujjain since 1969.
-            </p>
-        </div>
-
-        <!-- Links Row -->
-        <div class="mm-footer-links">
-            <a href="privacy.html">Privacy Policy</a>
-            <span>•</span>
-            <a href="terms.html">Terms & Conditions</a>
-            <span>•</span>
-            <a href="refund.html">Refund & Cancellation Policy</a>
-        </div>
-
-        <!-- Address -->
-        <div class="mm-footer-address">
-            Shree Builder Complex, Dabari Pitha, Kharakuan Colony, Ujjain, M.P. – 456006
-            <br>
-            Email: <a href="mailto:masalamehta@gmail.com">masalamehta@gmail.com</a>
-        </div>
-
-        <!-- Copyright -->
-        <div class="mm-footer-copy">
-            © <span id="year"></span> Mehta Masala Udhyog. All Rights Reserved.
-        </div>
-    </div>
-</footer>
-
-<script src="assets/js/main.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const statusEl = document.getElementById("admin-status");
-      const tbody = document.getElementById("orders-body");
-
-      // Ask for admin password and store globally
-      const key = prompt("Enter admin password to view orders:");
-      if (!key) {
-        statusEl.textContent = "No password entered.";
-        tbody.innerHTML = '<tr><td colspan="8" class="empty-row">Access denied.</td></tr>';
-        return;
-      }
-      window.__ADMIN_KEY = key; // store for later use
-
-      statusEl.textContent = "Loading orders…";
-
-      fetch(API_BASE + "/admin/orders?key=" + encodeURIComponent(key))
-        .then(res => res.json())
-        .then(data => {
-          if (!data.success) {
-            statusEl.textContent = data.error || "Unauthorized";
-            tbody.innerHTML = '<tr><td colspan="8" class="empty-row">Access denied.</td></tr>';
-            return;
-          }
-
-          const orders = data.orders || [];
-          if (!orders.length) {
-            statusEl.textContent = "No orders yet.";
-            tbody.innerHTML = '<tr><td colspan="8" class="empty-row">No orders found.</td></tr>';
-            return;
-          }
-
-          statusEl.textContent = "Showing " + orders.length + " orders.";
-
-          tbody.innerHTML = "";
-          orders.forEach(o => {
-            const tr = document.createElement("tr");
-
-            // Payment badge class (already existed)
-            const payBadgeClass =
-              o.payment_status === "paid" ? "badge badge-paid" :
-              o.payment_status === "unpaid" ? "badge badge-unpaid" :
-              "badge badge-test";
-
-            // Shipping status + badge
-            const ship = (o.shipping_status || "Pending");
-            let shipBadgeClass = "badge badge-status-pending";
-            if (ship === "Shipped") shipBadgeClass = "badge badge-status-shipped";
-            if (ship === "Delivered") shipBadgeClass = "badge badge-status-delivered";
-
-            tr.innerHTML = `
-              <td>${o.created_at}</td>
-              <td>${o.order_id}</td>
-              <td>${o.name}</td>
-              <td>${o.city}</td>
-              <td>${o.phone}</td>
-              <td>${o.total}</td>
-              <td>
-                <span class="${payBadgeClass}">
-                  ${o.payment_method || "-"} / ${o.payment_status || "-"}
-                </span>
-              </td>
-              <td>
-                <div>
-                  <span class="${shipBadgeClass}">${ship}</span>
-                </div>
-                <div class="status-actions">
-                  <button onclick="updateStatus('${o.order_id}', 'Shipped')">Mark Shipped</button><br>
-                  <button onclick="updateStatus('${o.order_id}', 'Delivered')">Mark Delivered</button>
-                </div>
-              </td>
-            `;
-            tbody.appendChild(tr);
-          });
-        })
-        .catch(err => {
-          console.error(err);
-          statusEl.textContent = "Error loading orders.";
-          tbody.innerHTML = '<tr><td colspan="8" class="empty-row">Error loading orders.</td></tr>';
-        });
-    });
-
-    function updateStatus(orderId, status) {
-      const key = window.__ADMIN_KEY;
-      if (!key) {
-        alert("Admin key missing.");
-        return;
-      }
-
-      if (!confirm("Change status of " + orderId + " to " + status + "?")) {
-        return;
-      }
-
-      fetch(API_BASE + "/admin/update-status", {
-        method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({
-          key: key,
-          order_id: orderId,
-          status: status
-        })
-      })
-      .then(res => res.json())
-      .then(data => {
-        if (!data.success) {
-          alert(data.error || "Failed to update status.");
-          return;
-        }
-        // Simple solution: reload page to see updated status
-        location.reload();
-      })
-      .catch(err => {
-        console.error(err);
-        alert("Network error while updating status.");
-      });
-    }
-</script>
-<!-- Add-to-Cart Popup -->
-<div id="cart-popup" class="cart-popup hidden">
-    <div class="cart-popup-inner">
-        <div class="cart-popup-left">
-            <img id="cp-img" src="" alt="">
-        </div>
-        <div class="cart-popup-right">
-            <p class="cp-title">Added to Cart</p>
-            <p id="cp-name" class="cp-name"></p>
-            <p id="cp-weight" class="cp-weight"></p>
-
-            <a href="cart.html" class="cp-view-btn">View Cart</a>
-        </div>
-        <button id="cp-close" class="cp-close">×</button>
-    </div>
-</div>
 
 </body>
 </html>
