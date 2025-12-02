@@ -117,7 +117,19 @@
             <div class="header-right">
 
                 <!-- SEARCH ICON -->
-                <button id="openSearch" class="search-icon-btn">🔍</button>
+                <div class="header-search">
+                    <input
+                            type="text"
+                            id="nav-search-small"
+                            placeholder="Search..."
+                            autocomplete="off"
+                    />
+                    <div id="small-search-results" class="small-search-results"></div>
+                </div>
+
+                <!-- SEARCH ICON -->
+                <button id="small-search-btn" class="search-small-btn">🔍</button>
+
 
                 <!-- CART ICON -->
                 <a href="cart.html" class="cart-icon-link">
@@ -162,79 +174,85 @@
         </div>
     </section>
 
-    <section class="category-section fade-section">
-        <div class="container category-grid">
+<!--    <section class="category-section fade-section">-->
+<!--        <div class="container category-grid">-->
 
-            <div class="cat-item">
-                <img src="assets/images/red-chilli.webp" alt="Kuti Lal Mirchi">
-                <p>Kuti Lal Mirchi</p>
-            </div>
+<!--            <div class="cat-item">-->
+<!--                <img src="assets/images/red-chilli.webp" alt="Kuti Lal Mirchi">-->
+<!--                <p>Kuti Lal Mirchi</p>-->
+<!--            </div>-->
 
-            <div class="cat-item">
-                <img src="assets/images/red-chilli.webp" alt="Pisi Lal Mirchi">
-                <p>Pisi Lal Mirchi</p>
-            </div>
+<!--            <div class="cat-item">-->
+<!--                <img src="assets/images/red-chilli.webp" alt="Pisi Lal Mirchi">-->
+<!--                <p>Pisi Lal Mirchi</p>-->
+<!--            </div>-->
 
-            <div class="cat-item">
-                <img src="assets/images/jeera.png" alt="Jeera">
-                <p>Jeera</p>
-            </div>
+<!--            <div class="cat-item">-->
+<!--                <img src="assets/images/jeera.png" alt="Jeera">-->
+<!--                <p>Jeera</p>-->
+<!--            </div>-->
 
-            <div class="cat-item">
-                <img src="assets/images/sauf.png" alt="Saunf">
-                <p>Saunf</p>
-            </div>
+<!--            <div class="cat-item">-->
+<!--                <img src="assets/images/sauf.png" alt="Saunf">-->
+<!--                <p>Saunf</p>-->
+<!--            </div>-->
 
-            <div class="cat-item">
-                <img src="assets/images/ajwain.png" alt="Ajwain">
-                <p>Ajwain</p>
-            </div>
+<!--            <div class="cat-item">-->
+<!--                <img src="assets/images/ajwain.png" alt="Ajwain">-->
+<!--                <p>Ajwain</p>-->
+<!--            </div>-->
 
-            <div class="cat-item">
-                <img src="assets/images/kalanamak.png" alt="Kala Namak">
-                <p>Kala Namak</p>
-            </div>
+<!--            <div class="cat-item">-->
+<!--                <img src="assets/images/kalanamak.png" alt="Kala Namak">-->
+<!--                <p>Kala Namak</p>-->
+<!--            </div>-->
 
-            <div class="cat-item">
-                <img src="assets/images/sendanamak.png" alt="Sendha Namak">
-                <p>Sendha Namak</p>
-            </div>
+<!--            <div class="cat-item">-->
+<!--                <img src="assets/images/sendanamak.png" alt="Sendha Namak">-->
+<!--                <p>Sendha Namak</p>-->
+<!--            </div>-->
 
-            <div class="cat-item">
-                <img src="assets/images/garammasala.png" alt="Garam Masala">
-                <p>Garam Masala</p>
-            </div>
+<!--            <div class="cat-item">-->
+<!--                <img src="assets/images/garammasala.png" alt="Garam Masala">-->
+<!--                <p>Garam Masala</p>-->
+<!--            </div>-->
 
-            <div class="cat-item">
-                <img src="assets/images/turmeric.webp" alt="Turmeric">
-                <p>Turmeric</p>
-            </div>
+<!--            <div class="cat-item">-->
+<!--                <img src="assets/images/turmeric.webp" alt="Turmeric">-->
+<!--                <p>Turmeric</p>-->
+<!--            </div>-->
 
-            <div class="cat-item">
-                <img src="assets/images/coriander.webp" alt="Coriander">
-                <p>Coriander</p>
-            </div>
+<!--            <div class="cat-item">-->
+<!--                <img src="assets/images/coriander.webp" alt="Coriander">-->
+<!--                <p>Coriander</p>-->
+<!--            </div>-->
 
-            <div class="cat-item">
-                <img src="assets/images/jeeravan.webp" alt="Jeeravan">
-                <p>Jeeravan</p>
-            </div>
+<!--            <div class="cat-item">-->
+<!--                <img src="assets/images/jeeravan.webp" alt="Jeeravan">-->
+<!--                <p>Jeeravan</p>-->
+<!--            </div>-->
 
-        </div>
-    </section>
+<!--        </div>-->
+<!--    </section>-->
 
 
     <section class="featured container fade-section">
         <h2>Our Products</h2>
 
         <div class="product-slider-wrapper">
-            <button class="slider-btn left" id="slide-left">‹</button>
+
+            <button id="slide-left" class="slider-arrow left">
+                &#10094;
+            </button>
 
             <div class="product-slider" id="all-products-slider">
-                <!-- JS will inject all products here -->
+                <!-- JS injects products -->
             </div>
 
-            <button class="slider-btn right" id="slide-right">›</button>
+            <button id="slide-right" class="slider-arrow right">
+                &#10095;
+            </button>
+
         </div>
     </section>
 </main>

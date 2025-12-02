@@ -1055,65 +1055,11 @@ document.addEventListener("DOMContentLoaded", () => {
     loadCheckoutSummary();
     initOnlinePayment();
     loadHomeSlider();
-
-    // =======================
-    // FULL DROPDOWN SEARCH BAR
-    // =======================
-    const openSearch = document.getElementById("openSearch");
-    const closeSearch = document.getElementById("closeSearch");
-    const fullSearch = document.getElementById("fullSearchBar");
-    const fullSearchInput = document.getElementById("full-search-input");
-
-    if (openSearch && closeSearch && fullSearch && fullSearchInput) {
-
-        // OPEN SEARCH BAR
-        openSearch.addEventListener("click", (e) => {
-            e.stopPropagation();
-            fullSearch.classList.add("show");
-            fullSearchInput.focus();
-        });
-
-        // CLOSE SEARCH BAR
-        closeSearch.addEventListener("click", () => {
-            fullSearch.classList.remove("show");
-            fullSearchInput.value = "";
-        });
-
-        // CLOSE WHEN CLICKING OUTSIDE
-        document.addEventListener("click", (e) => {
-            if (!fullSearch.contains(e.target) && e.target !== openSearch) {
-                fullSearch.classList.remove("show");
-            }
-        });
-    }
 });
 
 
 // ============================
 // SEARCH TOGGLE EXPAND / CLOSE
-// ============================
-// SEARCH BAR TOGGLE
-// SEARCH BAR TOGGLE
-document.addEventListener("DOMContentLoaded", () => {
-  const toggleBtn   = document.getElementById("searchToggle");
-  const searchInput = document.getElementById("nav-search-input");
-
-  if (!toggleBtn || !searchInput) return;
-
-  toggleBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    searchInput.classList.add("search-expanded");
-    toggleBtn.classList.add("search-icon-hidden");
-    searchInput.focus();
-  });
-
-  document.addEventListener("click", (e) => {
-    if (!searchInput.contains(e.target)) {
-      searchInput.classList.remove("search-expanded");
-      toggleBtn.classList.remove("search-icon-hidden");
-    }
-  });
-});
 
 // --- Mobile nav toggle, sticky header, and scroll fade-ins ---
 document.addEventListener("DOMContentLoaded", function () {
@@ -1358,4 +1304,63 @@ function autoplayRecommendSlider() {
     }
 
     step();
+}
+
+/* =========================================================
+   SMALL COMPACT SEARCH BAR (NEW)
+========================================================= */
+
+const smallSearchBtn  = document.getElementById("small-search-btn");
+const smallSearchWrap = document.querySelector(".header-search");
+const smallInput      = document.getElementById("nav-search-small");
+const smallResults    = document.getElementById("small-search-results");
+
+if (smallSearchBtn && smallSearchWrap && smallInput) {
+
+    // open bar
+    smallSearchBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        smallSearchWrap.classList.add("show");
+        smallInput.focus();
+    });
+
+    // typing logic
+    smallInput.addEventListener("input", () => {
+        const q = smallInput.value.trim().toLowerCase();
+        smallResults.innerHTML = "";
+
+        if (q.length === 0) {
+            smallResults.style.display = "none";
+            return;
+        }
+
+        const matches = products.filter(p =>
+            p.name.toLowerCase().includes(q)
+        );
+
+        if (matches.length === 0) {
+            smallResults.innerHTML = "<div>No results found</div>";
+        } else {
+            matches.forEach(p => {
+                const div = document.createElement("div");
+                div.textContent = p.name;
+                div.onclick = () => window.location.href = `product.html?slug=${p.slug}`;
+                smallResults.appendChild(div);
+            });
+        }
+
+        smallResults.style.display = "block";
+    });
+
+    // hide bar when clicking outside
+    document.addEventListener("click", (e) => {
+        const clickedInside =
+            smallSearchWrap.contains(e.target) ||
+            smallSearchBtn.contains(e.target);
+
+        if (!clickedInside) {
+            smallSearchWrap.classList.remove("show");
+            smallResults.style.display = "none";
+        }
+    });
 }
