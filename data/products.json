@@ -5,10 +5,10 @@
     "description": "Coarsely ground red chilli with strong flavour and aroma.",
     "image": "assets/images/red-chilli.webp",
     "variants": [
-      { "weight": 100, "price": 40 },
-      { "weight": 250, "price": 100 },
-      { "weight": 500, "price": 200 },
-      { "weight": 1000, "price": 400 }
+      { "weight": 100, "price": 35 },
+      { "weight": 250, "price": 85 },
+      { "weight": 500, "price": 170 },
+      { "weight": 1000, "price": 340 }
     ]
   },
   {
@@ -17,10 +17,10 @@
     "description": "Finely ground red chilli powder, pure and vibrant.",
     "image": "assets/images/red-chilli.webp",
     "variants": [
-      { "weight": 100, "price": 42 },
-      { "weight": 250, "price": 105 },
-      { "weight": 500, "price": 210 },
-      { "weight": 1000, "price": 420 }
+      { "weight": 100, "price": 35 },
+      { "weight": 250, "price": 85 },
+      { "weight": 500, "price": 170 },
+      { "weight": 1000, "price": 340 }
     ]
   },
   {
@@ -77,10 +77,10 @@
     "description": "Premium fennel seeds for cooking & digestion.",
     "image": "assets/images/sauf.png",
     "variants": [
-      { "weight": 100, "price": 30 },
-      { "weight": 250, "price": 75 },
-      { "weight": 500, "price": 150 },
-      { "weight": 1000, "price": 300 }
+      { "weight": 100, "price": 36 },
+      { "weight": 250, "price": 90 },
+      { "weight": 500, "price": 180 },
+      { "weight": 1000, "price": 360 }
     ]
   },
   {
@@ -89,10 +89,10 @@
     "description": "Fresh ajwain seeds with strong aroma and flavor.",
     "image": "assets/images/ajwain.png",
     "variants": [
-      { "weight": 100, "price": 25 },
-      { "weight": 250, "price": 60 },
-      { "weight": 500, "price": 120 },
-      { "weight": 1000, "price": 240 }
+      { "weight": 100, "price": 35 },
+      { "weight": 250, "price": 85 },
+      { "weight": 500, "price": 170 },
+      { "weight": 1000, "price": 340 }
     ]
   },
   {
@@ -101,10 +101,10 @@
     "description": "High-quality black salt with natural minerals.",
     "image": "assets/images/kalanamak.png",
     "variants": [
-      { "weight": 100, "price": 20 },
-      { "weight": 250, "price": 45 },
-      { "weight": 500, "price": 90 },
-      { "weight": 1000, "price": 180 }
+      { "weight": 100, "price": 10 },
+      { "weight": 250, "price": 20 },
+      { "weight": 500, "price": 40 },
+      { "weight": 1000, "price": 80 }
     ]
   },
   {
@@ -113,10 +113,10 @@
     "description": "Pure rock salt suitable for fasting.",
     "image": "assets/images/sendanamak.png",
     "variants": [
-      { "weight": 100, "price": 22 },
-      { "weight": 250, "price": 50 },
-      { "weight": 500, "price": 100 },
-      { "weight": 1000, "price": 200 }
+      { "weight": 100, "price": 10 },
+      { "weight": 250, "price": 25 },
+      { "weight": 500, "price": 50 },
+      { "weight": 1000, "price": 100 }
     ]
   },
   {
@@ -125,8 +125,8 @@
     "description": "A balanced blend of rich spices.",
     "image": "assets/images/garammasala.png",
     "variants": [
-      { "weight": 100, "price": 55 },
-      { "weight": 250, "price": 130 }
+      { "weight": 100, "price": 150 },
+      { "weight": 250, "price": 300 }
     ]
   }
 ]
