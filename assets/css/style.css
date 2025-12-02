@@ -2537,3 +2537,109 @@ main.container {
 .logout-btn:hover {
     background: #d62828;
 }
+
+/* Empty Cart */
+.cart-empty {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.empty-cart-icon {
+    width: 120px;
+    opacity: 0.7;
+    margin-bottom: 20px;
+}
+
+.cart-empty h3 {
+    font-size: 26px;
+    margin-top: 10px;
+    color: #333;
+}
+
+.empty-sub {
+    margin: 8px 0 18px;
+    color: #666;
+    font-size: 16px;
+}
+
+.empty-btn {
+    margin-top: 10px;
+}
+
+/* Recommendation Section */
+.recommend-slider {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 10px 0 30px 0;
+  scroll-behavior: smooth;
+}
+
+.recommend-slider::-webkit-scrollbar {
+  height: 6px;
+}
+
+.recommend-slider::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+.recommend-slider .product-card,
+.rec-card {
+  min-width: 180px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px;
+  border: 1px solid #eee;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.rec-card img {
+  width: 100%;
+  height: 140px;
+  object-fit: contain;
+}
+
+/* FIX EMPTY CART SLIDER SPACING */
+.cart-empty + .recommend-title {
+    margin-top: 20px !important;
+}
+
+.recommend-slider {
+    margin-top: 10px !important;
+}
+
+.cart-page h1 {
+    margin-bottom: 10px !important;
+}
+
+.cart-empty {
+    margin-bottom: 20px !important;
+}
+.recommend-slider {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 10px;
+}
+
+.recommend-slider::-webkit-scrollbar {
+    display: none;
+}
+
+.rec-card {
+    min-width: 220px;
+    max-width: 220px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.hidden {
+    display: none !important;
+}
+

@@ -101,8 +101,6 @@
     "description": "High-quality black salt with natural minerals.",
     "image": "assets/images/kalanamak.png",
     "variants": [
-      { "weight": 100, "price": 10 },
-      { "weight": 250, "price": 20 },
       { "weight": 500, "price": 40 },
       { "weight": 1000, "price": 80 }
     ]
@@ -113,8 +111,6 @@
     "description": "Pure rock salt suitable for fasting.",
     "image": "assets/images/sendanamak.png",
     "variants": [
-      { "weight": 100, "price": 10 },
-      { "weight": 250, "price": 25 },
       { "weight": 500, "price": 50 },
       { "weight": 1000, "price": 100 }
     ]

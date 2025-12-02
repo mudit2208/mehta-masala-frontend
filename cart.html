@@ -3,142 +3,82 @@
 <head>
     <meta charset="utf-8" />
     <meta name="robots" content="noindex, nofollow">
-    <title>Cart | Mehta Masala</title> <!-- adjust title per page (Cart / Checkout / Order Success) -->
+    <title>Cart | Mehta Masala</title>
     <link rel="stylesheet" href="assets/css/style.css" />
     <link rel="icon" type="image/png" href="assets/images/logo.svg">
 </head>
+
 <body>
-<body>
-<style>
-    /* NUCLEAR OPTION - Force everything to align */
-    * {
-        box-sizing: border-box;
-    }
-    .container.cart-page {
-        margin-top: 0 !important;
-        padding-top: 0 !important;
-    }
-    .cart-page h1 {
-        margin: 0 !important;
-        padding: 0 !important;
-        margin-bottom: 20px !important;
-    }
-    .cart-layout {
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-    .cart-left, .cart-right {
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-    .cart-right {
-        top: 0 !important;
-    }
-</style>
+
+<!-- TOP BAR -->
 <div class="top-bar">
     Free Shipping above ₹499 • Freshly packed in small batches • Since 1969
 </div>
+
+<!-- HEADER -->
 <header class="site-header">
     <div class="container header-inner">
 
-        <!-- LEFT: LOGO -->
         <a href="index.html" class="logo">
             <img src="assets/images/logo.svg" alt="Mehta Masala Logo">
         </a>
 
-        <!-- CENTER NAV -->
         <nav class="main-nav">
-            <a href="index.html" class="nav-link" data-page="index">Home</a>
-            <a href="about.html" class="nav-link" data-page="about">About Us</a>
-            <a href="products.html" class="nav-link" data-page="products">Shop</a>
-            <a href="contact.html" class="nav-link" data-page="contact">Contact</a>
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="about.html" class="nav-link">About Us</a>
+            <a href="products.html" class="nav-link">Shop</a>
+            <a href="contact.html" class="nav-link">Contact</a>
         </nav>
 
-        <!-- RIGHT: SEARCH + CART -->
         <div class="header-right">
+            <button id="openSearch" class="search-icon-btn">🔍</button>
 
-            <!-- SEARCH ICON + INPUT -->
-            <div class="header-right">
+            <a href="cart.html" class="cart-icon-link">
+                <img src="assets/images/cart.svg" class="cart-icon" alt="Cart">
+                <span id="cart-count" class="cart-badge">0</span>
+            </a>
+        </div>
 
-                <!-- SEARCH ICON -->
-                <button id="openSearch" class="search-icon-btn">🔍</button>
-
-                <!-- CART ICON -->
-                <a href="cart.html" class="cart-icon-link">
-                    <img src="assets/images/cart.svg" class="cart-icon" alt="Cart">
-                    <span id="cart-count" class="cart-badge">0</span>
-                </a>
-
-            </div>
-
-            <!-- FULL WIDTH SEARCH BAR (HIDDEN BY DEFAULT) -->
-            <div id="fullSearchBar" class="full-search-container">
-                <input
-                        type="text"
-                        id="full-search-input"
-                        placeholder="Search spices..."
-                        autocomplete="off"
-                />
-                <button id="closeSearch" class="close-search-btn">✕</button>
-
-                <div id="full-search-results" class="search-results"></div>
-            </div>
+        <div id="fullSearchBar" class="full-search-container">
+            <input type="text" id="full-search-input" placeholder="Search spices..." autocomplete="off" />
+            <button id="closeSearch" class="close-search-btn">✕</button>
+            <div id="full-search-results" class="search-results"></div>
         </div>
 
     </div>
 </header>
 
-
 <main class="container cart-page">
-    <style>
-        /* Force perfect cart alignment */
-        .container.cart-page {
-            margin-top: 0 !important;
-            padding-top: 0 !important;
-        }
-        .cart-page h1 {
-            margin-top: 0 !important;
-            padding-top: 0 !important;
-            margin-bottom: 20px;
-        }
-        .cart-layout {
-            margin-top: 0 !important;
-            padding-top: 0 !important;
-            align-items: flex-start !important;
-        }
-        .cart-left, .cart-right {
-            margin-top: 0 !important;
-            padding-top: 0 !important;
-        }
-        .cart-right {
-            top: 0px !important;
-        }
-        /* Remove any extra spacing from the main container */
-        main.container {
-            padding-top: 0 !important;
-            margin-top: 0 !important;
-        }
-    </style>
 
     <h1>Shopping Cart</h1>
 
     <div class="cart-layout">
-        <!-- LEFT SIDE: ITEMS LIST -->
+
+        <!-- LEFT SIDE -->
         <div class="cart-left">
-            <!-- Empty state -->
-            <div id="cart-empty" class="cart-empty hidden">
-                <img src="assets/images/cart.svg" class="empty-cart-img" alt="Empty cart">
-                <p>Your cart is empty. Start adding some spices!</p>
-                <a href="products.html" class="btn-primary">Browse Products</a>
+
+            <!-- EMPTY CART -->
+            <div id="cart-empty" class="cart-empty">
+                <img src="assets/images/cart.svg" class="empty-cart-icon" alt="Empty Cart">
+
+                <h3>Your cart is empty</h3>
+                <p class="empty-sub">Start adding some fresh, pure spices!</p>
+
+                <a href="products.html" class="btn-primary empty-btn">Browse Products</a>
             </div>
 
-            <!-- Items go here via JS -->
+            <h3 id="rec-title" class="recommend-title hidden">You may also like</h3>
+
+            <div id="cart-recommend" class="recommend-slider hidden"></div>
+
+            <!-- FULL CART ITEMS -->
             <div id="cart-items"></div>
         </div>
 
-        <!-- RIGHT SIDE: SUMMARY + SUGGESTIONS -->
+        <!-- RIGHT SIDE -->
         <aside class="cart-right">
-            <!-- ORDER SUMMARY BOX -->
+
+            <!-- SUMMARY -->
             <div id="cart-summary" class="cart-summary hidden">
                 <h2>Order Summary</h2>
 
@@ -171,26 +111,18 @@
                     Add ₹499 more for free shipping!
                 </div>
 
-                <button
-                        class="btn-primary checkout-btn"
-                        onclick="window.location.href='checkout.html'">
+                <button class="btn-primary checkout-btn" onclick="window.location.href='checkout.html'">
                     Proceed to Buy
                 </button>
             </div>
-
-            <!-- YOU MAY ALSO LIKE -->
-            <div class="cart-suggestions">
-                <h3>You may also like</h3>
-                <div id="cart-suggest-grid" class="cart-suggest-grid"></div>
-            </div>
         </aside>
+
     </div>
 </main>
 
 <footer class="mm-footer">
     <div class="mm-footer-container">
 
-        <!-- Logo + Tagline -->
         <div class="mm-footer-top">
             <img src="assets/images/logo.svg" alt="Mehta Masala Logo" class="mm-footer-logo">
 
@@ -199,7 +131,6 @@
             </p>
         </div>
 
-        <!-- Links Row -->
         <div class="mm-footer-links">
             <a href="privacy.html">Privacy Policy</a>
             <span>•</span>
@@ -208,17 +139,15 @@
             <a href="refund.html">Refund & Cancellation Policy</a>
         </div>
 
-        <!-- Address -->
         <div class="mm-footer-address">
-            Shree Builder Complex, Dabari Pitha, Kharakuan Colony, Ujjain, M.P. – 456006
-            <br>
+            Shree Builder Complex, Dabari Pitha, Kharakuan Colony, Ujjain, M.P. – 456006 <br>
             Email: <a href="mailto:masalamehta@gmail.com">masalamehta@gmail.com</a>
         </div>
 
-        <!-- Copyright -->
         <div class="mm-footer-copy">
             © <span id="year"></span> Mehta Masala Udhyog. All Rights Reserved.
         </div>
+
     </div>
 </footer>
 
@@ -226,8 +155,10 @@
 <script>
     loadCartPage();
 </script>
+
 <button id="scrollTopBtn" class="scroll-top">↑</button>
-<!-- Add-to-Cart Popup -->
+
+<!-- ADD-TO-CART POPUP -->
 <div id="cart-popup" class="cart-popup hidden">
     <div class="cart-popup-inner">
         <div class="cart-popup-left">
@@ -237,7 +168,6 @@
             <p class="cp-title">Added to Cart</p>
             <p id="cp-name" class="cp-name"></p>
             <p id="cp-weight" class="cp-weight"></p>
-
             <a href="cart.html" class="cp-view-btn">View Cart</a>
         </div>
         <button id="cp-close" class="cp-close">×</button>

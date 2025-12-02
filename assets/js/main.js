@@ -518,17 +518,34 @@ function loadCartPage() {
   const container = document.getElementById("cart-items");
   if (!container) return;
 
+  // ALWAYS HIDE recommendations first (prevents flicker)
+  document.getElementById("rec-title")?.classList.add("hidden");
+  document.getElementById("cart-recommend")?.classList.add("hidden");
   const cart = getCart();
   const emptyBox = document.getElementById("cart-empty");
   const summaryBox = document.getElementById("cart-summary");
 
   // If cart is empty
+  // If cart is empty
   if (!cart || cart.length === 0) {
-    container.innerHTML = "";
-    if (emptyBox) emptyBox.classList.remove("hidden");
-    if (summaryBox) summaryBox.classList.add("hidden");
-    updateCartSummary();  // will set totals to 0
-    return;
+      container.innerHTML = "";
+
+      if (emptyBox) emptyBox.classList.remove("hidden");
+      if (summaryBox) summaryBox.classList.add("hidden");
+
+      // Show recommendations
+      const recTitle = document.getElementById("rec-title");
+      const recSlider = document.getElementById("cart-recommend");
+
+      if (recTitle) recTitle.classList.remove("hidden");
+      if (recSlider) recSlider.classList.remove("hidden");
+
+      updateCartSummary();
+
+      loadCartRecommendations();
+      setTimeout(autoplayRecommendSlider, 500);
+
+      return;
   }
 
   // Cart has items
@@ -577,6 +594,14 @@ function loadCartPage() {
     })
     .join("");
 
+  // Hide recommendations when cart has items
+  const recTitle = document.getElementById("rec-title");
+  const recSlider = document.getElementById("cart-recommend");
+
+  if (recTitle) recTitle.classList.add("hidden");
+  if (recSlider) recSlider.classList.add("hidden");
+
+
   // animate showing items (optional)
   document.querySelectorAll(".cart-item").forEach((el, i) => {
     el.style.opacity = 0;
@@ -586,7 +611,6 @@ function loadCartPage() {
   updateCartTotal();
   updateCartCount();
   updateCartSummary();
-  loadCartSuggestions(); // fill right-side suggestions
 }
 
 // PRODUCTS SUGGESTIONS ON CART PAGE (right side)
@@ -1293,3 +1317,45 @@ if (slider && btnLeft && btnRight) {
   btnRight.onclick = () => slider.scrollBy({ left: 300, behavior: "smooth" });
 }
 
+async function loadCartRecommendations() {
+  const container = document.getElementById("cart-recommend");
+  if (!container) return;
+
+  const products = await fetchProducts();
+  const randomItems = products.sort(() => 0.5 - Math.random()).slice(0, 5);
+
+  container.innerHTML = randomItems.map(p => `
+    <div class="product-card rec-card">
+      <img src="${p.image}" alt="${p.name}">
+      <h4>${p.name}</h4>
+      <p class="price">From ₹${getStartingPrice(p)}</p>
+      <button class="btn-primary" onclick="quickAdd('${p.slug}')">Add</button>
+    </div>
+  `).join('');
+}
+
+/* AUTOPLAY FOR EMPTY CART RECOMMEND SLIDER */
+function autoplayRecommendSlider() {
+    const slider = document.getElementById("cart-recommend");
+    if (!slider) return;
+
+    let scrollAmount = 0;
+    const scrollStep = 1;  // speed
+    const cardWidth = 240; // one product width approx
+
+    function step() {
+        slider.scrollLeft += scrollStep;
+        scrollAmount += scrollStep;
+
+        // once a full card has scrolled, move first card to end
+        if (scrollAmount >= cardWidth) {
+            slider.appendChild(slider.children[0]);
+            slider.scrollLeft -= cardWidth;
+            scrollAmount = 0;
+        }
+
+        requestAnimationFrame(step);
+    }
+
+    step();
+}
